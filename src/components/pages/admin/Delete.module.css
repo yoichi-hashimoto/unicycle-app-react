@@ -1,0 +1,33 @@
+.tableContainer{
+    padding-top: 5rem;
+    margin: auto;
+    width: 100%;
+}
+
+.deleteTable{
+    width: 100%;
+    margin: auto;
+}
+
+.deleteTable tr{
+    background-color: rgb(112, 201, 112);
+    width: 100%;
+    padding:1rem;
+    color: white;
+}
+
+.deleteTable th{
+    padding:1rem;
+}
+
+.deleteTable td{
+    background-color: antiquewhite;
+    padding: 1rem;
+    color: black;
+    width: 6rem;
+    text-align: center;
+}
+
+img{
+    width: 3rem;
+}

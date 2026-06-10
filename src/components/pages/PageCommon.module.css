@@ -1,0 +1,46 @@
+.contentsWrapper{
+    margin:auto;
+}
+
+.contentsWrapper h1{
+    text-align: center;
+}
+
+.contentsWrapper h2{
+    text-align: center;
+}
+
+.buttonWrapper{
+  display: flex;
+  justify-content: space-around;
+}
+
+.buttonWrapper Button{
+  margin:1rem;
+}
+
+.cardContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.linkButton {
+  background-color: green;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+}
+
+.inputWrapper{
+  margin: auto;
+  width: 100%;
+}
+
+.inputWrapper input{
+  width: 100%;
+  padding:0 1rem 0 1rem;
+  margin-bottom: 1rem;
+}

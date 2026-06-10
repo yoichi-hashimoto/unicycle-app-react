@@ -1,0 +1,227 @@
+.historyContainer {
+  width: 100%;
+  margin: auto;
+}
+
+.fail {
+  width: 90%;
+  display: grid;
+  grid-template-columns: 0.5fr 0.75fr 2fr 0.5fr;
+  flex-direction: row;
+  gap: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #cfecd0;
+  margin: 0.5rem;
+  align-items: center;
+  padding: 0.5rem;
+  box-shadow: 2px 2px 2px gray;
+}
+
+.passed {
+  width: 90%;
+  display: grid;
+  grid-template-columns: 0.5fr 0.75fr 2fr 0.5fr;
+  flex-direction: row;
+  gap: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #eaf6ab;
+  margin: 0.5rem;
+  align-items: center;
+  padding: 0.5rem;
+  box-shadow: 2px 2px 2px gray;
+}
+
+.date {
+  font-size: 0.75rem;
+  color: #666;
+  text-align: center;
+  margin: 0;
+}
+
+.avatarContainer {
+  margin: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: solid 0.5px rgb(169, 236, 169);
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  padding: 0.5rem;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+}
+
+.animalAvatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: cover;
+  object-position: center top;
+  position: absolute;
+  z-index: 0;
+  top: -5%;
+  right: -10%;
+  // background-color: rgb(222, 220, 220);
+  // border: 1px solid green;
+  transform-origin: bottom;
+  animation: rotate 3s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  0%,
+  100% {
+    transform: rotate(20deg);
+  }
+  50% {
+    transform: rotate(45deg);
+  }
+}
+
+.userName {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+.levelContainer h2 {
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.levelContainer {
+  padding: 0.5rem;
+}
+
+.challengeResult {
+  font-size: 0.6rem;
+  color: #333;
+  flex-wrap: wrap;
+  text-align: start;
+  margin: 0;
+}
+
+.receivedLikesContainer {
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  gap: 4px;
+  padding: 2px;
+  align-items: baseline;
+}
+
+.heart {
+  color: red;
+}
+.receivedLikesContainer p {
+  font-size: 1.25rem;
+}
+
+.likeContainer {
+  margin: auto;
+}
+
+.likeButton {
+  font-size: 8px;
+  text-decoration: none;
+  border: red 2px solid;
+  border-radius: 10px;
+  background-color: white;
+  color: red;
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px ;
+}
+
+.unlike{
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+}
+
+.likeIllustration{
+    border: none;
+    color: red;
+    background-color: transparent;
+    font-size: 1.75rem;
+}
+
+.bounce{
+  animation:bounce 0.5s ease;
+}
+
+@keyframes bounce {
+ 0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(-10px);
+  }
+
+  60% {
+    transform: translateY(0);
+  }
+
+  80% {
+    transform: translateY(-3px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .historyContainer {
+    width: 60%;
+    margin: 1rem auto;
+    gap: 2rem;
+  }
+
+  .date {
+    font-size: 1rem;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 70px;
+  }
+
+  .animalAvatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    top: -5%;
+    right: -15%;
+  }
+
+  .levelContainer h2 {
+    font-size: 1.25rem;
+  }
+
+  .userName {
+    font-size: 1rem;
+  }
+
+  .challengeResult {
+    font-size: 1rem;
+  }
+
+  .receivedLikesContainer p {
+    font-size: 1.5rem;
+  }
+
+  .likeButton {
+    font-size: 16px;
+  }
+}
