@@ -1,33 +1,52 @@
 import MemberCard from "../../common/cards/MemberCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import classes from "./Test.module.css";
 import Button from "../../common/button/Button";
+import { fetchUsers } from "../../../api/users";
 
-const members = [
-  {
-    id: 1,
-    name: "yoichi",
-    level: 10,
-    avatar: "./images/users/boy_1.png",
-    receivedLikes: 20,
-    animalAvatar: "./images/animals/stand_chick.png",
-    nextSkill: "片足走行　10m",
-  },
-  {
-    id: 2,
-    name: "james",
-    level: 2,
-    avatar: "./images/users/girl_2.png",
-    receivedLikes: 100,
-    animalAvatar: "./images/animals/stand_fox.png",
-    nextSkill: "アリーナ3周",
-  },
-];
+// const members = [
+//   {
+//     id: 1,
+//     name: "yoichi",
+//     level: 10,
+//     avatar: "./images/users/boy_1.png",
+//     receivedLikes: 20,
+//     animalAvatar: "./images/animals/stand_chick.png",
+//     nextSkill: "片足走行　10m",
+//   },
+//   {
+//     id: 2,
+//     name: "james",
+//     level: 2,
+//     avatar: "./images/users/girl_2.png",
+//     receivedLikes: 100,
+//     animalAvatar: "./images/animals/stand_fox.png",
+//     nextSkill: "アリーナ3周",
+//   },
+// ];
 
 function Test() {
-  const [selectedMember, setSelectedMember] = useState(members[0]);
+  const [users, setUsers] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(null);
   const [success, setSuccess] = useState(0);
-  const [level, setLevel] = useState(members[0].level);
+  const [level, setLevel] = useState(0);
+  useEffect(() => {
+    fetchUsers().then((data) => {
+      console.log(data);
+      const fetchedUsers = data.data;
+      setUsers(data);
+
+      if (data.length > 0) {
+        setSelectedMember(data[0]);
+        setLevel(data[0].current_level);
+      }
+    });
+  }, []);
+
+  if (!selectedMember) {
+    return <p>Loading...</p>;
+  }
+
   const addSuccess = () => {
     setSuccess((prev) => {
       const next = prev + 1;
@@ -39,13 +58,19 @@ function Test() {
       return next;
     });
   };
+  const resetSuccess = () => {
+    setSuccess(0);
+  };
+
   const handleChangeMember = (e) => {
     const memberId = Number(e.target.value);
-    const member = members.find((member) => member.id === memberId);
+    console.log(memberId);
+    const user = users.find((user) => user.id === memberId);
 
-    setSelectedMember(member);
+    setSelectedMember(user);
+    console.log(user);
     setSuccess(0);
-    setLevel(member.level);
+    setLevel(user.current_level);
   };
 
   return (
@@ -60,9 +85,9 @@ function Test() {
             onChange={handleChangeMember}
             value={selectedMember.id}
           >
-            {members.map((member) => (
-              <option key={member.id} value={member.id}>
-                {member.name}
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name}
               </option>
             ))}
           </select>
@@ -70,7 +95,8 @@ function Test() {
         <div className={classes.memberWrapper}>
           {" "}
           <MemberCard
-            member={{ ...selectedMember, level: level }}
+            member={selectedMember}
+            level={level}
             success={success}
             showSkill={false}
           />
@@ -79,7 +105,7 @@ function Test() {
       <div className={classes.nextChallenge}>
         <h2>チャレンジするわざ</h2>
         <div className={classes.starContainer}>
-          <p>{selectedMember.nextSkill}</p>
+          <p>{selectedMember.skill_name}</p>
           {[1, 2, 3].map((star) => (
             <img
               className={`${classes.star} ${star <= success ? classes.starFilled : ""}`}
@@ -98,7 +124,9 @@ function Test() {
         <Button variant="outline" onClick={addSuccess}>
           成功👍
         </Button>
-        <Button variant="danger">失敗💦</Button>
+        <Button variant="danger" onClick={resetSuccess}>
+          失敗💦
+        </Button>
       </div>
     </div>
   );

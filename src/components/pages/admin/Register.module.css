@@ -1,20 +1,22 @@
-.registerContainer{
+.registerContainer {
   display: flex;
   flex-direction: column;
-  gap:2rem;
-  margin:auto;
+  gap: 2rem;
+  margin: auto;
+  margin-top: 5rem;
+  padding-bottom: 5rem;
 }
 
-.registerContainer h2{
+.registerContainer h2 {
   text-align: center;
 }
 
-.registerContainer label{
+.registerContainer label {
   display: flex;
   flex-direction: column;
 }
 
-input{
+input {
   width: 360px;
   height: 40px;
   border: 1px solid green;

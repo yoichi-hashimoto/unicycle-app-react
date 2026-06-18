@@ -1,6 +1,8 @@
+import  classes  from './PageCommon.module.css'
+
 function Login() {
     return (
-      <div style={{ width: "100%", margin: "auto" }}>
+      <div className={classes.contentsWrapper}>
         <h2>ログイン</h2>
       </div>
     );

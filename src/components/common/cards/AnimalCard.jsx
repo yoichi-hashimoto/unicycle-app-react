@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from "./Animal.module.scss";
 
-function AnimalCard({ animal }) {
+function AnimalCard({ animal ,remainLevel}) {
     return (
       <div className={classes.animalCard}>
         <div className={classes.animalTitle}>
@@ -11,13 +11,13 @@ function AnimalCard({ animal }) {
         </div>
         <div className={classes.avatarContainer}>
           <div className={classes.animalImage}>
-            <img src={animal.avatar} alt={animal.name} />
+            <img src={animal.avatar_path} alt={animal.name} />
           </div>
           <span className={classes.shadow}></span>
         </div>
         <div className={classes.remainLevel}>
           <p>次の動物まで</p>
-          <p>あと{}レベル</p>
+          <p>あと{remainLevel}レベル</p>
         </div>
       </div>
     );

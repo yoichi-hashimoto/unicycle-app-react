@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('challenges', function (Blueprint $table) {
+        Schema::create('user_avatars', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('skill_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('success_id')->nullable()->cascadeOnDelete();
+            $table->string('avatar_path');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('challenges');
+        Schema::dropIfExists('user_avatars');
     }
 };

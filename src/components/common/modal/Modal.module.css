@@ -1,6 +1,6 @@
 .modalContainer{
-    width: 50%;
-    height: 40%;
+    width: 75%;
+    height: 50%;
     border:2px solid green;
     background-color:bisque;
     position:fixed;
@@ -10,15 +10,24 @@
     right:0;
     bottom:0;
     border-radius: 5px;
-    padding:1rem;
+    padding:0.5rem;
     margin:auto;
     display: flex;
     flex-direction: column;
     text-align: center;
+    overflow-y: scroll;
+}
+
+@media (min-width:768px){
+    .modalContainer{
+        width: 40%;
+        height: 40%;
+    }
 }
 
 .closeButton{
     margin:3rem 0 0 0;
 }
+
 
 

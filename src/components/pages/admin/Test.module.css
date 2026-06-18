@@ -1,6 +1,8 @@
 .testContainer {
   margin: auto;
   max-width: 90%;
+  margin-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 .testContainer h1 {
@@ -9,9 +11,9 @@
 }
 
 .testButtons {
-  margin:1rem;
+  margin: 1rem;
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -35,10 +37,11 @@
   padding: 1rem;
   height: 100%;
   box-shadow: 1px 1px 1px gray;
+  margin-top: 1rem;
 }
 
-.challengeSelector h2{
-    font-size: 1rem;
+.challengeSelector h2 {
+  font-size: 1rem;
 }
 
 .challengeSelector select {
@@ -48,57 +51,57 @@
   padding: 0.5rem;
 }
 
-.challengeSelector p{
-    background-color: red;
-    color: white;
-    border-radius: 2rem;
-    padding: 1rem;
+.challengeSelector p {
+  background-color: red;
+  color: white;
+  border-radius: 2rem;
+  padding: 1rem;
 }
 
-.nextChallenge{
-    background-color: antiquewhite;
-    color: black;
-    border-radius: 5px;
-    border:1px solid gray;
-    padding:0.5rem;
-    overflow: hidden;
-    margin-top:2rem;
-    text-align: center;
+.nextChallenge {
+  background-color: antiquewhite;
+  color: black;
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding: 0.5rem;
+  overflow: hidden;
+  margin-top: 2rem;
+  text-align: center;
 }
 
-.nextChallenge h2{
-    font-size: 1rem;
-    margin:0;
+.nextChallenge h2 {
+  font-size: 1rem;
+  margin: 0;
 }
 
-.nextChallenge p{
-    font-size: 1rem;
-    background-color: white;
-    border-radius: 5px;
-    padding:0.5rem;
-    margin:0.5rem 0 0 0;
+.nextChallenge p {
+  font-size: 1rem;
+  background-color: white;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin: 0.5rem 0 0 0;
 }
 
-.starContainer{
-    background-color: white;
-    border-radius: 10p;
+.starContainer {
+  background-color: white;
+  border-radius: 10p;
 }
 
-.star{
+.star {
   width: 2rem;
 }
 
-.starFilled{
+.starFilled {
   width: 2rem;
-  animation:floatIn 1s forwards;
+  animation: floatIn 1s forwards;
 }
 
-@keyframes floatIn{
-  0%{
+@keyframes floatIn {
+  0% {
     transform: scale(10);
     opacity: (0);
   }
-  100%{
+  100% {
     transform: scale(1);
     opacity: (1);
   }

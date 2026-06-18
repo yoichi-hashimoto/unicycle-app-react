@@ -1,6 +1,4 @@
 body {
-    margin-top:20%;
-    padding-bottom: 10%;
     font-family: "Yusei Magic", sans-serif;
 }
 
@@ -8,20 +6,10 @@ button{
     font-family: "Yusei Magic",sans-serif;
 }
 
+select{
+    font-family: "Yusei Magic",sans-serif;
+}
+
 Link{
     text-decoration: none;
-}
-
-@media screen and (min-width:768px) {
-    body{
-        margin-top:10%;
-        padding-bottom:6%;
-    }   
-}
-
-@media screen and (min-width:1024px) {
-    body{
-        margin-top:8%;
-        padding-bottom:10%;
-    }
 }

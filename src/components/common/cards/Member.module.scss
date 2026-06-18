@@ -1,17 +1,22 @@
 .memberWrapper {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: start;
   align-items: center;
   flex-wrap: wrap;
-  margin-left: 20px;
-  margin-right: 20px;
+}
+
+@media (min-width:768px){
+  .memberContainer{
+    margin:1rem;
+  }
 }
 
 .line {
   height: 0.5px;
   background-color: #73d973;
   display: inline-block;
-  width: 75%;
+  width: 70%;
   align-items: center;
   position: absolute;
 }
@@ -27,11 +32,11 @@
 
 .memberContainer {
   text-align: center;
-  padding: 5%;
   background-color: rgb(245, 248, 219);
   border: 1px solid green;
   border-radius: 10px;
-  width: 10rem;
+  padding:0.75rem;
+  width: 9rem;
   animation: fadeIn 1s ease forwards;
   box-shadow: 2px 2px 2px rgb(197, 194, 194);
   display: flex;
@@ -49,18 +54,18 @@
 .memberAvatar {
   width: 5rem;
   height: 5rem;
-  border-radius: 50%;
   object-fit: contain;
-  border: solid 0.5px rgb(169, 236, 169);
-  border-radius: 50%;
-  background-color: white;
-  padding: 1rem;
+  padding: 0.25rem;
   z-index: 2;
+  background-color: transparent;
   position: relative;
 }
 
 .avatarContainer {
   position: relative;
+  border: solid 0.5px rgb(169, 236, 169);
+  border-radius: 50%;
+  background-color: white;
 }
 
 .animalAvatar {
@@ -69,14 +74,14 @@
   object-fit: cover;
   object-position: center top;
   position: absolute;
-  top: -5%;
-  right: -10%;
+  top: -10%;
+  right: -15%;
   // background-color: rgb(222, 220, 220);
   // border: 1px solid rgb(188, 198, 188);
   // border-radius: 50%;
   transform-origin: bottom;
   animation: rotation 3s ease-in-out infinite;
-  z-index: 1;
+  z-index: -1;
 }
 
 @keyframes rotation {
@@ -93,18 +98,18 @@
   background-color: white;
   border: 1px solid rgb(169, 236, 169);
   border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   position: absolute;
-  bottom: 5%;
-  left: -8%;
+  bottom: 0%;
+  left: -15%;
   padding: 0.1rem;
   z-index: 3;
 }
 
 .heart {
   color: red;
-  font-size: 1rem;
+  font-size: 0.75rem;
   margin: 0;
   animation: bound 2s infinite ease-in-out;
 }
@@ -129,6 +134,7 @@
   position: relative;
   display: inline-block;
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .ribbon span {
@@ -176,37 +182,48 @@
   position: relative;
 }
 
-.challengeContainer p{
+.challengeWrapper {
+  padding: 0.5rem;
+  text-align: start;
+  background-color: white;
+  padding: 0 0.75rem 0.5rem 0.75rem;
+  border-radius: 10px;
+  width: 80%;
+  max-height: 100%;
+  border: 0.5px solid rgb(56, 215, 56);
+}
+
+.challengeContainer p {
   font-size: 8px;
 }
 
-.starContainer{
+.starContainer {
   position: flex;
 }
 
-.star{
+.star {
   width: 1rem;
 }
 
-.starFilled{
+.starFilled {
   width: 1rem;
-  animation:floatIn 1s forwards;
+  animation: floatIn 1s forwards;
 }
 
-@keyframes floatIn{
-  0%{
+@keyframes floatIn {
+  0% {
     transform: scale(10);
     opacity: (0);
   }
-  100%{
+  100% {
     transform: scale(1);
     opacity: (1);
   }
 }
 
-.challengeText{
+.challengeText {
   font-size: 1rem;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

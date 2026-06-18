@@ -1,28 +1,63 @@
-.contentsWrapper{
-    margin:auto;
+.contentsWrapper {
+  margin: auto;
+  margin-top: 5rem;
+  padding-bottom: 20%;
 }
 
-.contentsWrapper h1{
-    text-align: center;
+@media (min-width: 768px) {
+  .contentsWrapper {
+    justify-content: space-around;
+    padding:0 10% 10% 10%;
+  }
 }
 
-.contentsWrapper h2{
-    text-align: center;
+.contentsWrapper h1 {
+  text-align: center;
 }
 
-.buttonWrapper{
+.contentsWrapper h2 {
+  text-align: center;
+}
+
+.cardContainer {
+  margin: auto;
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content:start;
+  gap:0.75rem;
+  padding: 0.5rem;
+}
+
+.sortbuttonWrapper{
+  display: flex;
+  margin: auto;
+  gap:1rem;
+  justify-content: center;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  width: 50%;
+  margin: auto;
 }
 
-.buttonWrapper Button{
-  margin:1rem;
+.buttonWrapper Button {
+  margin: 0.5rem;
 }
 
-.cardContainer{
+.cardContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.challengContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .linkButton {
@@ -34,13 +69,81 @@
   border-radius: 15px;
 }
 
-.inputWrapper{
-  margin: auto;
+.inputContainer {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
-.inputWrapper input{
+.inputWrapper {
+  margin:1rem auto;
   width: 100%;
-  padding:0 1rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.inputWrapper input {
+  width: 50%;
+  padding: 0 1rem 0 1rem;
   margin-bottom: 1rem;
+}
+
+.white {
+  width: 3rem;
+  height: 3rem;
+  margin: 2rem;
+  display: inline-block;
+  border: black solid 1px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.yellow {
+  width: 3rem;
+  height: 3rem;
+  margin: 2rem;
+  display: inline-block;
+  border: black solid 1px;
+  border-radius: 50%;
+  background-color: yellow;
+}
+
+.blue {
+  width: 3rem;
+  height: 3rem;
+  margin: 2rem;
+  display: inline-block;
+  border: black solid 1px;
+  border-radius: 50%;
+  background-color: blue;
+}
+
+.profileContainer{
+  display: flex;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.editContainer{
+  display: flex;
+  padding: 0.5rem;
+  gap: 1rem;
+}
+
+.avatarSelector{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.avatarButton{
+  background-color: transparent;
+  border:none;
+  text-decoration: none;
+}
+
+.avatarImg{
+  width: 4rem;
 }

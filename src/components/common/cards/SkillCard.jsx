@@ -1,5 +1,6 @@
 import classes from './SkillCard.module.scss'
 import { Link } from 'react-router-dom';
+import Button from '../../common/button/Button';
 
 function SkillCard({ skill }) {
     return (
@@ -14,9 +15,9 @@ function SkillCard({ skill }) {
           <img src="" alt="技の写真" />
         </div>
         <div className={classes.detailButton}>
-          <Link className={classes.link} variant="primary" to={skill.url}>
+          <Button to={skill.movie_path}>
             説明
-          </Link>
+          </Button>
         </div>
       </div>
     );

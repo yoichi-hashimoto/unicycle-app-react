@@ -1,7 +1,7 @@
 import "../common/styles/global.css";
 
 const MainStyle = {
-    width: "80%",
+    width: "100%",
     zIndex: 0,
     backgroundColor: "none",
     display: "flex",

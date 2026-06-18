@@ -1,5 +1,7 @@
 .contentsWrapper{
     margin:auto;
+    margin-top: 5rem;
+    padding-bottom: 5rem;
 }
 
 .contentsWrapper h1{
@@ -46,8 +48,13 @@
 }
 
 .button{
+    margin:5rem auto;
     text-align: center;
-    margin:2rem;
+}
+
+.linkButton{
+    text-decoration: none;
+    color: white;
 }
 
 @media (min-width:768px){

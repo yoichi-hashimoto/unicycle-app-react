@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('avatar_path')->nullable();
             $table->string('movie_path')->nullable();
             $table->integer('level');
+            $table->foreignId('animal_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

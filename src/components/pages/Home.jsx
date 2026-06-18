@@ -35,7 +35,9 @@ const Home = () => {
           </div>
         </div>
         <div className={classes.button}>
-          <Button variant="primary">ログインしてはじめる</Button>
+          <Button variant="primary">
+            <Link className={classes.linkButton} to="./login">ログインしてはじめる</Link>
+          </Button>
         </div>
       </div>
     </>

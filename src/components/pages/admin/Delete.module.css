@@ -1,33 +1,68 @@
-.tableContainer{
-    padding-top: 5rem;
-    margin: auto;
-    width: 100%;
+.tableContainer {
+  margin: auto;
+  width: 100%;
+  max-height: 100%;
+  margin-top: 5rem;
+  padding-bottom: 5rem;
 }
 
-.deleteTable{
-    width: 100%;
-    margin: auto;
+.tableContainer h1{
+  text-align: center;
+  font-size: 2rem;
 }
 
-.deleteTable tr{
-    background-color: rgb(112, 201, 112);
-    width: 100%;
-    padding:1rem;
-    color: white;
+.deleteTable {
+  width: 100%;
+  margin: auto;
 }
 
-.deleteTable th{
-    padding:1rem;
+.deleteTable tr {
+  background-color: rgb(112, 201, 112);
+  width: 100%;
+  padding: 1rem;
+  color: white;
 }
 
-.deleteTable td{
-    background-color: antiquewhite;
-    padding: 1rem;
-    color: black;
-    width: 6rem;
-    text-align: center;
+.deleteTable th {
+  padding: 1rem;
+  font-size: 0.75rem;
 }
 
-img{
-    width: 3rem;
+.deleteTable td {
+  background-color: antiquewhite;
+  padding: 0.25rem;
+  color: black;
+  width: 6rem;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.deleteTable img {
+  width: 2rem;
+}
+
+.deleteTable button {
+  font-size: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .deleteTable{
+    margin-top: 5%;
+    width: 80%;
+  }
+
+  .deleteTable img {
+    width: 4rem;
+  }
+  .deleteTable th {
+    font-size: 1rem;
+  }
+
+  .deleteTable td {
+    font-size: 1rem;
+  }
+
+  .deleteTable button {
+    font-size: 1rem;
+  }
 }

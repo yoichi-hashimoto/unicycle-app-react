@@ -1,11 +1,11 @@
 .cardContainer {
-  width: 10rem;
+  width: 8rem;
   border: 0.5px solid rgb(47, 255, 255);
   box-shadow: 2px 2px 2px gray;
   border-radius: 10px;
   background-color: rgb(155, 216, 231);
   text-align: center;
-  margin: 2rem;
+  margin: 1rem;
 }
 
 .levelDisplay {
@@ -45,25 +45,16 @@
   margin: 0.5rem;
 }
 
-.detailButton button {
-  background-color: white;
-  color: green;
-  border: none;
-  border-radius: 5px;
-  text-align: end;
-}
-
-.link {
+.detailButton Button{
   text-decoration: none;
-  background-color:linear-gradient(135deg,#ff9a9e 0%, #fecfef 99% , #fecfef 100%);
+  background-color:rgb(155, 216, 231);
   color: white;
   border-radius: 50px;
-  width: 20%;
-  height: 1rem;
+  width: 3rem;
+  height: 1.5rem;
   font-size: 0.75rem;
   text-align: center;
   margin: auto;
-  margin-bottom: 2rem;
   padding: 0.25rem 0.5rem;
   box-shadow: 0 4px 8px gray;
 }

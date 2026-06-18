@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('avatar_path')->nullable();
-            $table->foreignId('skill_id')->constrained()->cascadeOnDelete();
+            $table->integer('required_level');
             $table->timestamps();
         });
     }
