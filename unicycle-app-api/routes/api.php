@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AvatarController;
 use App\Http\Controllers\Api\Controller;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('challenges', ChallengeController::class);
@@ -18,3 +19,7 @@ Route::apiResource('avatars', AvatarController::class);
 
 Route::patch('/users/{user}',[UserController::class,'update']);
 // Route::store('/challenge',[LikeController::class],'store');
+
+Route::middleware('auth:sanctum')->get('/user',function(Request $request){
+    return $request->user();
+});

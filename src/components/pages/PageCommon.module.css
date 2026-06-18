@@ -69,6 +69,26 @@
   border-radius: 15px;
 }
 
+.loginInputContainer{
+  display: flex;
+  flex-direction: column;
+  margin:2rem 0;
+  font-size: 1.5rem;
+}
+
+.loginInputContainer input{
+  font-size: 1.5rem;
+}
+
+.loginButton{
+  margin-top:5rem;
+  text-align: center;
+}
+
+.loginButton Button{
+  font-size: 1.5rem;
+}
+
 .inputContainer {
   display: flex;
   flex-direction: column;
