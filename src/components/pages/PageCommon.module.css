@@ -72,7 +72,7 @@
 .loginInputContainer{
   display: flex;
   flex-direction: column;
-  margin:2rem 0;
+  margin:2rem;
   font-size: 1.5rem;
 }
 
@@ -86,7 +86,8 @@
 }
 
 .loginButton Button{
-  font-size: 1.5rem;
+  font-size: 2rem;
+  width: 80%;
 }
 
 .inputContainer {

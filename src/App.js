@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/common/header/Header";
 import Home from "./components/pages/Home";
@@ -12,10 +12,23 @@ import Edit from "./components/pages/Edit";
 import Login from "./components/pages/Login";
 import Technical from "./components/pages/Technical";
 import Delete from "./components/pages/admin/Delete";
-import Register from './components/pages/admin/Register';
-import Test from './components/pages/admin/Test';
+import Register from "./components/pages/admin/Register";
+import Test from "./components/pages/admin/Test";
+import { useAuthStore } from "./stores/authStore";
+import { fetchLoginUser } from "./api/auth";
 
-const App = () => {
+function App() {
+  const setUser = useAuthStore((state) => state.setUser);
+  useEffect(() => {
+    fetchLoginUser()
+      .then((user) => {
+        setUser(user);
+      })
+      .catch(() => {
+        setUser(null);
+      });
+  }, [setUser]);
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -31,13 +44,13 @@ const App = () => {
             <Route path="/technical" element={<Technical />} />
             <Route path="/delete" element={<Delete />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/test" element={<Test />}/>
+            <Route path="/test" element={<Test />} />
           </Routes>
         </Main>
         <Footer />
       </BrowserRouter>
     </div>
   );
-};
+}
 
 export default App;

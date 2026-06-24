@@ -54,10 +54,9 @@ class UserController extends Controller
 
        $user->save();
 
-       return response()->json([
-        'message'=>'プロフィールを更新しました',
-        'data'=>$user->fresh(),
-       ]);
+       $user->refresh();
+
+       return new UserResource($user);
     }
 
     public function destroy($id)

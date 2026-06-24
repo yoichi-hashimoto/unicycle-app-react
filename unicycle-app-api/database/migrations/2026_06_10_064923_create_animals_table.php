@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('avatar_path')->nullable();
+            $table->string('avatar_path_walk')->nullable();
             $table->integer('required_level');
             $table->timestamps();
         });

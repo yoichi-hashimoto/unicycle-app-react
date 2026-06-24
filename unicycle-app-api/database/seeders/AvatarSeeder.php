@@ -108,6 +108,96 @@ class AvatarSeeder extends Seeder
         ],[
             'id'=>30,
             'avatar_path' =>'./images/users/avatar_30_r3_c10.png'
+        ],[
+                        'id'=>31,
+            'avatar_path' =>'./images/users/avatar_31_r4_c1.png'
+        ],[
+                        'id'=>32,
+            'avatar_path' =>'./images/users/avatar_32_r4_c2.png'
+        ],[
+                        'id'=>33,
+            'avatar_path' =>'./images/users/avatar_33_r4_c3.png'
+        ],[
+                        'id'=>34,
+            'avatar_path' =>'./images/users/avatar_34_r4_c4.png'
+        ],[
+                        'id'=>35,
+            'avatar_path' =>'./images/users/avatar_35_r4_c5.png'
+        ],[
+                        'id'=>36,
+            'avatar_path' =>'./images/users/avatar_36_r4_c6.png'
+        ],[
+                        'id'=>37,
+            'avatar_path' =>'./images/users/avatar_37_r4_c7.png'
+        ],[
+                        'id'=>38,
+            'avatar_path' =>'./images/users/avatar_38_r4_c8.png'
+        ],[
+                        'id'=>39,
+            'avatar_path' =>'./images/users/avatar_39_r4_c9.png'
+        ],[
+                        'id'=>40,
+            'avatar_path' =>'./images/users/avatar_40_r4_c10.png'
+        ],[
+                        'id'=>41,
+            'avatar_path' =>'./images/users/avatar_41_r5_c1.png'
+        ],[
+                        'id'=>42,
+            'avatar_path' =>'./images/users/avatar_42_r5_c2.png'
+        ],[
+                        'id'=>43,
+            'avatar_path' =>'./images/users/avatar_43_r5_c3.png'
+        ],[
+                        'id'=>44,
+            'avatar_path' =>'./images/users/avatar_44_r5_c4.png'
+        ],[
+                        'id'=>45,
+            'avatar_path' =>'./images/users/avatar_45_r5_c5.png'
+        ],[
+                        'id'=>46,
+            'avatar_path' =>'./images/users/avatar_46_r5_c6.png'
+        ],[
+                        'id'=>47,
+            'avatar_path' =>'./images/users/avatar_47_r5_c7.png'
+        ],[
+                        'id'=>48,
+            'avatar_path' =>'./images/users/avatar_48_r5_c8.png'
+        ],[
+                        'id'=>49,
+            'avatar_path' =>'./images/users/avatar_49_r5_c9.png'
+        ],[
+                        'id'=>50,
+            'avatar_path' =>'./images/users/avatar_50_r5_c10.png'
+        ],[
+                        'id'=>51,
+            'avatar_path' =>'./images/users/avatar_51_r6_c1.png'
+        ],[
+                        'id'=>52,
+            'avatar_path' =>'./images/users/avatar_52_r6_c2.png'
+        ],[
+                        'id'=>53,
+            'avatar_path' =>'./images/users/avatar_53_r6_c3.png'
+        ],[
+                        'id'=>54,
+            'avatar_path' =>'./images/users/avatar_54_r6_c4.png'
+        ],[
+                        'id'=>55,
+            'avatar_path' =>'./images/users/avatar_55_r6_c5.png'
+        ],[
+                        'id'=>56,
+            'avatar_path' =>'./images/users/avatar_56_r6_c6.png'
+        ],[
+                        'id'=>57,
+            'avatar_path' =>'./images/users/avatar_57_r6_c7.png'
+        ],[
+                        'id'=>58,
+            'avatar_path' =>'./images/users/avatar_58_r6_c8.png'
+        ],[
+                        'id'=>59,
+            'avatar_path' =>'./images/users/avatar_59_r6_c9.png'
+        ],[
+                        'id'=>60,
+            'avatar_path' =>'./images/users/avatar_60_r6_c10.png'
         ]]);
     }
 }

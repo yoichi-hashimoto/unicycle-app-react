@@ -15,17 +15,17 @@ class LikeController extends Controller
     public function store(Request $request, Like $like)
     {
         $validated = $request-> validate([
-
         'challenge_id' => 'integer',
         'user_id' => 'integer',
         'from_user_id' => 'integer',
         ]);
 
-        Like::create([
-        'challenge_id' => 'challenge_id', 
-        'user_id' => 'user_id',
-        'from_user_id' => 'from_use_id',
-        ]);
+        Like::firstOrCreate([
+    'challenge_id' => $validated['challenge_id'],
+    'from_user_id' => $validated['from_user_id'],
+], [
+    'user_id' => $validated['user_id'],
+]);
 
         return response()->json();
     }

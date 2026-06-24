@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Animal extends Model
 {
-    protected $fillable = ['name', 'avatar_path', 'required_level'];
+    protected $fillable = ['name', 'avatar_path','avatar_path_walk', 'required_level'];
 
     public function skills()
     {

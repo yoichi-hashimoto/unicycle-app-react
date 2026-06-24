@@ -3,29 +3,21 @@ import MemberCard from "../common/cards/MemberCard";
 import AnimalCard from "../common/cards/AnimalCard";
 import { Link } from "react-router-dom";
 import classes from "./PageCommon.module.css";
-import { fetchUser } from "../../api/user";
-import { useState, useEffect } from "react";
+import { useAuthStore } from "../../stores/authStore";
 
 function Profile() {
-  const [user, setUser] = useState(null);
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUSer);
 
-  useEffect(() => {
-    fetchUser(1).then((data) => {
-      console.log(data);
-      setUser(data.data);
-    });
-  }, []);
-
-  if (!user) {
-    return <p>Loading...</p>;
-  }
+  if(!user)
+  { return <p>読み込み中</p>; }
 
   return (
     <div className={classes.contentsWrapper}>
       <h1 style={{ textAlign: "center" }}>プロフィール</h1>
       <div className={classes.profileContainer}>
         <MemberCard
-          member={user}
+          member={ user }
           showButton={false}
           success={user.success_score}
           level={user.current_level}
@@ -33,6 +25,7 @@ function Profile() {
         <AnimalCard
           animal={user.current_animal}
           remainLevel={user.remain_level}
+          currentLevel={user.current_level}
         />
       </div>
       <div style={{ textAlign: "center", margin: "3rem" }}>

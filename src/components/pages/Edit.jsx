@@ -5,9 +5,10 @@ import Button from "../common/button/Button";
 import Modal from "../common/modal/Modal";
 import { useState, useEffect } from "react";
 import classes from "./PageCommon.module.css";
-import { fetchUser } from "../../api/user";
 import { fetchAvatars } from "../../api/avatars";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../stores/authStore";
+import axios from "../../api/axios";
 
 const colors = [
   {
@@ -28,16 +29,31 @@ function Edit() {
   const [isOpen, setIsOpen] = useState(false);
   const [isColorOpen, setIsColorOpen] = useState(false);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [userImage, setUserImage] = useState();
+  const [avatars, setAvatars] = useState([]);
+
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+  const [formData, setFormData] = useState({
+    name: "",
+    current_password: "",
+    password: "",
+    password_confirmation: "",
+    user_avatar_id: "",
+    background_color: "",
+  });
 
   useEffect(() => {
-    fetchUser(4).then((data) => {
+    fetchAvatars().then((data) => {
       console.log(data);
-      setUser(data.data);
+      setAvatars(data);
     });
   }, []);
 
-  const [userImage, setUserImage] = useState();
+  if (!user) {
+    return <p>ログインしてください</p>;
+  }
+
   const avatarChange = (avatar) => {
     setUserImage(avatar.avatar_path);
     setFormData((prev) => ({
@@ -47,22 +63,6 @@ function Edit() {
     setIsOpen(false);
   };
 
-  const [avatars, setAvatars] = useState([]);
-  useEffect(() => {
-    fetchAvatars().then((data) => {
-      console.log(data);
-      setAvatars(data);
-    });
-  }, []);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    current_password: "",
-    password: "",
-    password_confirmation: "",
-    user_avatar_id: "",
-    background_color: "",
-  });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -72,41 +72,21 @@ function Edit() {
     console.log("送信前formData", formData);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/4", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        throw new Error("送信に失敗しました");
-      }
-      const result = await response.json();
-      console.log("送信成功:", result);
-      setUser((prev) => ({
-        ...prev,
-        ...result.data,
-      }));
-      setFormData((prev) => ({
-        ...prev,
-        name: result.data.name || "",
-        user_avatar_id: result.data.user_avatar_id || "",
-        background_color: result.data.background_color || "",
-      }));
+      await axios.get("./sanctum/csrf-cookie");
+      const response = await axios.patch(
+        `/api/users/${user.id}`,
+        formData,
+      );
+
+      const result = response.data;
+
+      setUser(result.data);
+
       navigate("/profile");
     } catch (error) {
       console.error("エラー:", error);
     }
   };
-
-  if (!user) {
-    return <p>Loading...</p>;
-  }
-
-  if (!avatars) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <div className={classes.contentsWrapper}>
@@ -121,6 +101,7 @@ function Edit() {
         <AnimalCard
           animal={user.current_animal}
           remainLevel={user.remain_level}
+          currentLevel={user.current_level}
         />
       </div>
       <div className={classes.inputContainer}>

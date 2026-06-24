@@ -2,9 +2,22 @@ import classes from "./Header.module.scss";
 import { useState } from "react";
 import MenuModal from "../modal/MenuModal";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "../../../api/axios";
+import { useAuthStore } from "../../../stores/authStore";
 
 function Header() {
+  const user = useAuthStore((state) => state.user);
+  const isLoggedIn = !!user;
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const logout = useAuthStore((state) => state.logout);
+  async function handleLogout() {
+    await axios.post('/logout');
+    logout();
+    navigate('/login');
+  }
+
   return (
     <header className={classes.header}>
       <div className={classes.titleContainer}>
@@ -24,20 +37,21 @@ function Header() {
           <Link className={classes.link} to="/technical">
             <span>わざ一覧</span>
           </Link>
-
+          {isLoggedIn && (
+            <>
           <Link className={classes.link} to="/profile">
             <span>プロフィール</span>
           </Link>
-          <Link className={classes.link} to="logout">
+          <button className={classes.link} onClick={handleLogout}>
             <span>ログアウト</span>
-          </Link>
+          </button></>)}
         </nav>
         <button onClick={() => setIsOpen(true)} className={classes.hamburger}>
           <span></span>
           <span></span>
           <span></span>
         </button>
-        <MenuModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        <MenuModal isOpen={isOpen} onClose={() => setIsOpen(false)} onLogout={handleLogout} />
       </div>
     </header>
   );

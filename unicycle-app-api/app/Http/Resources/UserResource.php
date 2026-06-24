@@ -23,11 +23,13 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name'=>$this->name,
             'background_color'=>$this->background_color,
+            'login_id'=>$this->login_id,
             'avatar_path'=>$this->avatar_path,
             'skill_name'=>$this->skill_name,
             'received_likes' => $this->received_likes,
             'current_level' => $this->current_level,
             'current_animal' => $this->current_animal,
+            'avatar_path_walk'=>$this->avatar_path_walk,
             'remain_level' => $this->remain_level,
             'success_score' => $this->success_score,
         ];

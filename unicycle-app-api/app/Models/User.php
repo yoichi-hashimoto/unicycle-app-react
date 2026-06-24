@@ -28,6 +28,7 @@ class User extends Authenticatable
         return [
             'name' => 'string',
             'background_color' => 'string',
+            'login_id'=>'string',
             'user_avatar_id' =>'string',
             'password' => 'hashed',
         ];

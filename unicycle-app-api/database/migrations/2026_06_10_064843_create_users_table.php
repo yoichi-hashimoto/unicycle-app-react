@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('login_id');
             $table->string('password');
             $table->foreignId('user_avatar_id')->constrained()->cascadeOnDelete();
             $table->string('background_color')->nullable();
