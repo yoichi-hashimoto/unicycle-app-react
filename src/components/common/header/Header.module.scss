@@ -80,6 +80,14 @@
   padding: 0 20px;
 }
 
+.logoutButton {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 .hamburger {
   width: 30px;
   height: 20px;
@@ -102,13 +110,28 @@
 .link {
   text-decoration: none;
   color: white;
+  align-items: center;
+  display: flex;
 }
 
-@media (min-width: 768px) {
+.adminMenu{
+  background-color: white;
+  color: green;
+  padding:0.25rem 0.5rem;
+  border-radius: 3rem;
+  margin:0 1rem;
+}
+
+.adminLink{
+  color: green;
+  margin:2rem;
+}
+
+@media (min-width: 1024px) {
   .header {
     flex-direction: row;
     height: auto;
-    padding: 10px;
+    padding: 5px;
   }
 
   .hamburger {
@@ -118,4 +141,11 @@
   .nav {
     display: flex;
   }
+  .logoutButton {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
 }

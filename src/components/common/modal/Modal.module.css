@@ -12,10 +12,25 @@
     border-radius: 5px;
     padding:0.5rem;
     margin:auto;
-    display: flex;
-    flex-direction: column;
     text-align: center;
     overflow-y: scroll;
+    animation:fadeIn 0.3s forwards ease-in;
+    z-index: 10;
+}
+
+.ovarlay{
+    position: fixed;
+    background-color: rgba(0,0,0,0.5);
+    inset:0;
+}
+
+@keyframes fadeIn{
+    0%{
+        opacity: 0%;
+    }
+    100%{
+        opacity: 100%;
+    }
 }
 
 @media (min-width:768px){
@@ -26,7 +41,7 @@
 }
 
 .closeButton{
-    margin:3rem 0 0 0;
+    margin:auto;
 }
 
 

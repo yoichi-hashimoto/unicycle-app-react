@@ -1,0 +1,43 @@
+.messageContainer {
+  position: fixed;
+  margin: auto;
+  z-index: 9999;
+}
+
+.toast{
+    border:1px solid green;
+    background-color: rgb(228, 240, 203);
+    color: green;
+    border-radius: 10px;
+    animation:Fadein  2.5s ease forwards;
+    margin: auto;
+    padding:0.5rem 1rem;
+}
+
+.error {
+  color: #d93025;
+  border: 1px solid #f3b3ad;
+}
+
+.success {
+  color: #188038;
+  border: 1px solid #a8dab5;
+}
+
+@keyframes Fadein{
+    0%{
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    25%{
+        toransform: translateY(0);
+        opacity: 1;
+    }
+    75%{
+        toransform: translateY(0);
+        opacity: 1;
+    }100%{
+      transform: translateY(0);
+      opacity: 0;
+    }
+}

@@ -1,0 +1,23 @@
+.overlay{
+  position: fixed;
+  inset:0;
+  z-index:9999;
+  background-color:rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.animalsLine{
+  display: flex;
+}
+
+.animalImage{
+  width: 15rem;
+}
+
+.animalsLine p{
+  color: white; 
+}

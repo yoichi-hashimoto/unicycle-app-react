@@ -47,32 +47,44 @@
 }
 
 .avatar {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   object-fit: cover;
   border: solid 0.5px rgb(169, 236, 169);
   border-radius: 50%;
   background-color: rgb(255, 255, 255);
-  padding: 0.5rem;
+  padding: 0.25rem;
   object-fit: contain;
   position: relative;
   z-index: 1;
 }
 
+.animalContainer{
+  animation: rotate 3s ease-in-out infinite;
+  top: -10%;
+  right: -10%;
+  position: absolute;
+    transform-origin: bottom;
+
+}
+
 .animalAvatar {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2.5rem;
   object-fit: cover;
   object-position: center top;
-  position: absolute;
   z-index: 0;
-  top: -5%;
-  right: -10%;
+  position: relative;
   // background-color: rgb(222, 220, 220);
   // border: 1px solid green;
-  transform-origin: bottom;
-  animation: rotate 3s ease-in-out infinite;
+}
+
+.equippedItem{
+  width: 1.75rem;
+  position: absolute;
+  top:20%;
+  right: -40%;
 }
 
 @keyframes rotate {
@@ -144,6 +156,7 @@
     width: 100%;
     margin: 1rem auto;
     gap: 2rem;
+    padding: 1rem;
   }
 
   .date {
@@ -159,7 +172,7 @@
     width: 2.5rem;
     height: 2.5rem;
     top: -5%;
-    right: -15%;
+    right: -18%;
   }
 
   .levelContainer {

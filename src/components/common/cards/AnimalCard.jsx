@@ -13,7 +13,6 @@ function AnimalCard({ animal, remainLevel, currentLevel }) {
   const levelInMountain = ((currentLevel - 1) % positions.length) +1;
   const position = positions[levelInMountain - 1];
 
-  console.log(position);
     return (
       <div className={classes.animalCard}>
         <div className={classes.animalTitle}>

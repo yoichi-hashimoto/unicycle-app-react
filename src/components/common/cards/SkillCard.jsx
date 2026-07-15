@@ -1,8 +1,13 @@
 import classes from './SkillCard.module.scss'
 import { Link } from 'react-router-dom';
 import Button from '../../common/button/Button';
+import Modal from '../modal/Modal';
+import { Children } from 'react';
+import { useState } from 'react';
 
 function SkillCard({ skill }) {
+  const [isOpen, setIsOpen] = useState(false);
+  
     return (
       <div className={classes.cardContainer}>
         <div className={classes.levelDisplay}>
@@ -15,10 +20,20 @@ function SkillCard({ skill }) {
           <img src="" alt="技の写真" />
         </div>
         <div className={classes.detailButton}>
-          <Button to={skill.movie_path}>
+          <Button onClick={()=>setIsOpen(true)}>
             説明
           </Button>
         </div>
+        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <div>
+            <h2>{skill.name}</h2>
+            <img src={skill.avatar_path} alt="" />
+            <p>{skill.description }</p>
+            <button>
+              <Link to = {skill.movie_path}>動画を見る</Link>
+            </button>
+          </div>
+        </Modal>
       </div>
     );
 }

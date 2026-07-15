@@ -49,13 +49,19 @@ const HistoryCard = ({ history, showButton = true }) => {
             src={history.user_avatar_path}
             alt={history.user_name}
             className={classes.avatar}
-            style={{ backgroundColor: history.background_color }}
+            style={{ backgroundColor: history.color_path }}
           />
-          <img
-            src={history.current_animal}
-            alt={history.animalAvatar}
-            className={classes.animalAvatar}
-          />
+          <div className={classes.animalContainer}>
+            <img
+              src={history.current_animal}
+              alt={history.animalAvatar}
+              className={classes.animalAvatar}
+            />
+            <img
+              src={history.equipped_item_path}
+              className={classes.equippedItem}
+            />
+          </div>
           <p className={classes.userName}>{history.user_name}</p>
         </div>
         <div className={classes.challengeContainer}>

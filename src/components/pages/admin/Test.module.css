@@ -106,3 +106,12 @@
     opacity: (1);
   }
 }
+
+.memberWrapper{
+ height: 14rem;
+}
+
+.submitButton{
+  margin: auto;
+  text-align: center;
+}

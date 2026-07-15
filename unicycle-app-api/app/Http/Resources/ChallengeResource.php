@@ -33,6 +33,8 @@ class ChallengeResource extends JsonResource
             ->where('from_user_id',$request->user()?->id)
             ->exists(),
             'debug_auth' => $request->user()?->id,
+            'color_path' => $this->color_path,
+            'equipped_item_path' => $this->equipped_item_path,
         ];
     }
 }

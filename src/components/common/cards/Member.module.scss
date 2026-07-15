@@ -8,7 +8,6 @@
 
 @media (min-width:768px){
   .memberContainer{
-    margin:1rem;
   }
 }
 
@@ -32,13 +31,14 @@
 
 .memberContainer {
   text-align: center;
-  background-color: rgb(236, 238, 223);
-  border: 1px solid green;
+  background-color: rgb(238, 246, 247);
+  border: 1px solid aqua;
   border-radius: 10px;
   padding:0.75rem;
   width: 9rem;
+  height: 100%;
   animation: fadeIn 1s ease forwards;
-  box-shadow: 2px 2px 2px rgb(197, 194, 194);
+  box-shadow: 2px 2px 2px gray;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,7 +55,7 @@
   width: 5rem;
   height: 5rem;
   object-fit: contain;
-  padding: 0.25rem;
+  padding: 0.125rem;
   z-index: 2;
   background-color: transparent;
   position: relative;
@@ -63,25 +63,40 @@
 
 .avatarContainer {
   position: relative;
+  top: -10px;
+  left: 0;
   border: solid 0.5px rgb(169, 236, 169);
   border-radius: 50%;
   background-color: white;
+  margin:1rem 0 0 0;
+}
+
+.animalWrapper {
+  position: absolute;
+  width: 2.5rem;
+  height: 3.25rem;
+  z-index: -1;
+  top:-12%;
+  right: 8%;
+    transform-origin: bottom;
+  animation: rotation 3s ease-in-out infinite;
 }
 
 .animalAvatar {
   width: 2.5rem;
-  height: 2.5rem;
+  height: 3.25rem;
   object-fit: cover;
   object-position: center top;
   position: absolute;
-  top: -10%;
-  right: -15%;
-  // background-color: rgb(222, 220, 220);
-  // border: 1px solid rgb(188, 198, 188);
-  // border-radius: 50%;
-  transform-origin: bottom;
-  animation: rotation 3s ease-in-out infinite;
   z-index: -1;
+}
+
+.selectedItem{
+  width: 2rem;
+  position: absolute;
+  top: 15%;
+  right: -85%;
+  z-index: 2;
 }
 
 @keyframes rotation {
@@ -194,7 +209,7 @@
 }
 
 .challengeContainer p {
-  font-size: 8px;
+  font-size: 6px;
 }
 
 .starContainer {
@@ -222,7 +237,7 @@
 }
 
 .challengeText {
-  font-size: 1rem;
+  font-size: 0.75rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

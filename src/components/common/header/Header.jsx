@@ -13,9 +13,9 @@ function Header() {
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
   async function handleLogout() {
-    await axios.post('/logout');
+    await axios.post("/logout");
     logout();
-    navigate('/login');
+    navigate("/login");
   }
 
   return (
@@ -28,6 +28,21 @@ function Header() {
       </div>
       <div className={classes.links}>
         <nav className={classes.nav}>
+          {user?.is_admin && (
+            <>
+              <div className={classes.adminMenu}>
+              <Link className={classes.adminLink} to="/test">
+                <span>テスト</span>
+              </Link>
+              <Link className={classes.adminLink} to="/register">
+                <span>新規登録</span>
+              </Link>
+              <Link className={classes.adminLink} to="/delete">
+                <span>ユーザー削除</span>
+              </Link></div>
+            </>
+          )}
+
           <Link className={classes.link} to="/ranking">
             <span>ランキング</span>
           </Link>
@@ -39,19 +54,25 @@ function Header() {
           </Link>
           {isLoggedIn && (
             <>
-          <Link className={classes.link} to="/profile">
-            <span>プロフィール</span>
-          </Link>
-          <button className={classes.link} onClick={handleLogout}>
-            <span>ログアウト</span>
-          </button></>)}
+              <Link className={classes.link} to="/profile">
+                <span>プロフィール</span>
+              </Link>
+              <button className={classes.link} onClick={handleLogout}>
+                <span>ログアウト</span>
+              </button>
+            </>
+          )}
         </nav>
         <button onClick={() => setIsOpen(true)} className={classes.hamburger}>
           <span></span>
           <span></span>
           <span></span>
         </button>
-        <MenuModal isOpen={isOpen} onClose={() => setIsOpen(false)} onLogout={handleLogout} />
+        <MenuModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onLogout={handleLogout}
+        />
       </div>
     </header>
   );

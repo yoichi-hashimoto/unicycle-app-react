@@ -1,0 +1,57 @@
+.itemContainer {
+  margin:2rem auto;
+  gap: 1.5rem;
+  border: 1px rgb(120, 190, 120) solid;
+  border-radius: 10px;
+  background-color: rgb(209, 227, 216);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  box-shadow: 2px 2px 2px gray;
+  padding: 1rem;
+  width: 21rem;
+  min-height: 10rem;
+  justify-content: space-between;
+}
+
+.itemAvatar {
+  padding: 0.25rem;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 1px 1px gray;
+  background-color: rgb(241, 246, 238);
+  width: 2.5rem;
+  position: relative;
+}
+
+.itemWrapper p {
+  font-size: 0.4rem;
+  margin: 0;
+  text-align: center;
+  background-color: rgb(75, 219, 75);
+  color:white;
+  border-radius: 20px;
+  position:absolute;
+  bottom:5%;
+  right:5%;
+  padding:0.1rem;
+  text-align: center;
+  width: 80%;
+}
+
+.itemWrapper {
+  position: relative;
+  display: block;
+}
+
+.locked{
+  background-color: rgb(99, 87, 87);
+  color: white;
+  border-radius: 25px;
+  width: 3rem;;
+  height: 3rem;
+  text-align: center;
+  align-items: center;
+  font-size: 2rem;
+  box-shadow: 1px 1px gray;
+}

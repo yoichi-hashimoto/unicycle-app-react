@@ -24,7 +24,26 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request ->validate([
+            'name'=>['string','max:6'],
+            'password'=>['string','min:5','confirmed'],
+            'user_avatar_id'=>['integer','nullable'],
+            'color_id'=>['integer','nullable'],
+            'login_id'=>['string','min:6','max:8'],
+        ]);
         
+        $user = new User();
+
+        $user->name = $validated['name'];
+        $user->password = Hash::make($validated['password']);
+        $user->login_id = $validated['login_id'];
+        $user->user_avatar_id = $validated['user_avatar_id'];
+        $user->color_id = $validated['color_id'];
+
+       $user->save();
+
+       return response()->json([
+       'user'=>new UserResource($user),],201);
     }
 
     public function update(Request $request, User $user)
@@ -32,8 +51,8 @@ class UserController extends Controller
        $validate = $request ->validate([
         'name'=>['nullable','string','max:255'],
         'password'=>['nullable','string','min:8','confirmed'],
-        'user_avatar_id'=>['integer'],
-        'background_color'=>['nullable','string'],
+        'user_avatar_id'=>['integer','nullable'],
+        'color_id'=>['nullable','integer'],
        ]);
 
        if(!empty($validate['name'])){
@@ -48,8 +67,8 @@ class UserController extends Controller
         $user->password = Hash::make($validate['password']);
        }
 
-       if(!empty($validate['background_color'])){
-        $user->background_color = $validate['background_color'];
+       if(!empty($validate['color_id'])){
+        $user->color_id = $validate['color_id'];
        }
 
        $user->save();

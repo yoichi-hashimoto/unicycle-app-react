@@ -6,52 +6,83 @@ import Modal from "../common/modal/Modal";
 import { useState, useEffect } from "react";
 import classes from "./PageCommon.module.css";
 import { fetchAvatars } from "../../api/avatars";
+import { fetchColors } from "../../api/color";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../stores/authStore";
 import axios from "../../api/axios";
-
-const colors = [
-  {
-    id: 1,
-    name: "white",
-  },
-  {
-    id: 2,
-    name: "yellow",
-  },
-  {
-    id: 3,
-    name: "blue",
-  },
-];
+import Toast from "../common/modal/Toast";
+import Loading from "../common/modal/Loading";
+import { fetchItems } from "../../api/items";
 
 function Edit() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isColorOpen, setIsColorOpen] = useState(false);
-  const navigate = useNavigate();
-  const [userImage, setUserImage] = useState();
-  const [avatars, setAvatars] = useState([]);
-
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isColorOpen, setIsColorOpen] = useState(false);
+  const [isItemOpen, setIsItemOpen] = useState(false);
+  const navigate = useNavigate();
+  const [userImage, setUserImage] = useState();
+  const [userColor, setUserColor] = useState();
+  const [avatars, setAvatars] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [userItems, setUserItems] = useState([]);
+  const [equippedItemId, setEquippedItemId] = useState(user?.equipped_item_id ?? null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [toast, setToast] = useState({
+    message: "",
+    type: "",
+  });
+
+  function showToast(message, type = "error") {
+    setToast({ message, type });
+
+    setTimeout(() => {
+      setToast({ message: "", type: "" });
+    }, 2500);
+  }
+
+
   const [formData, setFormData] = useState({
     name: "",
     current_password: "",
     password: "",
     password_confirmation: "",
     user_avatar_id: "",
-    background_color: "",
+    color_id: "",
   });
 
   useEffect(() => {
-    fetchAvatars().then((data) => {
+    async function loadAvatars() {
+      try {
+        setIsLoading(true);
+        const allAvatars = await fetchAvatars();
+        setAvatars(allAvatars);
+      } catch (err) {
+        console.err(err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadAvatars();
+  }, []);
+
+  useEffect(() => {
+    fetchColors().then((data) => {
       console.log(data);
-      setAvatars(data);
+      setColors(data);
     });
   }, []);
 
+  
+  useEffect(() => {
+    if (user?.user_items) {
+      setUserItems(user.user_items);
+    }
+  }, [user]);
+
+
   if (!user) {
-    return <p>ログインしてください</p>;
+    return <Toast>ログインしてください</Toast>;
   }
 
   const avatarChange = (avatar) => {
@@ -63,6 +94,36 @@ function Edit() {
     setIsOpen(false);
   };
 
+  const colorChange = (color) => {
+    setUserColor(color.color_path);
+    setFormData((prev) => ({
+      ...prev,
+      color_id: color.id,
+    }));
+    setIsColorOpen(false);
+  };
+
+  const handleEquipItem = async (userItemId) => {
+    try {
+          setIsLoading(true);
+      const response = await axios.patch(`/api/user_item/${userItemId}`) 
+      setEquippedItemId(response.data.user_item.id);
+      setUser({
+        ...user,
+        equipped_item: response.data.user_item,
+      });
+    } catch (error) {
+      console.error(error);
+      setToast({
+        message: "アイテムの変更に失敗しました",
+        type:"error",
+      })
+    } finally {
+      setIsLoading(false);
+    }
+    setIsItemOpen(false);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -70,30 +131,36 @@ function Edit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("送信前formData", formData);
-
+    setIsLoading(true);
     try {
       await axios.get("./sanctum/csrf-cookie");
-      const response = await axios.patch(
-        `/api/users/${user.id}`,
-        formData,
-      );
-
+      const response = await axios.patch(`/api/users/${user.id}`, formData);
       const result = response.data;
 
       setUser(result.data);
 
-      navigate("/profile");
+      showToast("更新しました", "success");
+      setTimeout(() => {
+        navigate("/profile");
+      }, 1000);
     } catch (error) {
       console.error("エラー:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className={classes.contentsWrapper}>
+      {isLoading && <Loading />}
       <h1>プロフィール変更</h1>
       <div className={classes.editContainer}>
         <MemberCard
-          member={{ ...user, avatar_path: userImage || user.avatar_path }}
+          member={{
+            ...user,
+            avatar_path: userImage || user.avatar_path,
+            color_path: userColor || user.color_path,
+          }}
           showButton={false}
           level={user.current_level}
           success={user?.success_score}
@@ -131,7 +198,7 @@ function Edit() {
                     key={avatar.id}
                   />
                 </button>
-              ))}{" "}
+              ))}
             </div>
           </Modal>
           <Button variant="primary" onClick={() => setIsColorOpen(true)}>
@@ -143,9 +210,45 @@ function Edit() {
               setIsColorOpen(false);
             }}
           >
-            <div>
+            <div className={classes.colorContainer}>
               {colors.map((color) => (
-                <button key={color.id} className={classes[color.name]}></button>
+                <div className={classes.colors}>
+                  <button
+                    key={color.id}
+                    name="color_id"
+                    value={color.id}
+                    style={{ backgroundColor: color.color_path }}
+                    className={classes.bgColors}
+                    onClick={() => colorChange(color)}
+                  ></button>
+                  <p>{color.name}</p>
+                </div>
+              ))}
+            </div>
+          </Modal>
+          <Button variant="primary" onClick={() => setIsItemOpen(true)}>
+            アイテムを変更する
+          </Button>
+          <Modal
+            isItemOpen={isItemOpen}
+            onClose={() => {
+              setIsItemOpen(false);
+            }}
+          >
+            <div className={classes.itemModalContainer}>
+              {userItems.map((userItem) => (
+                <div className={classes.itemContainer} key={userItem.id}>
+                  <button
+                    key={userItem.id}
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => handleEquipItem(userItem.id)}
+                    className={classes.usersItems}
+                  >
+                    <img src={userItem.item.avatar_path} alt="" className={classes.itemsImage} />
+                  </button>
+                  <p>{userItem.item.name}</p>
+                </div>
               ))}
             </div>
           </Modal>
@@ -185,6 +288,9 @@ function Edit() {
           <Button variant="primary" onClick={handleSubmit}>
             とうろく
           </Button>
+        </div>
+        <div className={classes.toastWrapper}>
+          <Toast message={toast.message} type={toast.type} />
         </div>
       </div>
     </div>

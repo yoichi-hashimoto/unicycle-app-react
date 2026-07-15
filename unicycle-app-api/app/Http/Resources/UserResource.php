@@ -9,6 +9,7 @@ use App\Models\Skill;
 use App\Models\Animal;
 use App\Models\Like;
 use App\Models\User;
+use App\Models\Color;
 
 class UserResource extends JsonResource
 {
@@ -24,6 +25,7 @@ class UserResource extends JsonResource
             'name'=>$this->name,
             'background_color'=>$this->background_color,
             'login_id'=>$this->login_id,
+            'is_admin'=>$this->is_admin,
             'avatar_path'=>$this->avatar_path,
             'skill_name'=>$this->skill_name,
             'received_likes' => $this->received_likes,
@@ -32,6 +34,9 @@ class UserResource extends JsonResource
             'avatar_path_walk'=>$this->avatar_path_walk,
             'remain_level' => $this->remain_level,
             'success_score' => $this->success_score,
+            'color_path' => $this->color_path,
+            'user_items' =>$this->userItems(),
+            'equipped_item_path' => $this->equipped_item_path,
         ];
     }
 }

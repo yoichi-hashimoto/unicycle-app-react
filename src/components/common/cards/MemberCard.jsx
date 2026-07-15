@@ -1,6 +1,11 @@
 import React from "react";
 import classes from "./Member.module.scss";
 
+const itemImg = {
+  name: 'bee',
+  avatar_path: './images/items/kiwi.png',
+};  
+
 function MemberCard({
   member,
   showButton = true,
@@ -16,7 +21,7 @@ function MemberCard({
           <h3>{member.name}</h3>
           <div
             className={classes.avatarContainer}
-            style={{ backgroundColor: member.background_color }}
+            style={{ backgroundColor: member.color_path }}
           >
             <img
               src={member.avatar_path}
@@ -24,11 +29,12 @@ function MemberCard({
               className={classes.memberAvatar}
             />
             {showButton && (
-              <img
+              <div className={classes.animalWrapper}><img
                 src={member.current_animal?.avatar_path}
                 alt={member.animalAvatar}
-                className={classes.animalAvatar}
-              />
+                className={classes.animalAvatar} />
+                <img src={member.equipped_item_path} className={classes.selectedItem} />
+              </div>
             )}
             <div className={classes.receivedLikes}>
               <p className={classes.heart}>❤</p>

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\UserItem;
 
 class Challenge extends Model
 {
-    protected $fillable = ['title', 'description', 'user_id','skill_id','success_score'];
+    protected $fillable = ['user_id','skill_id','success_score'];
 
     public function user()
     {
@@ -38,6 +39,11 @@ class Challenge extends Model
         return $this->user && $this->user->current_animal->avatar_path ? $this->user->current_animal->avatar_path : null;
     }
 
+    public function getColorPathAttribute(){
+        $color = Color::where('id',$this->user->color_id)->first();
+        return $color ? $color->color_path : null;
+    }
+
     public function getSkillNameAttribute()
     {
         return $this->skill ? $this->skill->name : null;
@@ -53,4 +59,8 @@ class Challenge extends Model
         return $this->likes()->count();
     }
 
+    public function getEquippedItemPathAttribute(){
+        return $this->user->equipped_item_path;
+
+    }
 }

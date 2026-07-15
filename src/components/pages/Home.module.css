@@ -13,6 +13,68 @@
   text-align: center;
 }
 
+
+.noticeContainer{
+  border-radius: 15px;
+  width: 80%;
+  margin: 3rem auto;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.noticeTitle{
+  color: white;
+  background-color: rgb(80, 186, 35);
+  margin:1px;
+}
+
+.noticeContainer h2{
+  font-size: 1rem;
+  padding:0.25rem;
+  margin:0;
+}
+
+.new{
+  background-color: white;
+  padding:0.125rem 0.5rem;
+  border: 0.5px solid rgb(238, 222, 222);
+  border-radius: 2rem;
+  color: red;
+  box-shadow: 2px 2px rgb(232, 228, 228);
+  font-size: 0.75rem;
+}
+
+
+
+.noticeItem{
+  display: grid;
+  grid-template-columns:0.5fr 2fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  font-size: 0.75rem;
+  color: black;
+  background-color: rgb(245, 248, 244);
+  margin: 1px;
+  padding:0.5rem;
+}
+
+.noticeText{
+  padding:0.5rem;
+}
+
+.dateGroup{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content:end;
+  gap:0.5rem;
+}
+
+.dateGroup p{
+  margin:0 0.25rem;
+  font-size: 0.6rem;
+}
 .imgContainer {
   width: 100%;
   height: 100%;
@@ -83,13 +145,14 @@
 }
 
 .linkButton {
+  font-size: 1.5rem;
   text-decoration: none;
   color: white;
 }
 
 @media (min-width: 768px) {
   .commonContainer{
-    flex:0 0 25%;
+    flex:0 0 20%;
   }
 
   .commonContainer h2{
@@ -99,6 +162,11 @@
   .commonContainer p{
     font-size: 1rem;
   }
+
+  .noticeContainer{
+  width: 30%;
+  margin: 2rem auto;
+  padding:0rem;}
 
   .imgWrapper {
   width: 100%;
@@ -118,3 +186,5 @@
   }
 }
 }
+
+

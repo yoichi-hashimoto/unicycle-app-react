@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\UserAvatar;
+use App\Models\Animal;
+use App\Models\UserItem;
+use App\Models\Items;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -27,10 +30,12 @@ class User extends Authenticatable
     {
         return [
             'name' => 'string',
-            'background_color' => 'string',
-            'login_id'=>'string',
-            'user_avatar_id' =>'string',
+            'color_id' => 'integer',
+            'login_id'=>'integer',
+            'user_avatar_id' =>'integer',
             'password' => 'hashed',
+            'is_admin' =>'boolean',
+            'equipped_item_id'=>'boolean',
         ];
     }
 
@@ -44,8 +49,17 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
+    public function colors(){
+        return $this->hasMany(Color::class);
+    }
+
     public function avatars(){
         return $this->hasMany(UserAvatar::class);
+    }
+
+    public function getColorPathAttribute(){
+        $color = Color::where('id',$this->color_id)->first();
+        return $color ? $color->color_path:null;
     }
 
     public function getAvatarPathAttribute(){
@@ -57,14 +71,22 @@ class User extends Authenticatable
     {
         $challenge = Challenge::where('user_id',$this->id)
         ->orderByDesc('id')->first();
-        return $challenge ? $challenge->skill->level : 0;
+
+        if(!$challenge){
+            return 1;
+        }
+        return $challenge->success_score >= 3
+        ? $challenge->skill_id +1
+        : $challenge->skill_id;
+        ;
     }
 
     public function getCurrentAnimalAttribute()
     {
-        $challenge = Challenge::where('user_id',$this->id)
-        ->orderByDesc('id')->first();
-        return $challenge ? $challenge->skill->animal : null;
+        $animal = Animal::where('required_level','<=',$this->current_level)
+        ->orderByDesc('required_level')->first();
+
+        return $animal ? $animal: null;
     }
 
     public function getReceivedLikesAttribute()
@@ -85,6 +107,23 @@ class User extends Authenticatable
     public function getSuccessScoreAttribute(){
         $challenge = Challenge::where('user_id',$this->id)
         ->latest()->first();
-        return $challenge ? $challenge->success_score : null;
+
+        if(!$challenge){
+            return 0;
+        }
+
+        return $challenge->success_score >= 3
+        ? $challenge->success_score=0
+        : $challenge->success_score;
     }
+
+    public function userItems()
+    {
+        return  UserItem::where('user_id',$this->id)->with('item')->get();
+    }
+
+    public function getEquippedItemPathAttribute(){
+        return $this->userItems()->where('is_equipped',true)?->first()?->item?->avatar_path;
+    }
+
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('login_id');
             $table->string('password');
             $table->foreignId('user_avatar_id')->constrained()->cascadeOnDelete();
-            $table->string('background_color')->nullable();
+            $table->foreignId('color_id')->constrained()->cascadeOnDelete()->nullable();
             $table->boolean('is_admin')->default(false);
             $table->timestamps();
         });
