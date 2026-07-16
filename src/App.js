@@ -38,14 +38,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/ranking" element={<Ranking />} />
-            <Route path="/Challenge" element={<Challenge />} />
+            <Route path="/challenge" element={<Challenge />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/technical" element={<Technical />} />
             <Route path="/register" element={<AdminRoute><Register /></AdminRoute>} />
-            <Route path="/register" element={<AdminRoute><Register/></AdminRoute>}/>
-            <Route path="/register" element={<AdminRoute><Register/></AdminRoute>}/>
             <Route path="/test" element={<AdminRoute><Test /></AdminRoute>} />
             <Route path="/delete" element={<AdminRoute><Delete /></AdminRoute>} />
           </Routes>

@@ -4,12 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Challenge;
-use App\Models\Skill;
-use App\Models\Animal;
-use App\Models\Like;
-use App\Models\User;
-use App\Models\Color;
 
 class UserResource extends JsonResource
 {
@@ -23,11 +17,15 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name'=>$this->name,
-            'background_color'=>$this->background_color,
-            'login_id'=>$this->login_id,
+            'background_color'=>$this->color_path,
+            'login_id'=>$this->when(
+                $request->user()?->id === $this->id || $request->user()?->is_admin,
+                $this->login_id
+            ),
             'is_admin'=>$this->is_admin,
             'avatar_path'=>$this->avatar_path,
             'skill_name'=>$this->skill_name,
+            'current_skill_id'=>$this->current_skill_id,
             'received_likes' => $this->received_likes,
             'current_level' => $this->current_level,
             'current_animal' => $this->current_animal,
@@ -35,7 +33,7 @@ class UserResource extends JsonResource
             'remain_level' => $this->remain_level,
             'success_score' => $this->success_score,
             'color_path' => $this->color_path,
-            'user_items' =>$this->userItems(),
+            'user_items' => $this->whenLoaded('userItems'),
             'equipped_item_path' => $this->equipped_item_path,
         ];
     }

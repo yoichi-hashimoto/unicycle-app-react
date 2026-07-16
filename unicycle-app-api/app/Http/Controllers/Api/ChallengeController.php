@@ -10,30 +10,30 @@ class ChallengeController extends Controller
 {
         public function index()
     {
-        return ChallengeResource::collection(Challenge::with(['user', 'skill', 'likes'])->get());
+        return ChallengeResource::collection(
+            Challenge::with([
+                'skill',
+                'likes',
+                'user.avatar',
+                'user.color',
+                'user.userItems.item',
+            ])->get()
+        );
     }
 
     public function store(Request $request ,Challenge $challenge)
     {
         $validate = $request->validate([
-            'user_id' => ["integer"],
-            'current_level' =>["integer"],
-            'success_score' => ["integer"],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'skill_id' => ['required', 'integer', 'exists:skills,id'],
+            'success_score' => ['required', 'integer', 'between:0,3'],
         ]);
 
-        if(!empty($validate['user_id'])){
-            $challenge->user_id = $validate['user_id'];
-        }
+        $challenge->fill($validate)->save();
 
-        if(!empty($validate['current_level'])){
-            $challenge->skill_id = $validate['current_level'];
-        }
-
-        if(!empty($validate['success_score'])){
-            $challenge->success_score = $validate['success_score'];
-        }
-
-        $challenge ->save();
+        return (new ChallengeResource($challenge->load(['user', 'skill', 'likes'])))
+            ->response()
+            ->setStatusCode(201);
     }
 
     public function update(Request $request, $id)

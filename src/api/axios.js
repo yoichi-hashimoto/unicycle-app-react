@@ -1,6 +1,12 @@
-import axios from 'axios';
+import Axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8000";
-axios.defaults.withCredentials = true;
-axios.defaults.withXSRFToken = true;
+const axios = Axios.create({
+    baseURL: process.env.REACT_APP_API_URL || "http://localhost:8000",
+    withCredentials: true,
+    withXSRFToken: true,
+    headers: {
+        Accept: "application/json",
+    },
+});
+
 export default axios;

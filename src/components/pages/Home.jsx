@@ -40,7 +40,7 @@ const Home = () => {
           <div className={classes.imgWrapper}>
             <div className={classes.commonContainer}>
               <h2>キャラクター設定</h2>
-              <img src="./images/users/users_all.png"></img>
+              <img src="./images/users/users_all.png" alt="アバター一覧" />
               <p>
                 50種類以上のキャラクターイラストから自分の好きなアバターを選択できるよ。
               </p>
@@ -65,7 +65,7 @@ const Home = () => {
             </div>
             <div className={classes.commonContainer}>
               <h2>キャラクター設定</h2>
-              <img src="./images/users/users_all.png"></img>
+              <img src="./images/users/users_all.png" alt="アバター一覧" />
               <p>
                 50種類以上のキャラクターイラストから自分の好きなアバターを選択できるよ。
               </p>

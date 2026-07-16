@@ -28,14 +28,12 @@ function Register() {
 
   useEffect(() => {
     fetchAvatars().then((data) => {
-      console.log(data);
       setAvatars(data);
     });
   }, []);
 
   useEffect(() => {
     fetchColors().then((data) => {
-      console.log(data);
       setColors(data);
     });
   }, []);
@@ -51,7 +49,6 @@ function Register() {
 
   const colorChange = (color) => {
     setColorImg(color.color_path);
-    console.log(colorImg);
     setFormData((prev) => ({
       ...prev,
       color_id: color.id,
@@ -66,11 +63,10 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("送信前：", formData);
     window.confirm("本当に登録しますか？");
 
     try {
-      await axios.get("./sanctum/csrf-cookie");
+      await axios.get("/sanctum/csrf-cookie");
       await axios.post(`/api/users`, formData);
       navigate("/ranking");
     } catch (error) {
@@ -163,7 +159,7 @@ function Register() {
         背景を選択する
       </Button>
       <Modal
-        isColorOpen={isColorOpen}
+        isOpen={isColorOpen}
         onClose={() => {
           setIsColorOpen(false);
         }}

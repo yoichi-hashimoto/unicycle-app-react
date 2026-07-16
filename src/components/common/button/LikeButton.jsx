@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../api/axios";
 import { useState,useEffect } from "react";
 import classes from "./LikeButton.module.css";
 
@@ -18,10 +18,8 @@ function LikeButton({ likeHistory, showButton = true, fromUser }) {
     if(isLiked)return;
     
     const data = {
-      user_id: likeHistory.user_id,
-      from_user_id: fromUser?.id ?? fromUser,
       challenge_id: likeHistory.id,
-    };      console.log(data);
+    };
 
     try {
       await axios.get("/sanctum/csrf-cookie");
@@ -32,10 +30,6 @@ function LikeButton({ likeHistory, showButton = true, fromUser }) {
       console.error("エラーです", error.response?.data ?? error);
     }
   };
-  //apiへのデータ送信 user_id,from_user_id,challenge_idを送りたい。
-  //データの定義,user_idはhistoryから引っ張る。history.user_idでとれる、history.challenge_id、from_userはzustandからとる
-  //apiへデータを送る、cookieを取得してlocalhost:8000へpostする
-  //catchでエラー時のメッセージをconsole.logに出す
   return (
     <div>
       <div className={classes.likeContainer}>

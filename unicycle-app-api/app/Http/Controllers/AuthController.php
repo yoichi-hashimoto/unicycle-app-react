@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 
 class AuthController
 {
@@ -22,7 +23,9 @@ class AuthController
     $request ->session()->regenerate();
     return response()->json([
     'message'=>'ログインしました',
-    'user'=>$request->user(),
+    'user'=>new UserResource(
+        $request->user()->load(['avatar', 'color', 'userItems.item'])->loadCount('likes')
+    ),
     'auth_id'=>Auth::id(),
     ]);
     }

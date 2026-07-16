@@ -1,26 +1,23 @@
 import classes from "./Delete.module.css";
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../../api/users";
+import axios from "../../../api/axios";
 
 function Delete() {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    fetchUsers().then((data) =>
-      console.log(data) ||
-      setUserList(data));
+    fetchUsers().then(setUserList);
   }, []);
   const showAleart = () => {
     return window.confirm("本当に削除しますか？");
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const isConfirmed = showAleart();
     if (isConfirmed) {
-      setUserList(userList.filter((user) => user.id !== id));
-      console.log("削除しました");
-    } else {
-      console.log("キャンセルされました");
+      await axios.delete(`/api/users/${id}`);
+      setUserList((users) => users.filter((user) => user.id !== id));
     }
   };
 
@@ -52,7 +49,7 @@ function Delete() {
               </td>
               <td>{user.current_level}</td>
               <td>
-                <img src={user.current_animal.avatar_path} alt="animal_avatar" />
+                <img src={user.current_animal?.avatar_path} alt="animal_avatar" />
               </td>
               <td>❤{user.received_likes}</td>
             </tr>

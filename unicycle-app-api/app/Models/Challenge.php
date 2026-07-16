@@ -36,12 +36,11 @@ class Challenge extends Model
 
     public function getCurrentAnimalAttribute()
     {
-        return $this->user && $this->user->current_animal->avatar_path ? $this->user->current_animal->avatar_path : null;
+        return $this->user?->current_animal?->avatar_path;
     }
 
     public function getColorPathAttribute(){
-        $color = Color::where('id',$this->user->color_id)->first();
-        return $color ? $color->color_path : null;
+        return $this->user?->color_path;
     }
 
     public function getSkillNameAttribute()
@@ -56,11 +55,11 @@ class Challenge extends Model
 
     public function getReceivedLikesAttribute()
     {
-        return $this->likes()->count();
+        return $this->relationLoaded('likes') ? $this->likes->count() : $this->likes()->count();
     }
 
     public function getEquippedItemPathAttribute(){
-        return $this->user->equipped_item_path;
+        return $this->user?->equipped_item_path;
 
     }
 }

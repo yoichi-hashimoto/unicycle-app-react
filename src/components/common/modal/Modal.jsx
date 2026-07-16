@@ -1,8 +1,8 @@
 import classes from "./Modal.module.css";
 import Button from "../button/Button";
 
-function Modal({ isOpen, isColorOpen, isItemOpen, children, onClose }) {
-  if (!isOpen && !isColorOpen && !isItemOpen) return null;
+function Modal({ isOpen, children, onClose }) {
+  if (!isOpen) return null;
 
   return (
     <div className={classes.ovarlay} onClick={onClose}>

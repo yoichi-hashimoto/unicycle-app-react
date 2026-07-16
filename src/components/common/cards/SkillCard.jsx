@@ -2,7 +2,6 @@ import classes from './SkillCard.module.scss'
 import { Link } from 'react-router-dom';
 import Button from '../../common/button/Button';
 import Modal from '../modal/Modal';
-import { Children } from 'react';
 import { useState } from 'react';
 
 function SkillCard({ skill }) {

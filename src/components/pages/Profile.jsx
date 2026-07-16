@@ -7,11 +7,9 @@ import { useAuthStore } from "../../stores/authStore";
 import ItemCard from "../common/cards/ItemCard";
 import { fetchItems } from "../../api/items";
 import { useState, useEffect } from "react";
-import { fetchUsers } from "../../api/users";
 
 function Profile() {
   const user = useAuthStore((state) => state.user);
-  const setUser = useAuthStore((state) => state.setUser);
   const [items, setItems] = useState([]);
   const [userItems, setUserItems] = useState([]);
 
@@ -19,10 +17,8 @@ function Profile() {
     async function loadItems() {
       try {
         const Items = await fetchItems();
-        console.log(items);
         setItems(Items);
         if (user && user.user_items) {
-          console.log("user.items", user?.items);
           setUserItems(user.user_items);
         }
       } catch (err) {
@@ -32,8 +28,7 @@ function Profile() {
     if(user)loadItems();
   }, [user]);
 
-  const ownedItemIds = userItems.map(item => item.id);
-console.log("ownedItemIds", ownedItemIds);
+  const ownedItemIds = userItems.map((userItem) => userItem.item_id);
   if (!user) {
     return <p>読み込み中</p>;
   }

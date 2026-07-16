@@ -24,15 +24,14 @@ class ChallengeResource extends JsonResource
             'user_name' => $this->user_name,
             'user_avatar_path' => $this->user_avatar_path,
             'current_animal' => $this->current_animal,
-            'background_color' =>$this->user?->background_color,
+            'background_color' =>$this->user?->color_path,
             'skill_name' => $this->skill_name,
             'current_level' => $this->current_level,
             'received_likes' => $this->received_likes,
-            'from_user_id' => $this->likes()->pluck('from_user_id'),
-            'is_liked_by_me'=> $this->likes()
-            ->where('from_user_id',$request->user()?->id)
-            ->exists(),
-            'debug_auth' => $request->user()?->id,
+            'from_user_id' => $this->likes->pluck('from_user_id'),
+            'is_liked_by_me'=> $request->user()
+                ? $this->likes->contains('from_user_id', $request->user()->id)
+                : false,
             'color_path' => $this->color_path,
             'equipped_item_path' => $this->equipped_item_path,
         ];

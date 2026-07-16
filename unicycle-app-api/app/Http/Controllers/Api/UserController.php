@@ -5,31 +5,32 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\UserResource;
-use App\Http\Resources\UsersResource;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users=User::all();    
+        $users = User::with(['avatar', 'color', 'userItems.item'])
+            ->withCount('likes')
+            ->get();
         return UserResource::collection($users);
     }
 
     public function show(User $user)
     {
-        return new UserResource($user);
+        return new UserResource($user->load(['avatar', 'color', 'userItems.item'])->loadCount('likes'));
         
     }
 
     public function store(Request $request)
     {
         $validated = $request ->validate([
-            'name'=>['string','max:6'],
-            'password'=>['string','min:5','confirmed'],
-            'user_avatar_id'=>['integer','nullable'],
-            'color_id'=>['integer','nullable'],
-            'login_id'=>['string','min:6','max:8'],
+            'name'=>['required','string','max:20'],
+            'password'=>['required','string','min:8','confirmed'],
+            'user_avatar_id'=>['required','integer','exists:user_avatars,id'],
+            'color_id'=>['nullable','integer','exists:colors,id'],
+            'login_id'=>['required','string','min:6','max:20','unique:users,login_id'],
         ]);
         
         $user = new User();
@@ -48,18 +49,21 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-       $validate = $request ->validate([
-        'name'=>['nullable','string','max:255'],
+       abort_unless($request->user()->id === $user->id || $request->user()->is_admin, 403);
+
+       $validate = $request->validate([
+        'name'=>['nullable','string','max:20'],
+        'current_password'=>['nullable','required_with:password','current_password'],
         'password'=>['nullable','string','min:8','confirmed'],
-        'user_avatar_id'=>['integer','nullable'],
-        'color_id'=>['nullable','integer'],
+        'user_avatar_id'=>['nullable','integer','exists:user_avatars,id'],
+        'color_id'=>['nullable','integer','exists:colors,id'],
        ]);
 
        if(!empty($validate['name'])){
         $user->name = $validate['name'];
        }
 
-       if(!empty($validate['user_avatar_id'])){
+       if(array_key_exists('user_avatar_id', $validate) && $validate['user_avatar_id'] !== null){
         $user->user_avatar_id = $validate['user_avatar_id'];
        }
 
@@ -67,19 +71,22 @@ class UserController extends Controller
         $user->password = Hash::make($validate['password']);
        }
 
-       if(!empty($validate['color_id'])){
+       if(array_key_exists('color_id', $validate)){
         $user->color_id = $validate['color_id'];
        }
 
        $user->save();
 
-       $user->refresh();
+       $user->refresh()->load(['avatar', 'color', 'userItems.item'])->loadCount('likes');
 
        return new UserResource($user);
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        
+        abort_if(request()->user()->id === $user->id, 422, '自分自身は削除できません。');
+        $user->delete();
+
+        return response()->noContent();
     }
 }

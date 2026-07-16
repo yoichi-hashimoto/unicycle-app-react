@@ -13,7 +13,7 @@ function ItemCard({ items, ownedItemIds }) {
                   <img
                     src={item.avatar_path}
                     className={classes.itemAvatar}
-                    key={item.id}
+                    alt={item.name}
                   />
                   <p>{item.name}</p>
                 </>

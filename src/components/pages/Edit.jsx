@@ -12,7 +12,6 @@ import { useAuthStore } from "../../stores/authStore";
 import axios from "../../api/axios";
 import Toast from "../common/modal/Toast";
 import Loading from "../common/modal/Loading";
-import { fetchItems } from "../../api/items";
 
 function Edit() {
   const user = useAuthStore((state) => state.user);
@@ -26,7 +25,6 @@ function Edit() {
   const [avatars, setAvatars] = useState([]);
   const [colors, setColors] = useState([]);
   const [userItems, setUserItems] = useState([]);
-  const [equippedItemId, setEquippedItemId] = useState(user?.equipped_item_id ?? null);
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState({
     message: "",
@@ -58,7 +56,7 @@ function Edit() {
         const allAvatars = await fetchAvatars();
         setAvatars(allAvatars);
       } catch (err) {
-        console.err(err);
+        console.error(err);
       } finally {
         setIsLoading(false);
       }
@@ -68,7 +66,6 @@ function Edit() {
 
   useEffect(() => {
     fetchColors().then((data) => {
-      console.log(data);
       setColors(data);
     });
   }, []);
@@ -107,10 +104,9 @@ function Edit() {
     try {
           setIsLoading(true);
       const response = await axios.patch(`/api/user_item/${userItemId}`) 
-      setEquippedItemId(response.data.user_item.id);
       setUser({
         ...user,
-        equipped_item: response.data.user_item,
+        equipped_item_path: response.data.user_item.item.avatar_path,
       });
     } catch (error) {
       console.error(error);
@@ -130,10 +126,9 @@ function Edit() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("送信前formData", formData);
     setIsLoading(true);
     try {
-      await axios.get("./sanctum/csrf-cookie");
+      await axios.get("/sanctum/csrf-cookie");
       const response = await axios.patch(`/api/users/${user.id}`, formData);
       const result = response.data;
 
@@ -205,16 +200,15 @@ function Edit() {
             背景を選択する
           </Button>
           <Modal
-            isColorOpen={isColorOpen}
+            isOpen={isColorOpen}
             onClose={() => {
               setIsColorOpen(false);
             }}
           >
             <div className={classes.colorContainer}>
               {colors.map((color) => (
-                <div className={classes.colors}>
+                <div className={classes.colors} key={color.id}>
                   <button
-                    key={color.id}
                     name="color_id"
                     value={color.id}
                     style={{ backgroundColor: color.color_path }}
@@ -230,7 +224,7 @@ function Edit() {
             アイテムを変更する
           </Button>
           <Modal
-            isItemOpen={isItemOpen}
+            isOpen={isItemOpen}
             onClose={() => {
               setIsItemOpen(false);
             }}

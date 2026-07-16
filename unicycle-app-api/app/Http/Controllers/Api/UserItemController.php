@@ -10,6 +10,9 @@ class UserItemController
 {
     public function update(UserItem $userItem){
         $user = auth()->user();
+
+        abort_unless($userItem->user_id === $user->id, 403, 'このアイテムは変更できません。');
+
         DB::transaction (function()use($user,$userItem){
             UserItem::where('user_id',$user->id)
             ->update([

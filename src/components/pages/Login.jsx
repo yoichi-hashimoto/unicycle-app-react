@@ -106,7 +106,7 @@ function Login() {
           </Button>
           {toast.message && (
             <div className={classes.toastWrapper }>
-            <Toast type={toast.message} message={toast.message} /></div>
+            <Toast type={toast.type} message={toast.message} /></div>
           )}</div>
       </form>
     </div>

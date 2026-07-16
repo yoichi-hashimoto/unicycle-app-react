@@ -34,7 +34,7 @@ function Challenge({ showButton = true }) {
         const challenges = await fetchChallenges();
         setChallenges(challenges);
       } catch (err) {
-        console.err(err);
+        console.error(err);
       } finally {
         setLoading(false);
       }

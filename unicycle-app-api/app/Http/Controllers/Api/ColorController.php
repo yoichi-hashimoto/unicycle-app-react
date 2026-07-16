@@ -9,7 +9,7 @@ class ColorController extends Controller
 {
     public function index()
     {
-        return Color::with('user')->get();
+        return Color::all();
     }
 
     public function store(Request $request)

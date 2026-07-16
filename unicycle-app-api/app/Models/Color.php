@@ -10,7 +10,7 @@ class Color extends Model
         'name','color_path'
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function users(){
+        return $this->hasMany(User::class);
     }
 }

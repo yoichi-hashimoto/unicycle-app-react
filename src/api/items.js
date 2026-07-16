@@ -1,15 +1,6 @@
-export async function fetchItems() {
-    const response = await fetch(`http://localhost:8000/api/items`, {
-        credentials: "include",
-        headers: {
-            Accept: "application/json"
-        }
-    });
+import axios from "./axios";
 
-    if (!response.ok) {
-        throw new Error("Fail to fetch item");
-    }
-    
-    const data = await response.json()
-    return data;
+export async function fetchItems() {
+    const response = await axios.get("/api/items");
+    return response.data;
 }

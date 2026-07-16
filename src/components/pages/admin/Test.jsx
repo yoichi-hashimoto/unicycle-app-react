@@ -4,8 +4,7 @@ import classes from "./Test.module.css";
 import Button from "../../common/button/Button";
 import { fetchUsers } from "../../../api/users";
 import axios from "../../../api/axios";
-import { Navigate, useNavigate } from "react-router-dom";
-import ItemCard from "../../common/cards/ItemCard";
+import { useNavigate } from "react-router-dom";
 
 function Test() {
   const [users, setUsers] = useState([]);
@@ -15,8 +14,6 @@ function Test() {
   const [level, setLevel] = useState(0);
   useEffect(() => {
     fetchUsers().then((data) => {
-      console.log(data);
-      const fetchedUsers = data.data;
       setUsers(data);
 
       if (data.length > 0) {
@@ -35,17 +32,15 @@ function Test() {
     setSuccess(nextSuccess);
 
     if (nextSuccess >= 3) {
-      const nextLevel = level + 1;
-
       const submitData = {
             user_id: selectedMember.id,
-            current_level: level,
+            skill_id: selectedMember.current_skill_id,
             success_score: 3,
           };
 
           try {
-            await axios.get("./sanctum/csrf-cookie");
-            await axios.post("./api/challenges", submitData);
+            await axios.get("/sanctum/csrf-cookie");
+            await axios.post("/api/challenges", submitData);
 
             navigate("/challenge");
           } catch (error) {
@@ -54,16 +49,13 @@ function Test() {
         }
 
     return;
-    setSuccess(nextSuccess);
   };
 
   const handleChangeMember = (e) => {
     const memberId = Number(e.target.value);
-    console.log(memberId);
     const user = users.find((user) => user.id === memberId);
 
     setSelectedMember(user);
-    console.log(user);
     setSuccess(0);
     setLevel(user.current_level);
   };
@@ -73,17 +65,16 @@ function Test() {
 
     const submitData = {
       user_id: selectedMember.id,
-      current_level: level,
+      skill_id: selectedMember.current_skill_id,
       success_score: success,
     };
-    console.log("送信前：", submitData);
     if (!window.confirm("本当に送信しますか？")) {
       return;
     }
 
     try {
-      await axios.get("./sanctum/csrf-cookie");
-      await axios.post("./api/challenges", submitData);
+      await axios.get("/sanctum/csrf-cookie");
+      await axios.post("/api/challenges", submitData);
 
       navigate("/challenge");
     } catch (error) {

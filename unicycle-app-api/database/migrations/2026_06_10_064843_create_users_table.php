@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('login_id');
+            $table->string('login_id')->unique();
             $table->string('password');
             $table->foreignId('user_avatar_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('color_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->foreignId('color_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('is_admin')->default(false);
             $table->timestamps();
         });
