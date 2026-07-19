@@ -1,4 +1,3 @@
-import React from "react";
 import MemberCard from "../common/cards/MemberCard";
 import AnimalCard from "../common/cards/AnimalCard";
 import { Link } from "react-router-dom";
@@ -7,33 +6,29 @@ import { useAuthStore } from "../../stores/authStore";
 import ItemCard from "../common/cards/ItemCard";
 import { fetchItems } from "../../api/items";
 import { useState, useEffect } from "react";
-import { fetchUsers } from "../../api/users";
+import type { Item } from "../../types/item";
 
 function Profile() {
   const user = useAuthStore((state) => state.user);
-  const setUser = useAuthStore((state) => state.setUser);
-  const [items, setItems] = useState([]);
-  const [userItems, setUserItems] = useState([]);
+  const [items, setItems] = useState<Item[]>([]);
+  const [userItems, setUserItems] = useState<Item[]>([]);
 
   useEffect(() => {
     async function loadItems() {
       try {
-        const Items = await fetchItems();
-        console.log(items);
-        setItems(Items);
+        const fetchedItems = await fetchItems();
+        setItems(fetchedItems);
         if (user && user.user_items) {
-          console.log("user.items", user?.items);
           setUserItems(user.user_items);
         }
       } catch (err) {
         console.error(err);
-      } 
+      }
     }
-    if(user)loadItems();
+    if (user) loadItems();
   }, [user]);
 
-  const ownedItemIds = userItems.map(item => item.id);
-console.log("ownedItemIds", ownedItemIds);
+  const ownedItemIds = userItems.map((item) => item.id);
   if (!user) {
     return <p>読み込み中</p>;
   }

@@ -1,9 +1,14 @@
 import classes from "./ItemCard.module.css";
+import type { Item } from "../../../types/item";
 
-function ItemCard({ items, ownedItemIds }) {
+interface ItemCardProps {
+  items: Item[];
+  ownedItemIds: number[];
+}
+
+function ItemCard({ items, ownedItemIds }: ItemCardProps) {
   return (
-    <>
-      <div className={classes.itemContainer}>
+    <div className={classes.itemContainer}>
         {items.map((item) => {
           const owned = ownedItemIds.includes(item.id);
           return (
@@ -14,6 +19,7 @@ function ItemCard({ items, ownedItemIds }) {
                     src={item.avatar_path}
                     className={classes.itemAvatar}
                     key={item.id}
+                    alt={item.name}
                   />
                   <p>{item.name}</p>
                 </>
@@ -23,8 +29,7 @@ function ItemCard({ items, ownedItemIds }) {
             </div>
           );
         })}
-      </div>
-    </>
+    </div>
   );
 }
 
