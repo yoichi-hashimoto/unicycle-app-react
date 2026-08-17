@@ -19,14 +19,14 @@ const formattedDateDay = new Intl.DateTimeFormat("ja-JP", {
 }).format;
 
 const HistoryCard = ({ history, showButton = true }) => {
-  const authUser = useAuthStore((state)=>state.user)
+  const authUser = useAuthStore((state) => state.user);
   // const [isLiked, setIsLiked] = useState(false);
   // const [liked, setLiked] = useState(history.received_likes);
 
   // const hundleLike = () => {
   //   setIsLiked((prev) => !prev);
   //   setLiked((prev) => (isLiked ? prev - 1 : prev + 1));
-    
+
   // };
 
   const isPassed = history.success_score === "3";
@@ -50,6 +50,7 @@ const HistoryCard = ({ history, showButton = true }) => {
             alt={history.user_name}
             className={classes.avatar}
             style={{ backgroundColor: history.color_path }}
+            ddd
           />
           <div className={classes.animalContainer}>
             <img

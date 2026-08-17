@@ -1,11 +1,6 @@
 import React from "react";
 import classes from "./Member.module.scss";
 
-const itemImg = {
-  name: 'bee',
-  avatar_path: './images/items/kiwi.png',
-};  
-
 function MemberCard({
   member,
   showButton = true,

@@ -1,8 +1,17 @@
 import classes from "./Modal.module.css";
 import Button from "../button/Button";
+import { ReactNode } from "react";
 
-function Modal({ isOpen, isColorOpen, isItemOpen, children, onClose }) {
-  if (!isOpen && !isColorOpen && !isItemOpen) return null;
+type ModalProps = {
+  isOpen: boolean;
+  isColorOpen?: boolean;
+  isItemOpen?: boolean;
+  children: ReactNode;
+  onClose?: ()=>void;
+}
+
+function Modal({ isOpen, children, onClose }:ModalProps) {
+  if (!isOpen) return null;
 
   return (
     <div className={classes.ovarlay} onClick={onClose}>

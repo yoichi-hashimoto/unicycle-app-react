@@ -4,9 +4,8 @@
   padding-bottom: 20%;
   position:relative;
   width: 95%;
+
 }
-
-
 
 .contentsWrapper h1 {
   text-align: center;
@@ -21,9 +20,8 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  justify-content:start;
-  gap:0.75rem;
-  padding: 0.5rem;
+  justify-content:center;
+  gap:1.5rem;
 }
 
 .sortbuttonWrapper{
@@ -31,6 +29,7 @@
   margin: auto;
   gap:1rem;
   justify-content: center;
+  margin:1rem;
 }
 
 .buttonWrapper {
@@ -161,7 +160,7 @@
   .contentsWrapper {
     justify-content: space-around;
     padding:0 10% 10% 10%;
-    width: 50%;
+    width: 70%;
   }
 
   .profileContainer{
@@ -228,6 +227,8 @@
 .itemContainer p{
   margin:0;
 }
+
+
 
 .usersItems{
   border-radius: 50%;

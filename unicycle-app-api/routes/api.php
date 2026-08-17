@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Controllers\Api\UserItemController;
+use App\Http\Controllers\Api\NoticeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserResource;
@@ -23,6 +24,7 @@ Route::apiResource('animals', AnimalController::class);
 Route::apiResource('avatars', AvatarController::class);
 Route::apiResource('colors',ColorController::class);
 Route::apiResource('items', ItemController::class);
+Route::apiResource('notices',NoticeController::class);
 Route::get('challenges',[ChallengeController::class,'index']);
 
 Route::middleware('auth:sanctum')->group(function(){

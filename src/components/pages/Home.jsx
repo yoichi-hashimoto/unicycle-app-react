@@ -1,41 +1,33 @@
 import Button from "../common/button/Button";
 import { Link } from "react-router-dom";
 import classes from "./Home.module.css";
-
-const notices = [
-  {
-    date: "2026-06-25",
-    isNew: true,
-    text: "新アイテム「ふえ」が追加されました！",
-  },
-  {
-    date: "2026-03-24",
-    isNew: false,
-    text: "お試し",
-  },
-];
+import { fetchNotice } from "../../api/notice";
+import { useState, useEffect } from "react";
+import NoticeCard from "../common/cards/NoticeCard";
 
 const Home = () => {
+  const [notices, setNotices] = useState([]);
+
+  useEffect(() => {
+    async function loadNotice() {
+      try {
+        const recentNotices = await fetchNotice();
+        setNotices(recentNotices)
+      } catch (error) {
+        console.error(error); 
+      } finally {
+        console.log(loadNotice);
+      }
+    }
+    loadNotice();
+  },[])
+
   return (
     <>
       <div className={classes.contentsWrapper}>
         {" "}
         <h1>一輪車アプリUni-Circleへようこそ！</h1>
-        <div className={classes.noticeContainer}>
-          <div className={classes.noticeTitle}>
-            <h2>お知らせ</h2>
-          </div>
-          <span className={classes.line}></span>
-          {notices.map((notice) => (
-            <div className={classes.noticeItem}>
-              <div className={classes.dateGroup}>
-                {notice.isNew && <span className={classes.new}>NEW!</span>}
-                <p>{notice.date}</p>
-              </div>
-              <div className={classes.noticeText}> {notice.text}</div>
-            </div>
-          ))}
-        </div>
+          <NoticeCard notices={notices}/>
         <div className={classes.imgContainer}>
           <div className={classes.imgWrapper}>
             <div className={classes.commonContainer}>

@@ -1,11 +1,38 @@
 .cardContainer {
-  width: 8rem;
+  width: 9rem;
   border: 0.5px solid rgb(47, 255, 255);
   box-shadow: 2px 2px 2px gray;
   border-radius: 10px;
   background-color: rgb(155, 216, 231);
   text-align: center;
-  margin: 1rem;
+  margin: 0.5rem;
+  position:relative;
+}
+
+.cardCleared{
+  width: 9rem;
+  border: 0.5px solid rgb(47, 255, 255);
+  box-shadow: 2px 2px 2px gray;
+  border-radius: 10px;
+  background-color: rgb(155, 216, 231);
+  text-align: center;
+  margin: 0.5rem;
+  position:relative;
+  filter:grayscale(40%);
+  opacity:0.5;
+}
+
+.clearedSign{
+  position:absolute;
+  right:-5%;
+  top:-5%;
+  background-color: gray;
+  border:2px solid white;
+  border-radius:50%;
+  padding:0 1rem;
+  color:white;
+  font-size:0.75rem;
+  z-index:10;
 }
 
 .levelDisplay {
@@ -14,8 +41,13 @@
   align-items: center;
 }
 
-.level {
-  height: 1.25rem;
+.levelNumber {
+  text-align: center;
+  margin: 0.5rem;
+}
+
+.level{
+    height: 1.25rem;
   width: 1.25rem;
   background-color: white;
   text-align: center;
@@ -35,14 +67,20 @@
 
 .technicalImg {
   width: 100%;
-  height: 7rem;
   margin: auto;
   background-color: white;
+}
+
+.technicalImg img{
+  width:100%;
 }
 
 .detailButton {
   text-align: end;
   margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap:0.5rem;
 }
 
 .detailButton Button{
@@ -57,4 +95,36 @@
   margin: auto;
   padding: 0.25rem 0.5rem;
   box-shadow: 0 4px 8px gray;
+}
+
+.categoryWrapper{
+  display: flex;
+  gap: 1rem;
+  padding:0 2rem;
+  justify-content: center;
+}
+
+.categoryButton{
+  background-color: white;
+  border:1px solid green;
+  border-radius: 10px;
+  color: green;
+  padding:0.25rem 0.75rem;
+  font-size: 0.75rem;;
+}
+
+.skillCategory{
+  text-decoration: none;
+  color:rgb(155, 216, 231);
+  background-color: white;
+  border-radius: 12px;
+  font-size: 0.5rem;
+  text-align: center;
+  margin: auto;
+  padding: 0.25rem 0.25rem;
+}
+
+.modalImg{
+  width:12rem;
+  border-radius: 10px;
 }

@@ -1,0 +1,512 @@
+From f47f910ed93388fb103220753fc12fe0e5477d60 Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Sun, 19 Jul 2026 22:52:58 +0900
+Subject: [PATCH] =?UTF-8?q?TypeScript=E5=8C=96:=20=E3=82=A2=E3=82=A4?=
+ =?UTF-8?q?=E3=83=86=E3=83=A0=E5=8F=96=E5=BE=97=E3=81=A8=E3=83=97=E3=83=AD?=
+ =?UTF-8?q?=E3=83=95=E3=82=A3=E3=83=BC=E3=83=AB=E8=A1=A8=E7=A4=BA?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ package-lock.json                             | 85 +++++++++----------
+ package.json                                  |  7 +-
+ src/api/items.js                              | 15 ----
+ src/api/items.ts                              |  7 ++
+ .../cards/{ItemCard.jsx => ItemCard.tsx}      | 15 ++--
+ .../pages/{Profile.jsx => Profile.tsx}        | 21 ++---
+ src/react-app-env.d.ts                        |  1 +
+ src/types/item.ts                             | 23 +++++
+ tsconfig.json                                 | 20 +++++
+ 9 files changed, 117 insertions(+), 77 deletions(-)
+ delete mode 100644 src/api/items.js
+ create mode 100644 src/api/items.ts
+ rename src/components/common/cards/{ItemCard.jsx => ItemCard.tsx} (71%)
+ rename src/components/pages/{Profile.jsx => Profile.tsx} (75%)
+ create mode 100644 src/react-app-env.d.ts
+ create mode 100644 src/types/item.ts
+ create mode 100644 tsconfig.json
+
+diff --git a/package-lock.json b/package-lock.json
+index dd6afbf..a81c085 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -19,10 +19,15 @@
+         "react-scripts": "5.0.1",
+         "styled-components": "^6.4.2",
+         "web-vitals": "^2.1.4",
++        "zod": "^4.4.3",
+         "zustand": "^5.0.14"
+       },
+       "devDependencies": {
+-        "sass": "^1.100.0"
++        "@types/node": "^26.1.1",
++        "@types/react": "^19.2.17",
++        "@types/react-dom": "^19.2.3",
++        "sass": "^1.100.0",
++        "typescript": "^4.9.5"
+       }
+     },
+     "node_modules/@adobe/css-tools": {
+@@ -2980,7 +2985,6 @@
+       "version": "2.5.6",
+       "resolved": "https://registry.npmjs.org/@parcel/watcher/-/watcher-2.5.6.tgz",
+       "integrity": "sha512-tmmZ3lQxAe/k/+rNnXQRawJ4NjxO2hqiOLTHvWchtGZULp4RyFeh6aU4XdOYBFe2KE1oShQTv4AblOs2iOrNnQ==",
+-      "dev": true,
+       "hasInstallScript": true,
+       "license": "MIT",
+       "optional": true,
+@@ -3020,7 +3024,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3041,7 +3044,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3062,7 +3064,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3083,7 +3084,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3104,7 +3104,6 @@
+       "cpu": [
+         "arm"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3125,7 +3124,6 @@
+       "cpu": [
+         "arm"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3146,7 +3144,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3167,7 +3164,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3188,7 +3184,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3209,7 +3204,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3230,7 +3224,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3251,7 +3244,6 @@
+       "cpu": [
+         "ia32"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3272,7 +3264,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3290,7 +3281,6 @@
+       "version": "4.0.4",
+       "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.4.tgz",
+       "integrity": "sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==",
+-      "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "engines": {
+@@ -4011,12 +4001,12 @@
+       "license": "MIT"
+     },
+     "node_modules/@types/node": {
+-      "version": "25.9.1",
+-      "resolved": "https://registry.npmjs.org/@types/node/-/node-25.9.1.tgz",
+-      "integrity": "sha512-xfrlY7UD5rMJk3ZVJP8BNzS28J36YJg+xp+LPXV1TdWxr8uMH5A860QNxYDGQe/ylDSgjxE52Q9VnO7p75tJxg==",
++      "version": "26.1.1",
++      "resolved": "https://registry.npmjs.org/@types/node/-/node-26.1.1.tgz",
++      "integrity": "sha512-nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw==",
+       "license": "MIT",
+       "dependencies": {
+-        "undici-types": ">=7.24.0 <7.24.7"
++        "undici-types": "~8.3.0"
+       }
+     },
+     "node_modules/@types/node-forge": {
+@@ -4058,6 +4048,26 @@
+       "integrity": "sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==",
+       "license": "MIT"
+     },
++    "node_modules/@types/react": {
++      "version": "19.2.17",
++      "resolved": "https://registry.npmjs.org/@types/react/-/react-19.2.17.tgz",
++      "integrity": "sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==",
++      "devOptional": true,
++      "license": "MIT",
++      "dependencies": {
++        "csstype": "^3.2.2"
++      }
++    },
++    "node_modules/@types/react-dom": {
++      "version": "19.2.3",
++      "resolved": "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.2.3.tgz",
++      "integrity": "sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==",
++      "devOptional": true,
++      "license": "MIT",
++      "peerDependencies": {
++        "@types/react": "^19.2.0"
++      }
++    },
+     "node_modules/@types/resolve": {
+       "version": "1.17.1",
+       "resolved": "https://registry.npmjs.org/@types/resolve/-/resolve-1.17.1.tgz",
+@@ -6911,7 +6921,6 @@
+       "version": "2.1.2",
+       "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",
+       "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==",
+-      "dev": true,
+       "license": "Apache-2.0",
+       "optional": true,
+       "engines": {
+@@ -11891,7 +11900,6 @@
+       "version": "7.1.1",
+       "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-7.1.1.tgz",
+       "integrity": "sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==",
+-      "dev": true,
+       "license": "MIT",
+       "optional": true
+     },
+@@ -16199,23 +16207,6 @@
+         }
+       }
+     },
+-    "node_modules/tailwindcss/node_modules/yaml": {
+-      "version": "2.9.0",
+-      "resolved": "https://registry.npmjs.org/yaml/-/yaml-2.9.0.tgz",
+-      "integrity": "sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==",
+-      "license": "ISC",
+-      "optional": true,
+-      "peer": true,
+-      "bin": {
+-        "yaml": "bin.mjs"
+-      },
+-      "engines": {
+-        "node": ">= 14.6"
+-      },
+-      "funding": {
+-        "url": "https://github.com/sponsors/eemeli"
+-      }
+-    },
+     "node_modules/tapable": {
+       "version": "2.3.3",
+       "resolved": "https://registry.npmjs.org/tapable/-/tapable-2.3.3.tgz",
+@@ -16735,7 +16726,6 @@
+       "resolved": "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz",
+       "integrity": "sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==",
+       "license": "Apache-2.0",
+-      "peer": true,
+       "bin": {
+         "tsc": "bin/tsc",
+         "tsserver": "bin/tsserver"
+@@ -16769,9 +16759,9 @@
+       "license": "MIT"
+     },
+     "node_modules/undici-types": {
+-      "version": "7.24.6",
+-      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.24.6.tgz",
+-      "integrity": "sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==",
++      "version": "8.3.0",
++      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-8.3.0.tgz",
++      "integrity": "sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==",
+       "license": "MIT"
+     },
+     "node_modules/unicode-canonical-property-names-ecmascript": {
+@@ -17913,6 +17903,15 @@
+         "url": "https://github.com/sponsors/sindresorhus"
+       }
+     },
++    "node_modules/zod": {
++      "version": "4.4.3",
++      "resolved": "https://registry.npmjs.org/zod/-/zod-4.4.3.tgz",
++      "integrity": "sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==",
++      "license": "MIT",
++      "funding": {
++        "url": "https://github.com/sponsors/colinhacks"
++      }
++    },
+     "node_modules/zustand": {
+       "version": "5.0.14",
+       "resolved": "https://registry.npmjs.org/zustand/-/zustand-5.0.14.tgz",
+diff --git a/package.json b/package.json
+index 5c5361e..50e490e 100644
+--- a/package.json
++++ b/package.json
+@@ -14,6 +14,7 @@
+     "react-scripts": "5.0.1",
+     "styled-components": "^6.4.2",
+     "web-vitals": "^2.1.4",
++    "zod": "^4.4.3",
+     "zustand": "^5.0.14"
+   },
+   "scripts": {
+@@ -41,6 +42,10 @@
+     ]
+   },
+   "devDependencies": {
+-    "sass": "^1.100.0"
++    "@types/node": "^26.1.1",
++    "@types/react": "^19.2.17",
++    "@types/react-dom": "^19.2.3",
++    "sass": "^1.100.0",
++    "typescript": "^4.9.5"
+   }
+ }
+diff --git a/src/api/items.js b/src/api/items.js
+deleted file mode 100644
+index d202821..0000000
+--- a/src/api/items.js
++++ /dev/null
+@@ -1,15 +0,0 @@
+-export async function fetchItems() {
+-    const response = await fetch(`http://localhost:8000/api/items`, {
+-        credentials: "include",
+-        headers: {
+-            Accept: "application/json"
+-        }
+-    });
+-
+-    if (!response.ok) {
+-        throw new Error("Fail to fetch item");
+-    }
+-    
+-    const data = await response.json()
+-    return data;
+-}
+\ No newline at end of file
+diff --git a/src/api/items.ts b/src/api/items.ts
+new file mode 100644
+index 0000000..41fe1c3
+--- /dev/null
++++ b/src/api/items.ts
+@@ -0,0 +1,7 @@
++import axios from "./axios";
++import { itemsSchema, type Item } from "../types/item";
++
++export async function fetchItems(): Promise<Item[]> {
++    const response = await axios.get("/api/items");
++    return itemsSchema.parse(response.data);
++}
+diff --git a/src/components/common/cards/ItemCard.jsx b/src/components/common/cards/ItemCard.tsx
+similarity index 71%
+rename from src/components/common/cards/ItemCard.jsx
+rename to src/components/common/cards/ItemCard.tsx
+index 1c7c4e7..a29f2a9 100644
+--- a/src/components/common/cards/ItemCard.jsx
++++ b/src/components/common/cards/ItemCard.tsx
+@@ -1,9 +1,14 @@
+ import classes from "./ItemCard.module.css";
++import type { Item } from "../../../types/item";
+ 
+-function ItemCard({ items, ownedItemIds }) {
++interface ItemCardProps {
++  items: Item[];
++  ownedItemIds: number[];
++}
++
++function ItemCard({ items, ownedItemIds }: ItemCardProps) {
+   return (
+-    <>
+-      <div className={classes.itemContainer}>
++    <div className={classes.itemContainer}>
+         {items.map((item) => {
+           const owned = ownedItemIds.includes(item.id);
+           return (
+@@ -14,6 +19,7 @@ function ItemCard({ items, ownedItemIds }) {
+                     src={item.avatar_path}
+                     className={classes.itemAvatar}
+                     key={item.id}
++                    alt={item.name}
+                   />
+                   <p>{item.name}</p>
+                 </>
+@@ -23,8 +29,7 @@ function ItemCard({ items, ownedItemIds }) {
+             </div>
+           );
+         })}
+-      </div>
+-    </>
++    </div>
+   );
+ }
+ 
+diff --git a/src/components/pages/Profile.jsx b/src/components/pages/Profile.tsx
+similarity index 75%
+rename from src/components/pages/Profile.jsx
+rename to src/components/pages/Profile.tsx
+index 286205f..c023889 100644
+--- a/src/components/pages/Profile.jsx
++++ b/src/components/pages/Profile.tsx
+@@ -1,4 +1,3 @@
+-import React from "react";
+ import MemberCard from "../common/cards/MemberCard";
+ import AnimalCard from "../common/cards/AnimalCard";
+ import { Link } from "react-router-dom";
+@@ -7,33 +6,29 @@ import { useAuthStore } from "../../stores/authStore";
+ import ItemCard from "../common/cards/ItemCard";
+ import { fetchItems } from "../../api/items";
+ import { useState, useEffect } from "react";
+-import { fetchUsers } from "../../api/users";
++import type { Item } from "../../types/item";
+ 
+ function Profile() {
+   const user = useAuthStore((state) => state.user);
+-  const setUser = useAuthStore((state) => state.setUser);
+-  const [items, setItems] = useState([]);
+-  const [userItems, setUserItems] = useState([]);
++  const [items, setItems] = useState<Item[]>([]);
++  const [userItems, setUserItems] = useState<Item[]>([]);
+ 
+   useEffect(() => {
+     async function loadItems() {
+       try {
+-        const Items = await fetchItems();
+-        console.log(items);
+-        setItems(Items);
++        const fetchedItems = await fetchItems();
++        setItems(fetchedItems);
+         if (user && user.user_items) {
+-          console.log("user.items", user?.items);
+           setUserItems(user.user_items);
+         }
+       } catch (err) {
+         console.error(err);
+-      } 
++      }
+     }
+-    if(user)loadItems();
++    if (user) loadItems();
+   }, [user]);
+ 
+-  const ownedItemIds = userItems.map(item => item.id);
+-console.log("ownedItemIds", ownedItemIds);
++  const ownedItemIds = userItems.map((item) => item.id);
+   if (!user) {
+     return <p>読み込み中</p>;
+   }
+diff --git a/src/react-app-env.d.ts b/src/react-app-env.d.ts
+new file mode 100644
+index 0000000..6431bc5
+--- /dev/null
++++ b/src/react-app-env.d.ts
+@@ -0,0 +1 @@
++/// <reference types="react-scripts" />
+diff --git a/src/types/item.ts b/src/types/item.ts
+new file mode 100644
+index 0000000..f86df1b
+--- /dev/null
++++ b/src/types/item.ts
+@@ -0,0 +1,23 @@
++import { z } from "zod";
++
++export const itemSchema = z
++  .object({
++    id: z.number().int().positive(),
++    name: z.string(),
++    required_skill: z.number().int().nonnegative().nullable().optional(),
++    avatar_path: z.string(),
++    created_at: z.string().nullable().optional(),
++    updated_at: z.string().nullable().optional(),
++  })
++  .passthrough();
++
++export const itemsSchema = z.array(itemSchema);
++
++export type Item = z.infer<typeof itemSchema>;
++
++export interface UserItem {
++  id: number;
++  item_id: number;
++  is_equipped?: boolean;
++  item?: Item;
++}
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..9d379a3
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,20 @@
++{
++  "compilerOptions": {
++    "target": "es5",
++    "lib": ["dom", "dom.iterable", "esnext"],
++    "allowJs": true,
++    "skipLibCheck": true,
++    "esModuleInterop": true,
++    "allowSyntheticDefaultImports": true,
++    "strict": true,
++    "forceConsistentCasingInFileNames": true,
++    "noFallthroughCasesInSwitch": true,
++    "module": "esnext",
++    "moduleResolution": "node",
++    "resolveJsonModule": true,
++    "isolatedModules": true,
++    "noEmit": true,
++    "jsx": "react-jsx"
++  },
++  "include": ["src"]
++}
+-- 
+2.51.1
+

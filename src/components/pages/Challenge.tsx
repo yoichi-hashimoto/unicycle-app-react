@@ -5,9 +5,10 @@ import { fetchChallenges } from "../../api/challenges";
 import ScrollToTop from "../common/button/ScrollButton";
 import Button from "../common/button/Button";
 import Loading from "../common/modal/Loading";
+import type { ChallengeType } from "../common/type/challenge";
 
 function Challenge({ showButton = true }) {
-  const [challenges, setChallenges] = useState([]);
+  const [challenges, setChallenges] = useState<ChallengeType[]>([]);
   const [loading, setLoading] = useState(false);
   const sortByLevel = () => {
     const sortedChallenge = [...challenges].sort(
@@ -23,7 +24,8 @@ function Challenge({ showButton = true }) {
   };
   const sortByDate = () => {
     const youngerChallenge = [...challenges].sort(
-      (a, b) => new Date(b.created_at) - new Date( a.created_at),
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     );
     setChallenges(youngerChallenge);
   };
@@ -34,7 +36,7 @@ function Challenge({ showButton = true }) {
         const challenges = await fetchChallenges();
         setChallenges(challenges);
       } catch (err) {
-        console.err(err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -45,20 +47,22 @@ function Challenge({ showButton = true }) {
   return (
     <div className={classes.contentsWrapper}>
       <h1>みんなのチャレンジ</h1>
-      
-      {loading && <Loading/>}
+
+      {loading && <Loading />}
       <div className={classes.sortbuttonWrapper}>
         <Button variant="outline" onClick={sortByDate}>
           新しい順
         </Button>
-        <Button onClick={sortByLevel} variant="outline" color="primary">
+        <Button onClick={sortByLevel} variant="outline">
           レベル順
         </Button>
         <Button onClick={sortByLike} variant="outline">
           ❤の数順
         </Button>
       </div>
-      <p style={{textAlign:"center",color:"red"}}>❤を押すにはログインしてください</p>
+      <p style={{ textAlign: "center", color: "red" }}>
+        ❤を押すにはログインしてください
+      </p>
       <div className={classes.challengeContainer}>
         {challenges.map((challenge) => (
           <HistoryCard key={challenge.id} history={challenge} />

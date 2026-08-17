@@ -62,6 +62,13 @@ function Header() {
               </button>
             </>
           )}
+          {!isLoggedIn && (
+            <>
+              <Link className={classes.link} to="/login">
+                <span>ログイン</span>
+              </Link>
+            </>
+        )}
         </nav>
         <button onClick={() => setIsOpen(true)} className={classes.hamburger}>
           <span></span>

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import MemberCard from "../common/cards/MemberCard";
-import Button from "./../common/button/Button";
+import Button from "../common/button/Button";
 import classes from "./PageCommon.module.css";
 import { fetchUsers } from "../../api/users";
 import Loading from "../common/modal/Loading";
+import type { UserType } from "../common/type/user"; 
 
 function Ranking() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
 
   const sortByCreated = () => {
@@ -55,7 +56,7 @@ function Ranking() {
       <h1>ランキング</h1>
       <div className={classes.sortbuttonWrapper}>
         <Button variant="outline" onClick={sortByCreated}>新しい順</Button>
-        <Button onClick={sortByLevel} variant="outline" color="primary">
+        <Button onClick={sortByLevel} variant="outline">
           レベル順
         </Button>
         <Button onClick={sortByLike} variant="outline">
@@ -68,7 +69,6 @@ function Ranking() {
             key={user.id}
             member={user}
             level={user.current_level}
-            skill={user.skill}
             success={user.success_score ?? null}
           />
         ))}

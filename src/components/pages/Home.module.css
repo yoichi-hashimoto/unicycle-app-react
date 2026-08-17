@@ -13,27 +13,6 @@
   text-align: center;
 }
 
-
-.noticeContainer{
-  border-radius: 15px;
-  width: 80%;
-  margin: 3rem auto;
-  overflow: hidden;
-  z-index: 3;
-}
-
-.noticeTitle{
-  color: white;
-  background-color: rgb(80, 186, 35);
-  margin:1px;
-}
-
-.noticeContainer h2{
-  font-size: 1rem;
-  padding:0.25rem;
-  margin:0;
-}
-
 .new{
   background-color: white;
   padding:0.125rem 0.5rem;
@@ -98,7 +77,7 @@
 }
 
 .imgWrapper {
-  width: 100%;
+  width: 70%;
   display: flex;
   animation: slideAnime 18s linear infinite;
   gap: 10%;

@@ -1,4 +1,3 @@
-import React from "react";
 import MemberCard from "../common/cards/MemberCard";
 import AnimalCard from "../common/cards/AnimalCard";
 import { Link } from "react-router-dom";
@@ -7,22 +6,23 @@ import { useAuthStore } from "../../stores/authStore";
 import ItemCard from "../common/cards/ItemCard";
 import { fetchItems } from "../../api/items";
 import { useState, useEffect } from "react";
-import { fetchUsers } from "../../api/users";
+import type { ItemType } from "../common/type/item";
+
+type UserItemType = {
+  item_id:number;
+}
 
 function Profile() {
   const user = useAuthStore((state) => state.user);
-  const setUser = useAuthStore((state) => state.setUser);
-  const [items, setItems] = useState([]);
-  const [userItems, setUserItems] = useState([]);
+  const [items, setItems] = useState<ItemType[]>([]);
+  const [userItems, setUserItems] = useState<UserItemType[]>([]);
 
   useEffect(() => {
     async function loadItems() {
       try {
         const Items = await fetchItems();
-        console.log(items);
         setItems(Items);
         if (user && user.user_items) {
-          console.log("user.items", user?.items);
           setUserItems(user.user_items);
         }
       } catch (err) {
@@ -32,7 +32,7 @@ function Profile() {
     if(user)loadItems();
   }, [user]);
 
-  const ownedItemIds = userItems.map(item => item.id);
+  const ownedItemIds = userItems.map((item) => item.item_id);
 console.log("ownedItemIds", ownedItemIds);
   if (!user) {
     return <p>読み込み中</p>;
@@ -50,10 +50,12 @@ console.log("ownedItemIds", ownedItemIds);
         />
         <AnimalCard
           animal={user.current_animal}
+          item={user.equipped_item_path}
           remainLevel={user.remain_level}
           currentLevel={user.current_level}
         />
       </div>
+
       <div>
         <ItemCard items={items} ownedItemIds={ownedItemIds} />
       </div>

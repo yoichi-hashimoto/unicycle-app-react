@@ -26,7 +26,9 @@ function Edit() {
   const [avatars, setAvatars] = useState([]);
   const [colors, setColors] = useState([]);
   const [userItems, setUserItems] = useState([]);
-  const [equippedItemId, setEquippedItemId] = useState(user?.equipped_item_id ?? null);
+  const [equippedItemId, setEquippedItemId] = useState(
+    user?.equipped_item_id ?? null,
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState({
     message: "",
@@ -40,7 +42,6 @@ function Edit() {
       setToast({ message: "", type: "" });
     }, 2500);
   }
-
 
   const [formData, setFormData] = useState({
     name: "",
@@ -73,13 +74,11 @@ function Edit() {
     });
   }, []);
 
-  
   useEffect(() => {
     if (user?.user_items) {
       setUserItems(user.user_items);
     }
   }, [user]);
-
 
   if (!user) {
     return <Toast>ログインしてください</Toast>;
@@ -105,8 +104,8 @@ function Edit() {
 
   const handleEquipItem = async (userItemId) => {
     try {
-          setIsLoading(true);
-      const response = await axios.patch(`/api/user_item/${userItemId}`) 
+      setIsLoading(true);
+      const response = await axios.patch(`/api/user_item/${userItemId}`);
       setEquippedItemId(response.data.user_item.id);
       setUser({
         ...user,
@@ -116,8 +115,8 @@ function Edit() {
       console.error(error);
       setToast({
         message: "アイテムの変更に失敗しました",
-        type:"error",
-      })
+        type: "error",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -167,6 +166,7 @@ function Edit() {
         />
         <AnimalCard
           animal={user.current_animal}
+          item={user.equipped_item_path}
           remainLevel={user.remain_level}
           currentLevel={user.current_level}
         />
@@ -205,7 +205,7 @@ function Edit() {
             背景を選択する
           </Button>
           <Modal
-            isColorOpen={isColorOpen}
+            isOpen={isColorOpen}
             onClose={() => {
               setIsColorOpen(false);
             }}
@@ -230,7 +230,7 @@ function Edit() {
             アイテムを変更する
           </Button>
           <Modal
-            isItemOpen={isItemOpen}
+            isOpen={isItemOpen}
             onClose={() => {
               setIsItemOpen(false);
             }}
@@ -245,7 +245,11 @@ function Edit() {
                     onClick={() => handleEquipItem(userItem.id)}
                     className={classes.usersItems}
                   >
-                    <img src={userItem.item.avatar_path} alt="" className={classes.itemsImage} />
+                    <img
+                      src={userItem.item.avatar_path}
+                      alt=""
+                      className={classes.itemsImage}
+                    />
                   </button>
                   <p>{userItem.item.name}</p>
                 </div>

@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             SkillSeeder::class,
             ChallengeSeeder::class,
             LikeSeeder::class,
+            NoticeSeeder::class,
         ]);
     }
 }

@@ -14,6 +14,7 @@ import Technical from "./components/pages/Technical";
 import Delete from "./components/pages/admin/Delete";
 import Register from "./components/pages/admin/Register";
 import Test from "./components/pages/admin/Test";
+import Notice from "./components/pages/Notice";
 import { useAuthStore } from "./stores/authStore";
 import { fetchLoginUser } from "./api/auth";
 import AdminRoute from "./components/common/routes/AdminRoute";
@@ -48,6 +49,8 @@ function App() {
             <Route path="/register" element={<AdminRoute><Register/></AdminRoute>}/>
             <Route path="/test" element={<AdminRoute><Test /></AdminRoute>} />
             <Route path="/delete" element={<AdminRoute><Delete /></AdminRoute>} />
+            <Route path="/notice" element=
+              {<Notice />} />
           </Routes>
         </Main>
         <Footer />
