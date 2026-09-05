@@ -18,13 +18,14 @@ class DatabaseSeeder extends Seeder
             ItemSeeder::class,        
             ColorSeeder::class,
             AvatarSeeder::class,
+            AnimalSeeder::class,
             UserSeeder::class,
             UserItemsSeeder::class,
-            AnimalSeeder::class,
             SkillSeeder::class,
             ChallengeSeeder::class,
             LikeSeeder::class,
             NoticeSeeder::class,
+            PointSeeder::class,
         ]);
     }
 }

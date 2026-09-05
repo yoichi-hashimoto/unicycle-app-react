@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_avatar_id')->constrained()->cascadeOnDelete();
             $table->foreignId('color_id')->constrained()->cascadeOnDelete()->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->foreignId('last_seen_animal_id')->nullable()->constrained('animals')->nullOnDelete();
             $table->timestamps();
         });
     }

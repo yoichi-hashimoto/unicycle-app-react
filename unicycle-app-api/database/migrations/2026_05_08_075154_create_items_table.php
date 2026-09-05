@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('required_skill')->unsigned();
             $table->string('avatar_path')->nullable();
+            $table->integer('required_point')->nullable();
             $table->timestamps();
         });
     }

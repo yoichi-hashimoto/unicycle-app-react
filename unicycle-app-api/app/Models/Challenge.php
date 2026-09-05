@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UserItem;
+use App\Models\Skill;
 
 class Challenge extends Model
 {
-    protected $fillable = ['user_id','skill_id','success_score'];
+    protected $fillable = ['user_id','skill_id','success_score','earned_point'];
 
     public function user()
     {
@@ -51,7 +52,7 @@ class Challenge extends Model
 
     public function getCurrentLevelAttribute()
     {
-        return $this->skill ? $this->skill->level : null;
+        return $this->skill ? $this->skill->required_level : null;
     }
 
     public function getReceivedLikesAttribute()

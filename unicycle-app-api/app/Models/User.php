@@ -13,6 +13,8 @@ use App\Models\UserAvatar;
 use App\Models\Animal;
 use App\Models\UserItem;
 use App\Models\Items;
+use App\Models\Challenge;
+use App\Models\Skill;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -36,6 +38,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_admin' =>'boolean',
             'equipped_item_id'=>'boolean',
+            'last_seen_animal_id' =>'integer',
         ];
     }
 
@@ -70,14 +73,16 @@ class User extends Authenticatable
     public function getCurrentLevelAttribute()
     {
         $challenge = Challenge::where('user_id',$this->id)
+        ->where('skill_id','<',26)
         ->orderByDesc('id')->first();
+
 
         if(!$challenge){
             return 1;
         }
-        return $challenge->success_score >= 3
-        ? $challenge->skill_id +1
-        : $challenge->skill_id;
+        return $challenge->success_score >= 3 && $challenge->skill_id>=26
+        ? 26
+        : $challenge->skill_id+1;
         ;
     }
 
@@ -88,6 +93,9 @@ class User extends Authenticatable
 
         return $animal ? $animal: null;
     }
+
+    public function lastSeenAnimal(){
+    return $this->belongsTo(Animal::class,'last_seen_animal_id');}
 
     public function getReceivedLikesAttribute()
     {
@@ -101,7 +109,7 @@ class User extends Authenticatable
 
 
     public function getSkillNameAttribute(){
-        return Skill::where('level',$this->current_level)->first()->name ?? null;
+        return Skill::where('required_level',$this->current_level)->first()->name ?? null;
     }
 
     public function getSuccessScoreAttribute(){
@@ -117,13 +125,40 @@ class User extends Authenticatable
         : $challenge->success_score;
     }
 
+    public function getEarnedPointsAttribute(){
+        return Challenge::where('user_id',$this->id)->sum('earned_point') ;
+    }
+
     public function userItems()
     {
-        return  UserItem::where('user_id',$this->id)->with('item')->get();
+        return $this->hasMany(UserItem::class,'user_id');
+    }
+
+    public function getUserItemAttribute(){
+        return $this->userItems()->with('item')->get();
     }
 
     public function getEquippedItemPathAttribute(){
         return $this->userItems()->where('is_equipped',true)?->first()?->item?->avatar_path;
+    }
+
+    public function getRemainSkillsAttribute(){
+        $basicSkill = $this->current_level <= 25 ?
+            Skill::where('required_level','=',$this->current_level)
+            ->first() :collect();
+
+        $nextSkill = Skill::whereIn('category',['ソロ中級','ペア'])->whereDoesntHave('challenges',function($query){
+            $query->where('user_id',$this->id);
+        })->get();
+
+        return [
+            'basic_skill' =>$basicSkill,
+            'next_skill'=>$nextSkill,
+        ];
+    }
+
+    public function points(){
+        return $this->hasMany(Point::class,'user_id');
     }
 
 }

@@ -41,7 +41,7 @@ class AnimalSeeder extends Seeder
             ],[
                 'name' => 'くま',
                 'avatar_path' => './images/animals/stand_bear.png',
-                                'avatar_path_walk' => './images/animals/walk_chick.png',
+                'avatar_path_walk' => './images/animals/walk_bear.png',
                 'required_level' => 26,
             ]]);
     }

@@ -7,6 +7,25 @@ import NoticeCard from "../common/cards/NoticeCard";
 
 const Home = () => {
   const [notices, setNotices] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+  const slides = [
+    {
+      title: "キャラクター設定",
+      image: "./images/users/users_all.png",
+      text: "50種類以上のキャラクターイラストから自分の好きなアバターを選択できるよ。",
+    },
+    {
+      title: "スキルにチャレンジ",
+      image: "./images/skill_test.png",
+      text: "スキルにチャレンジして3回成功するとレベルがあがるよ。チャレンジに❤を押して仲間をおうえんしよう！",
+    },
+    {
+      title: "どうぶつとレベルアップ",
+      image: "./images/animals/animal_circle.png",
+      text: "スキルをクリアすると、レベルに応じてどうぶつランクがつくよ。ポイントのもらえるスキルに挑戦してアイテムを手にいれよう！",
+    },
+  ];
 
   useEffect(() => {
     async function loadNotice() {
@@ -20,7 +39,19 @@ const Home = () => {
       }
     }
     loadNotice();
-  },[])
+  }, [])
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false);
+
+      setTimeout(() => {
+        setCurrentSlide((prev) => (prev + 1) % 3);
+        setIsVisible(true);
+      }, 1000);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -30,55 +61,12 @@ const Home = () => {
           <NoticeCard notices={notices}/>
         <div className={classes.imgContainer}>
           <div className={classes.imgWrapper}>
-            <div className={classes.commonContainer}>
-              <h2>キャラクター設定</h2>
-              <img src="./images/users/users_all.png"></img>
+            <div className={`${classes.commonContainer} ${isVisible ? classes.fadeIn : classes.fadeOut}`}>
+              <h2>{slides[currentSlide].title}</h2>
+              <img src={slides[currentSlide].image}></img>
               <p>
-                50種類以上のキャラクターイラストから自分の好きなアバターを選択できるよ。
+                { slides[currentSlide].text }
               </p>
-            </div>
-            <div className={classes.commonContainer}>
-              <h2>どうぶつとレベルアップ</h2>
-              <img
-                src="./images/animals/animals_home1.png"
-                alt="animals_beginner"
-              />
-              <p>
-                スキルをクリアするとレベルアップして、レベルに応じてどうぶつランクがつくよ。わざに合格すると秘密のアイテムも手にはいるよ！
-              </p>
-            </div>
-            <div className={classes.commonContainer}>
-              <h2>スキルにチャレンジ</h2>
-              <img src="./images/history_like.png" alt="" />
-              <p>
-                全25個のスキルにチャレンジして3回成功するとレベルがあがるよ。
-              </p>
-              <p>チャレンジに❤を押して仲間をおうえんしよう！</p>
-            </div>
-            <div className={classes.commonContainer}>
-              <h2>キャラクター設定</h2>
-              <img src="./images/users/users_all.png"></img>
-              <p>
-                50種類以上のキャラクターイラストから自分の好きなアバターを選択できるよ。
-              </p>
-            </div>
-            <div className={classes.commonContainer}>
-              <h2>どうぶつとレベルアップ</h2>
-              <img
-                src="./images/animals/animals_home1.png"
-                alt="animals_beginner"
-              />
-              <p>
-                スキルをクリアするとレベルアップして、レベルに応じてどうぶつランクがつくよ。わざに合格すると秘密のアイテムも手にはいるよ！
-              </p>
-            </div>
-            <div className={classes.commonContainer}>
-              <h2>スキルにチャレンジ</h2>
-              <img src="./images/history_like.png" alt="" />
-              <p>
-                全25個のスキルにチャレンジして3回成功するとレベルがあがるよ。
-              </p>
-              <p>チャレンジに❤を押して仲間をおうえんしよう！</p>
             </div>
           </div>
         </div>

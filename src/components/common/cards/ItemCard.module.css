@@ -18,7 +18,7 @@
   display: flex;
   flex-wrap: wrap;
   gap:1rem;
-  justify-content: space-evenly;
+  justify-content: start;
   margin:1rem;
 }
 
@@ -83,7 +83,7 @@
 .getPoint{
   background-color: beige;
   color: black;
-  border:1px solid black;
+  border:none;
   border-radius: 25px;
   padding:0.125rem 1rem;
   display: flex;

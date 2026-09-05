@@ -78,6 +78,21 @@ class UserController extends Controller
        return new UserResource($user);
     }
 
+    public function updateAnimalSeen(Request $request ,User $user){
+        $request->validate([
+            'last_seen_animal_id'=>[
+                'nullable',
+                'exists:animals,id'
+            ],]);
+
+        $user->last_seen_animal_id = $request->last_seen_animal_id;
+        $user->save();
+
+        $user->refresh();
+
+        return response()->json($user);
+    }
+
     public function destroy($id)
     {
         

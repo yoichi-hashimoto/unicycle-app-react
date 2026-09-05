@@ -30,24 +30,20 @@ function Technical() {
   }, []);
 
   const filterBasicSkills = () => {
-    const filterdBasic = allSkills.filter((skill) => skill.level <= 25);
+    const filterdBasic = allSkills.filter((skill) => skill.required_level <= 25);
     setSkills(filterdBasic);
   };
 
   const filterSoloSkills = () => {
     const filterdSolo = allSkills.filter(
-      (skill) => skill.performance_type === "ソロ" && skill.level >= 26,
+      (skill) => skill.category=== 'ソロ中級',
     );
     setSkills(filterdSolo);
   };
 
-  const resetSkills = () => {
-    setSkills(allSkills);
-  };
-
   const filterPairSkills = () => {
     const filterdPair = allSkills.filter(
-      (skill) => skill.performance_type === "ペア",
+      (skill) => skill.category === "ペア",
     );
     setSkills(filterdPair);
   };
@@ -61,13 +57,10 @@ function Technical() {
           基礎
         </Button>
         <Button onClick={filterSoloSkills} variant="outline" color="primary">
-          ソロ上級
+          ソロ中級
         </Button>
         <Button onClick={filterPairSkills} variant="outline">
           ペア
-        </Button>
-        <Button onClick={resetSkills} variant="outline">
-          すべて
         </Button>
       </div>
       <div className={classes.cardContainer}>

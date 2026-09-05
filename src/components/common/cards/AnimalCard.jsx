@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from "./Animal.module.scss";
 
-function AnimalCard({ animal, remainLevel, currentLevel,item }) {
+function AnimalCard({ animal, remainLevel, currentLevel }) {
   const positions = [
     { bottom: 5, left: 40 }, // Lv1
     { bottom: 35, left: 70 }, // Lv2
@@ -35,9 +35,6 @@ function AnimalCard({ animal, remainLevel, currentLevel,item }) {
                 left: `${position.left}px`,
               bottom:`${position.bottom}px`}}
             />
-            {item.equipped_item_path ?
-              <img src={item.equipped_item_path} alt="装備中アイテム" className={classes.itemImage}
-                style={{ left: `${position.left}px`, bottom: `${position.bottom}px` }} /> : null}
             <div className={classes.remainLevel}>
               <p>あと<br></br>{remainLevel}レベル</p>
             </div>

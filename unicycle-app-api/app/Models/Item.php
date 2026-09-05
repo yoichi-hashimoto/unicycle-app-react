@@ -8,8 +8,8 @@ class Item extends Model
 {
     protected $fillable = [
         'name',
-        'required_skill',
         'avatar_path',
+        'required_point',
     ];
 
     public function users()

@@ -29,26 +29,31 @@
   justify-content: space-between;
 }
 
+.selector{
+  display: flex;
+  flex-direction: column;
+  gap:0.5rem;
+}
+
 .challengeSelector {
   display: flex;
   flex-direction: column;
   background-color: rgb(253, 197, 197);
   border-radius: 10px;
   padding: 1rem;
-  height: 100%;
   box-shadow: 1px 1px 1px gray;
-  margin-top: 1rem;
 }
 
 .challengeSelector h2 {
   font-size: 1rem;
+  margin:0 0 1rem;
 }
 
 .challengeSelector select {
   font-size: 1rem;
   border-radius: 1rem;
   text-align: center;
-  padding: 0.5rem;
+  padding: 0.25rem;
 }
 
 .challengeSelector p {
@@ -71,7 +76,7 @@
 
 .nextChallenge h2 {
   font-size: 1rem;
-  margin: 0;
+  margin: 0.5rem;
 }
 
 .nextChallenge p {
@@ -85,6 +90,8 @@
 .starContainer {
   background-color: white;
   border-radius: 10p;
+  display: flex;
+  flex-direction: column;
 }
 
 .star {
@@ -114,4 +121,12 @@
 .submitButton{
   margin: auto;
   text-align: center;
+}
+
+.challengeSkill select{
+  text-align: center;
+  padding: 0.125rem;
+  border-radius: 5rem;
+  font-size: 1rem;
+  margin: 1rem;
 }

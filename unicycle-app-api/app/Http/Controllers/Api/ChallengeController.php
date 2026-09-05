@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\Challenge;
 use App\Http\Resources\ChallengeResource;
+use App\Models\Point;
+use Illuminate\Support\Facades\DB;
 
 class ChallengeController extends Controller
 {
@@ -17,23 +19,31 @@ class ChallengeController extends Controller
     {
         $validate = $request->validate([
             'user_id' => ["integer"],
-            'current_level' =>["integer"],
             'success_score' => ["integer"],
+            'skill_id'=>["integer"],
+            'earned_point'=>["integer"],
         ]);
 
-        if(!empty($validate['user_id'])){
-            $challenge->user_id = $validate['user_id'];
-        }
+        DB::transaction(function() use($challenge,$validate){
 
-        if(!empty($validate['current_level'])){
-            $challenge->skill_id = $validate['current_level'];
-        }
+        $challenge->user_id = $validate['user_id'];
+        $challenge->skill_id = $validate['skill_id'];
+        $challenge->success_score = $validate['success_score'];
+        $challenge->save();
 
-        if(!empty($validate['success_score'])){
-            $challenge->success_score = $validate['success_score'];
-        }
+        if(!empty ($validate['earned_point'])){
+            $point = new Point;
 
-        $challenge ->save();
+            $point->user_id =$validate['user_id'];
+            $point->points = $validate['earned_point'];
+
+            $point->save();
+            }
+    });
+
+        return response()->json([
+            'message'=>'チャレンジを登録しました'
+        ],201);
     }
 
     public function update(Request $request, $id)

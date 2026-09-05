@@ -30,13 +30,16 @@ class UserResource extends JsonResource
             'skill_name'=>$this->skill_name,
             'received_likes' => $this->received_likes,
             'current_level' => $this->current_level,
-            'current_animal' => $this->current_animal,
             'avatar_path_walk'=>$this->avatar_path_walk,
             'remain_level' => $this->remain_level,
             'success_score' => $this->success_score,
             'color_path' => $this->color_path,
-            'user_items' =>$this->userItems(),
             'equipped_item_path' => $this->equipped_item_path,
+            'earned_points'=>$this->earned_points,
+            'user_items' =>$this->user_item,
+            'current_animal' => $this->current_animal,
+            'remain_skills'=>$this->remain_skills,
+            'last_seen_animal'=>$this->lastSeenAnimal,
         ];
     }
 }

@@ -130,6 +130,7 @@ function Edit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("送信前formData", formData);
+    
     setIsLoading(true);
     try {
       await axios.get("./sanctum/csrf-cookie");
@@ -263,7 +264,7 @@ function Edit() {
             type="text"
             name="name"
             value={formData.name}
-            placeholder={user.name}
+            placeholder={`${user.name}←6文字以内で入力してください`}
             onChange={handleChange}
           />
           <label htmlFor="">今のパスワード</label>{" "}

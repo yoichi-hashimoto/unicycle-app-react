@@ -23,8 +23,6 @@
   font-size: 0.75rem;
 }
 
-
-
 .noticeItem{
   display: grid;
   grid-template-columns:0.5fr 2fr;
@@ -57,49 +55,39 @@
 .imgContainer {
   width: 100%;
   height: 100%;
-  overflow: hidden;
   position: relative;
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 15%,
-    black 55%,
-    transparent 100%
-  );
-
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 15%,
-    black 55%,
-    transparent 100%
-  );
 }
 
 .imgWrapper {
-  width: 70%;
+  width: 100%;
   display: flex;
-  animation: slideAnime 18s linear infinite;
-  gap: 10%;
-}
-
-@keyframes slideAnime {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(calc(-1 * (76vw * 3 + 10vw * 3)));
-  }
+  margin: auto;
 }
 
 .commonContainer {
-  border: solid 2px green;
-  border-radius: 10px;
+  /* border: solid 2px green;
+  border-radius: 10px; */
   object-fit: contain;
   background-color: rgb(247, 247, 234);
   flex: 0 0 75%;
+  opacity: 1;
+  transition: opacity 1.0s ease-in-out;
+  margin: auto;
 }
+
+.commonContainer img{
+  height: 100%;
+  width: 10rem;
+}
+
+.fadeIn {
+  opacity: 1;
+}
+
+.fadeOut {
+  opacity: 0;
+}
+
 
 .commonContainer h2 {
   margin: 0;
@@ -131,7 +119,8 @@
 
 @media (min-width: 768px) {
   .commonContainer{
-    flex:0 0 20%;
+    width: 50%;
+    margin:auto;
   }
 
   .commonContainer h2{
@@ -150,20 +139,11 @@
   .imgWrapper {
   width: 100%;
   display: flex;
-  animation: slideAnime 22s linear infinite;
-  margin:3rem;
+  flex-direction: column;
   gap: 10%;
 }
 
-@keyframes slideAnime  {
-  from {
-    transform: translateX(0);
-  }
 
-  to {
-    transform: translateX(calc(-1 * (29vw * 3 + 6vw * 3)));
-  }
-}
 }
 
 

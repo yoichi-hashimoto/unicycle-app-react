@@ -15,43 +15,43 @@ class ItemSeeder extends Seeder
     {
         Item::insert([[
             'name'=>'ハチ',
-            'required_skill'=>1,
+            'required_point'=>10,
             'avatar_path'=>'./images/items/bee_smile.png',
         ],[
             'name'=>'ちょうちょ',
-            'required_skill'=>2,
+             'required_point'=>10,
             'avatar_path'=>'./images/items/butterfly_smile.png',
         ],[
             'name'=>'はな',
-            'required_skill'=>3,
+            'required_point'=>10,
             'avatar_path'=>'./images/items/flower_smile.png',
         ],[
             'name'=>'キウイ',
-            'required_skill'=>4,
+            'required_point'=>10,
             'avatar_path'=>'./images/items/kiwi.png',
         ],[
-            'name'=>'月と星',
-            'required_skill'=>5,
+            'name'=>'月',
+            'required_point'=>10,
             'avatar_path'=>'./images/items/moon&star_smile.png',
         ],[
             'name'=>'なし',
-            'required_skill'=>6,
+            'required_point'=>10,
             'avatar_path'=>'./images/items/none.png',
         ],[
             'name'=>'いちご',
-            'required_skill'=>7,
+            'required_point'=>10,
             'avatar_path'=>'./images/items/strawberry.png',
         ],[
             'name'=>'トマト',
-            'required_skill'=>8,
+            'required_point'=>10,
             'avatar_path'=>'./images/items/tomato.png',
         ],[
             'name'=>'おひさま',
-            'required_skill'=>9,
+            'required_point'=>10,
             'avatar_path'=>'./images/items/sun_smile.png',
         ],[
             'name'=>'UFO',
-            'required_skill'=>10,
+            'required_point'=>10,
             'avatar_path'=>'./images/items/ufo_smile.png',
         ]]);
     }

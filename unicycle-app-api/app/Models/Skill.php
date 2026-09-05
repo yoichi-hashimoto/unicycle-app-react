@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Skill extends Model
 {
-    protected $fillable = ['name', 'description','avatar_path','movie_path','level','animal_id'];
+    protected $fillable = ['name', 'description','avatar_path','movie_path','required_level','animal_id','point'];
 
     public function challenges()
     {
