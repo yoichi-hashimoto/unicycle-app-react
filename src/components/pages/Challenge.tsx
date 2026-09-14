@@ -84,7 +84,7 @@ function Challenge({ showButton = true }) {
               <li>レベルアップなら”基礎”、アイテムゲットなら”ソロ中級”と”ペア”にチャレンジしよう）</li>
               <li>「指導者」へテストをお願いしよう！（練習日にやるのがおすすめ！）</li><li>3回成功するとレベル、ポイントをゲット！</li>
               </ol></div>
-              <h2>指導者</h2>
+              <h2>この人にテストをおねがいしよう</h2>
               {admins.map((admin)=>(            
                 <div className={classes.adminContainer}>
                 <div className={classes.adminWrapper}>                  

@@ -63,7 +63,7 @@ const Home = () => {
           <div className={classes.imgWrapper}>
             <div className={`${classes.commonContainer} ${isVisible ? classes.fadeIn : classes.fadeOut}`}>
               <h2>{slides[currentSlide].title}</h2>
-              <img src={slides[currentSlide].image}></img>
+              <img src={slides[currentSlide].image} alt="slide"></img>
               <p>
                 { slides[currentSlide].text }
               </p>

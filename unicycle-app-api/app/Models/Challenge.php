@@ -61,7 +61,7 @@ class Challenge extends Model
     }
 
     public function getEquippedItemPathAttribute(){
-        return $this->user->equipped_item_path;
+        return $this->user->equipped_item_path ? $this->user->equipped_item_path : null ;
 
     }
 }

@@ -1,6 +1,4 @@
 import classes from "./ItemCard.module.css";
-import { useAuthStore } from "../../../stores/authStore";
-import { useState,useEffect } from "react";
 
 function ItemCard({ items, ownedItemIds,points }) {
 
@@ -25,6 +23,7 @@ function ItemCard({ items, ownedItemIds,points }) {
                       src={item.avatar_path}
                       className={classes.itemAvatar}
                       key={item.id}
+                      alt="items"
                     />
                     <p>{item.name}</p>
                   </>

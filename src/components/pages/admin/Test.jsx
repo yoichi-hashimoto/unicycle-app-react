@@ -4,8 +4,7 @@ import classes from "./Test.module.css";
 import Button from "../../common/button/Button";
 import { fetchUsers } from "../../../api/users";
 import axios from "../../../api/axios";
-import { data, Navigate, useNavigate } from "react-router-dom";
-import ItemCard from "../../common/cards/ItemCard";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Test() {
   const [users, setUsers] = useState([]);

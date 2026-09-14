@@ -20,17 +20,19 @@ function MemberCard({
           >
             <img
               src={member.avatar_path}
-              alt="Member Image"
+              alt="Member"
               className={classes.memberAvatar}
             />
-            {showButton && (
+            {showButton ? (
               <div className={classes.animalWrapper}><img
                 src={member.current_animal?.avatar_path}
                 alt={member.animalAvatar}
                 className={classes.animalAvatar} />
-                <img src={member.equipped_item_path} className={classes.selectedItem} />
+                {member.equipped_item_path && (
+                  <img src={member.equipped_item_path} className={classes.selectedItem} alt="item" />
+                )}
               </div>
-            )}
+            ) : null}
             <div className={classes.receivedLikes}>
               <p className={classes.heart}>❤</p>
               <p className={classes.count}>{member.received_likes}</p>
@@ -39,7 +41,7 @@ function MemberCard({
           <div className={classes.ribbon}>
             <span>Lv. {level}</span>
           </div>
-          {showSkill && (
+          {showSkill ? (
             <div className={classes.challengeWrapper}>
               <div className={classes.challengeContainer}>
                 <p style={{ fontSize: "8px" }}>チャレンジ中の技</p>{" "}
@@ -63,7 +65,7 @@ function MemberCard({
                 <p className={classes.challengeText}>{member.skill_name}</p>
               : <p className={classes.challengeText}>基礎コースクリア済み！</p>}
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </>

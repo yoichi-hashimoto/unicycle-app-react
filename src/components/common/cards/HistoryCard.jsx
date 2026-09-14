@@ -2,7 +2,7 @@ import classes from "./History.module.scss";
 import LikeButton from "../button/LikeButton";
 import { useAuthStore } from "../../../stores/authStore";
 
-const jadgePass = (history) => {
+const judgePass = (history) => {
   if (history.success_score === "3") {
     return "合格";
   } else {
@@ -42,7 +42,6 @@ const HistoryCard = ({ history, showButton = true }) => {
             alt={history.user_name}
             className={classes.avatar}
             style={{ backgroundColor: history.color_path }}
-            ddd
           />
           <div className={classes.animalContainer}>
             <img
@@ -65,6 +64,7 @@ const HistoryCard = ({ history, showButton = true }) => {
                 <img
                   className={`${classes.star} ${star <= history.success_score ? classes.starFilled : ""}`}
                   key={star}
+                  alt="stars"
                   src={
                     star <= history.success_score
                       ? "./images/star_filled.png"
@@ -76,7 +76,7 @@ const HistoryCard = ({ history, showButton = true }) => {
             </div>
           </div>
           <p className={classes.challengeResult}>
-            {history.skill_name}に"{jadgePass(history)}"しました！
+            {history.skill_name}に"{judgePass(history)}"しました！
           </p>
         </div>
         <LikeButton likeHistory={history} fromUser={authUser?.id}></LikeButton>

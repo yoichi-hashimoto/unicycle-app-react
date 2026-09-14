@@ -1,6 +1,6 @@
 import classes from "./Notice.module.css";
 import Button from "../../common/button/Button";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import axios from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../common/modal/Loading";

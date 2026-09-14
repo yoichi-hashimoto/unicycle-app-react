@@ -7,16 +7,15 @@ import Button from "../common/button/Button";
 import Loading from "../common/modal/Loading";
 import type { SkillType } from "../common/type/skill";
 import Modal from "../common/modal/Modal";
-import {fetchUsers} from "../../api/users";
-import type {UserType} from "../common/type/user";
-
+import { fetchUsers } from "../../api/users";
+import type { UserType } from "../common/type/user";
 
 function Technical() {
   const [skills, setSkills] = useState<SkillType[]>([]);
   const [allSkills, setAllSkills] = useState<SkillType[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isOpen,setIsOpen] =useState(false);
-  const [admins,setAdmins] = useState<UserType[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [admins, setAdmins] = useState<UserType[]>([]);
 
   useEffect(() => {
     async function loadSkills() {
@@ -36,66 +35,71 @@ function Technical() {
   }, []);
 
   const filterBasicSkills = () => {
-    const filterdBasic = allSkills.filter((skill) => skill.required_level <= 25);
-    setSkills(filterdBasic);
+    const filteredBasic = allSkills.filter(
+      (skill) => skill.required_level <= 25,
+    );
+    setSkills(filteredBasic);
   };
 
   const filterSoloSkills = () => {
-    const filterdSolo = allSkills.filter(
-      (skill) => skill.category=== 'ソロ中級',
+    const filteredSolo = allSkills.filter(
+      (skill) => skill.category === "ソロ中級",
     );
-    setSkills(filterdSolo);
+    setSkills(filteredSolo);
   };
 
   const filterPairSkills = () => {
-    const filterdPair = allSkills.filter(
-      (skill) => skill.category === "ペア",
-    );
-    setSkills(filterdPair);
+    const filteredPair = allSkills.filter((skill) => skill.category === "ペア");
+    setSkills(filteredPair);
   };
 
-    useEffect(()=>{
-    async function loadAdmins(){
-      try{
+  useEffect(() => {
+    async function loadAdmins() {
+      try {
         setLoading(true);
         const users = await fetchUsers();
-        const admins = users.filter((user:any)=>user.is_admin === true);
+        const admins = users.filter((user: any) => user.is_admin === true);
         console.log(admins);
         setAdmins(admins);
-      }catch(error){
-        console.log('エラーです',error)
-      }finally{
+      } catch (error) {
+        console.log("エラーです", error);
+      } finally {
         setLoading(false);
-      }}
-      loadAdmins();
-    },[]);
+      }
+    }
+    loadAdmins();
+  }, []);
 
   return (
     <div className={classes.contentsWrapper}>
       {loading && <Loading />}
       <div className={classes.titleWrapper}>
         <h1>わざ一覧</h1>
-      <Button onClick={()=>setIsOpen(true)}>
-        テストについて
-        </Button>
-        <Modal isOpen={isOpen} onClose={()=>setIsOpen(false)}>
+        <Button onClick={() => setIsOpen(true)}>テストについて</Button>
+        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <div>
             <h2>テストについて</h2>
             <div className={classes.testExplain}>
-              <ol >
+              <ol>
                 <li>チャレンジする「わざ」を決めて練習しよう！</li>
-              <li>レベルアップなら”基礎”、アイテムゲットなら”ソロ中級”と”ペア”にチャレンジしよう）</li>
-              <li>「指導者」へテストをお願いしよう！（練習日にやるのがおすすめ！）</li><li>3回成功するとレベル、ポイントをゲット！</li>
-              </ol></div>
-              <h2>指導者</h2>
-              {admins.map((admin)=>(            
-                <div className={classes.adminContainer}>
-                <div className={classes.adminWrapper}>                  
+                <li>
+                  レベルアップなら”基礎”、アイテムゲットなら”ソロ中級”と”ペア”にチャレンジしよう）
+                </li>
+                <li>
+                  「指導者」へテストをお願いしよう！（練習日にやるのがおすすめ！）
+                </li>
+                <li>3回成功するとレベル、ポイントをゲット！</li>
+              </ol>
+            </div>
+            <h2>この人にテストをお願いしよう</h2>
+            {admins.map((admin) => (
+              <div className={classes.adminContainer}>
+                <div className={classes.adminWrapper}>
                   <p>{admin.name}</p>
-                  <img src={admin.avatar_path} className={classes.adminImage}/>
-                </div>            
+                  <img src={admin.avatar_path} className={classes.adminImage} />
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
           <p>失敗を恐れずにどんどんチャレンジしよう！</p>
         </Modal>
