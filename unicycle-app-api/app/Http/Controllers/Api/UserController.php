@@ -49,7 +49,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
        $validate = $request ->validate([
-        'name'=>['nullable','string','max:255'],
+        'name'=>['nullable','string','max:6'],
         'password'=>['nullable','string','min:8','confirmed'],
         'user_avatar_id'=>['integer','nullable'],
         'color_id'=>['nullable','integer'],
@@ -91,6 +91,16 @@ class UserController extends Controller
         $user->refresh();
 
         return response()->json($user);
+    }
+
+    public function resetPassword(User $user){
+        $user->update([
+            'password'=>Hash::make('unicycle1234')
+        ]);
+
+        return response()->json([
+            'message'=>'パスワードを初期化しました',
+        ]);
     }
 
     public function destroy($id)

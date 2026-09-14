@@ -2,9 +2,11 @@ import classes from "./SkillCard.module.scss";
 import { Link } from "react-router-dom";
 import Button from "../button/Button";
 import Modal from "../modal/Modal";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { SkillType } from "../type/skill";
 import { useAuthStore } from "../../../stores/authStore";
+import TipCard from "./TipCard";
+import axios from "../../../api/axios";
 
 type SkillProps = {
   skill: SkillType;
@@ -15,6 +17,37 @@ function SkillCard({ skill }: SkillProps) {
   const user = useAuthStore((state) => state.user);
   const currentLevel = user?.current_level ?? 0;
   const isCleared = skill.required_level <= currentLevel;
+  const [formData, setFormData] = useState({
+    text: "",
+  });
+
+  const [tips, setTips] = useState(skill.skill_tips ?? []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!formData.text.trim()) {
+      return;
+    }
+    const confirmed = window.confirm("投稿しますか？");
+    if (!confirmed) {
+      return;
+    }
+    try {
+      const response = await axios.post(`./api/skill/${skill.id}/tips`, {
+        text: formData.text,
+      });
+      setTips((prev) => [...prev, response.data]);
+
+      setFormData({ text: "" });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -37,24 +70,57 @@ function SkillCard({ skill }: SkillProps) {
             <img src={skill.avatar_path} alt="技の写真" />
           </div>
           <div className={classes.detailButton}>
+            {skill.required_level >=26 &&
             <div className={classes.skillCategory}>
               <h3>{skill.point}</h3>
               <p>ポイント</p>
-            </div>
-            <Button onClick={() => setIsOpen(true)}>説明</Button>
+            </div>}
+            <Button onClick={() => setIsOpen(true)}>詳しく</Button>
           </div>
         </div>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <div>
             <div className={classes.categoryWrapper}>
               <h2>{skill.name}</h2>
+              {skill.required_level >= 26 &&
+                <div className={classes.skillCategory}>
+                  <h3>{skill.point}</h3>
+                  <p>ポイント</p>
+                </div>}
             </div>
             <img src={skill.avatar_path} className={classes.modalImg} alt="" />
+
             <p className={classes.description}>{skill.description}</p>
-            <div></div>
-            <button>
+            <div className={classes.commentTitle}>
+              <div className={classes.titleWrapper}>
+                <h3>コメント</h3>
+              </div>
+              <p>👆成功のコツや失敗しやすい点などをコメントしよう！</p>
+              <TipCard skillTips={tips} />
+              {/* <button>
               <Link to={skill.movie_path}>動画を見る</Link>
-            </button>
+            </button> */}
+              <div className={classes.tipsWrapper}>
+                {" "}
+                <div className={classes.userWrapper}>
+                  {" "}
+                  <img src={user?.avatar_path} alt="user" />
+                  <p>{user?.name}</p>
+                </div>{" "}
+                <textarea
+                  className={classes.tipsText}
+                  placeholder="コメントを書いて投稿ボタンを押してください"
+                  name="text"
+                  value={formData.text}
+                  onChange={handleChange}
+                ></textarea>
+              </div>{" "}
+              <div className={classes.submitButton}>
+                <Button variant="primary" onClick={handleSubmit}>
+                  投稿
+                </Button>
+              </div>
+            </div>{" "}
           </div>
         </Modal>
       </div>

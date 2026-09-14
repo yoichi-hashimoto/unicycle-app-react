@@ -14,7 +14,7 @@ import Technical from "./components/pages/Technical";
 import Delete from "./components/pages/admin/Delete";
 import Register from "./components/pages/admin/Register";
 import Test from "./components/pages/admin/Test";
-import Notice from "./components/pages/Notice";
+import Notice from "./components/pages/admin/Notice";
 import { useAuthStore } from "./stores/authStore";
 import { fetchLoginUser } from "./api/auth";
 import AdminRoute from "./components/common/routes/AdminRoute";
@@ -44,13 +44,54 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/technical" element={<Technical />} />
-            <Route path="/register" element={<AdminRoute><Register /></AdminRoute>} />
-            <Route path="/register" element={<AdminRoute><Register/></AdminRoute>}/>
-            <Route path="/register" element={<AdminRoute><Register/></AdminRoute>}/>
-            <Route path="/test" element={<AdminRoute><Test /></AdminRoute>} />
-            <Route path="/delete" element={<AdminRoute><Delete /></AdminRoute>} />
-            <Route path="/notice" element=
-              {<Notice />} />
+            <Route
+              path="/register"
+              element={
+                <AdminRoute>
+                  <Register />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <AdminRoute>
+                  <Register />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <AdminRoute>
+                  <Register />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/test"
+              element={
+                <AdminRoute>
+                  <Test />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/delete"
+              element={
+                <AdminRoute>
+                  <Delete />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/notice"
+              element={
+                <AdminRoute>
+                  <Notice />
+                </AdminRoute>
+              }
+            />
           </Routes>
         </Main>
         <Footer />

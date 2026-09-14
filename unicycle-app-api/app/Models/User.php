@@ -15,6 +15,7 @@ use App\Models\UserItem;
 use App\Models\Items;
 use App\Models\Challenge;
 use App\Models\Skill;
+use App\Models\SkillTip;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -56,8 +57,8 @@ class User extends Authenticatable
         return $this->hasMany(Color::class);
     }
 
-    public function avatars(){
-        return $this->hasMany(UserAvatar::class);
+    public function avatar(){
+        return $this->belongsTo(UserAvatar::class,'user_avatar_id');
     }
 
     public function getColorPathAttribute(){
@@ -159,6 +160,10 @@ class User extends Authenticatable
 
     public function points(){
         return $this->hasMany(Point::class,'user_id');
+    }
+    
+    public function skillTips(){
+        return $this->hasMany(SkillTip::class,'user_id');
     }
 
 }

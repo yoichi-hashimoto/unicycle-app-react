@@ -6,11 +6,17 @@ import { fetchSkills } from "../../api/skills";
 import Button from "../common/button/Button";
 import Loading from "../common/modal/Loading";
 import type { SkillType } from "../common/type/skill";
+import Modal from "../common/modal/Modal";
+import {fetchUsers} from "../../api/users";
+import type {UserType} from "../common/type/user";
+
 
 function Technical() {
   const [skills, setSkills] = useState<SkillType[]>([]);
   const [allSkills, setAllSkills] = useState<SkillType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isOpen,setIsOpen] =useState(false);
+  const [admins,setAdmins] = useState<UserType[]>([]);
 
   useEffect(() => {
     async function loadSkills() {
@@ -48,10 +54,52 @@ function Technical() {
     setSkills(filterdPair);
   };
 
+    useEffect(()=>{
+    async function loadAdmins(){
+      try{
+        setLoading(true);
+        const users = await fetchUsers();
+        const admins = users.filter((user:any)=>user.is_admin === true);
+        console.log(admins);
+        setAdmins(admins);
+      }catch(error){
+        console.log('エラーです',error)
+      }finally{
+        setLoading(false);
+      }}
+      loadAdmins();
+    },[]);
+
   return (
     <div className={classes.contentsWrapper}>
       {loading && <Loading />}
-      <h1>わざ一覧</h1>
+      <div className={classes.titleWrapper}>
+        <h1>わざ一覧</h1>
+      <Button onClick={()=>setIsOpen(true)}>
+        テストについて
+        </Button>
+        <Modal isOpen={isOpen} onClose={()=>setIsOpen(false)}>
+          <div>
+            <h2>テストについて</h2>
+            <div className={classes.testExplain}>
+              <ol >
+                <li>チャレンジする「わざ」を決めて練習しよう！</li>
+              <li>レベルアップなら”基礎”、アイテムゲットなら”ソロ中級”と”ペア”にチャレンジしよう）</li>
+              <li>「指導者」へテストをお願いしよう！（練習日にやるのがおすすめ！）</li><li>3回成功するとレベル、ポイントをゲット！</li>
+              </ol></div>
+              <h2>指導者</h2>
+              {admins.map((admin)=>(            
+                <div className={classes.adminContainer}>
+                <div className={classes.adminWrapper}>                  
+                  <p>{admin.name}</p>
+                  <img src={admin.avatar_path} className={classes.adminImage}/>
+                </div>            
+                </div>
+              ))}
+          </div>
+          <p>失敗を恐れずにどんどんチャレンジしよう！</p>
+        </Modal>
+      </div>
       <div className={classes.sortbuttonWrapper}>
         <Button variant="outline" onClick={filterBasicSkills}>
           基礎
@@ -65,10 +113,7 @@ function Technical() {
       </div>
       <div className={classes.cardContainer}>
         {skills.map((skill) => (
-          <SkillCard
-            key={skill.id}
-            skill={skill}
-          />
+          <SkillCard key={skill.id} skill={skill} />
         ))}
       </div>
       <ScrollToTop />

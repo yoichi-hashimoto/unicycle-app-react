@@ -1,9 +1,20 @@
 import classes from "./Delete.module.css";
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../../api/users";
+import Loading from "../../common/modal/Loading";
+import Toast from "../../common/modal/Toast";
+import axios from "../../../api/axios";
 
 function Delete() {
   const [userList, setUserList] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState(null)
+  
+  function showToast(message, type) {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(null)
+    },2500)}
 
   useEffect(() => {
     fetchUsers().then((data) =>
@@ -24,13 +35,35 @@ function Delete() {
     }
   };
 
+  const handleResetPassword = async (id:number) => {
+      const isConfirmed = window.confirm('本当にリセットしますか？')
+      if(!isConfirmed) return;
+    try {
+
+      setLoading(true);
+      
+      await axios.get("./sanctum/csrf-cookie");
+      await axios.patch(`./api/users/${id}/reset-password`);
+      showToast('リセットしました', "success");
+    } catch (error) {
+      showToast('失敗しました', "error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className={classes.tableContainer}>
+      {loading && <Loading />}
+      {toast && (
+        <Toast message={toast.message} type={toast.type}/>
+      )}
       <h1>メンバー管理</h1>
       <table className={classes.deleteTable}>
         <thead>
           <tr>
             <th>削除</th>
+            <th>パスワード初期化</th>
             <th>ID</th>
             <th>名前</th>
             <th>アバター</th>
@@ -44,6 +77,9 @@ function Delete() {
             <tr key={user.id}>
               <td>
                 <button onClick={() => handleDelete(user.id)}>削除する</button>
+              </td>
+              <td>
+                <button onClick={()=>handleResetPassword(user.id)}>初期化する</button>
               </td>
               <td>{user.id}</td>
               <td>{user.name}</td>

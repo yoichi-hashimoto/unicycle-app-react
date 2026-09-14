@@ -87,7 +87,7 @@ console.log(
         last_seen_animal_id: user.current_animal.id,
       });
       console.log("PATCH response:", response.data);
-    }, 4500);
+    }, 5500);
 
     return () => {
       clearTimeout(timer1);

@@ -160,7 +160,7 @@
   .contentsWrapper {
     justify-content: space-around;
     padding:0 10% 10% 10%;
-    width: 70%;
+    width: 75%;
   }
 
   .profileContainer{
@@ -300,6 +300,26 @@
     animalJump 0.8s ease 0.6s;
 }
 
+.titleWrapper{
+  display: flex;
+  gap:1rem;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.titleWrapper button{
+  display: flex;
+  margin: 0;
+  padding:0.25rem 0.5rem;
+  align-items: center;
+  background-color: white;
+  border:1px solid gray;
+}
+.titleWrapper Button p{
+  font-size: 0.75rem;
+  margin: 0;
+}
+
 @keyframes animalFadeOut {
   from {
     opacity: 1;
@@ -344,4 +364,44 @@
   100% {
     transform: translateY(0);
   }
+}
+
+.adminContainer{
+  justify-content:center;
+}
+
+.adminWrapper{
+  width:5rem;
+  margin:1rem auto;
+  background-color:white;
+  border-radius:10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:0.5rem;
+}
+
+.adminWrapper p{
+  margin:0;
+}
+.adminImage{
+  margin:0;
+  width:5rem;
+  height:5rem;
+
+}
+
+.testExplain{
+  width:70%;
+  margin:auto;
+  background-color:white;
+  border-radius:10px;
+  padding:0.5rem;
+}
+
+.testExplain li{
+  text-align:start;
+  margin-top:0.5rem;
+  font-size:1.25rem;
+
 }

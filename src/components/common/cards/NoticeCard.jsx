@@ -1,6 +1,10 @@
 import classes from "./NoticeCard.module.css";
 
 function NoticeCard({ notices }) {
+
+  const formattedDate = new Intl.DateTimeFormat("ja-JP", {
+    month: "long",day:"numeric",
+  }).format;
   return (
     <>
       <div className={classes.noticeContainer}>
@@ -15,7 +19,7 @@ function NoticeCard({ notices }) {
           <tbody>
             {notices.map((notice) => (
               <tr key={notice.id}>
-                <td>{notice.created_at}</td>
+                <td>{formattedDate (new Date(notice.created_at))}</td>
                 <td>{notice.title}</td>
                 <td>{notice.text}</td>
               </tr>

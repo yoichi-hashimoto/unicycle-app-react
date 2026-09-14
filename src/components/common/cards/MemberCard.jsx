@@ -59,7 +59,9 @@ function MemberCard({
                 </div>
               </div>
               <span className={classes.line}></span>
-              <p className={classes.challengeText}>{member.skill_name}</p>
+              {member.current_level <= 25 ?  
+                <p className={classes.challengeText}>{member.skill_name}</p>
+              : <p className={classes.challengeText}>基礎コースクリア済み！</p>}
             </div>
           )}
         </div>

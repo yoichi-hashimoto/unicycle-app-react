@@ -9,7 +9,7 @@ class SkillController extends Controller
 {
         public function index()
     {
-        return Skill::with('challenges.user')->get();
+        return Skill::with('challenges:id,user_id,skill_id','skillTips.user.avatar')->get();
     }
 
     public function store(Request $request)

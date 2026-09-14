@@ -1,18 +1,18 @@
 .noticeContainer{
-    width: 60%;
+    width: 100%;
     margin: 2rem auto;
 }
 
 .noticeTable{
     margin:auto;
-        border-radius: 12px;
+    border-radius: 12px;
     overflow: hidden;
 }
 
 .noticeTable th{
     background-color: green;
     color: white;
-    font-size: 14px;
+    font-size: 12px;
     padding:0 1rem;
 }
 

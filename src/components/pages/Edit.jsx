@@ -12,7 +12,6 @@ import { useAuthStore } from "../../stores/authStore";
 import axios from "../../api/axios";
 import Toast from "../common/modal/Toast";
 import Loading from "../common/modal/Loading";
-import { fetchItems } from "../../api/items";
 
 function Edit() {
   const user = useAuthStore((state) => state.user);
@@ -26,9 +25,6 @@ function Edit() {
   const [avatars, setAvatars] = useState([]);
   const [colors, setColors] = useState([]);
   const [userItems, setUserItems] = useState([]);
-  const [equippedItemId, setEquippedItemId] = useState(
-    user?.equipped_item_id ?? null,
-  );
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState({
     message: "",
@@ -106,7 +102,6 @@ function Edit() {
     try {
       setIsLoading(true);
       const response = await axios.patch(`/api/user_item/${userItemId}`);
-      setEquippedItemId(response.data.user_item.id);
       setUser({
         ...user,
         equipped_item: response.data.user_item,
@@ -144,6 +139,7 @@ function Edit() {
         navigate("/profile");
       }, 1000);
     } catch (error) {
+      showToast('入力に間違いがあります','fail')
       console.error("エラー:", error);
     } finally {
       setIsLoading(false);
@@ -280,6 +276,7 @@ function Edit() {
             name="password"
             value={formData.password}
             onChange={handleChange}
+            placeholder={'8文字以上で設定してください'}
           />
           <label htmlFor="">パスワード確認</label>{" "}
           <input

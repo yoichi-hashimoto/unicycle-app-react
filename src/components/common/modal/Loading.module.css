@@ -12,12 +12,19 @@
 
 .animalsLine{
   display: flex;
+  flex-direction: column;
 }
 
 .animalImage{
-  width: 35rem;
+  width: 20rem;
 }
 
 .animalsLine p{
   color: white; 
+}
+
+@media (min-width:768px) {
+  .animalImage{
+  width:35rem;
+  }
 }

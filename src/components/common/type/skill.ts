@@ -6,5 +6,14 @@ export type SkillType = {
   movie_path: string;
   category: string;
   required_level: number;
-  point: number;
+  point: number; 
+  skill_tips: SkillTipType[]; 
+}
+
+type SkillTipType = {
+  id: number,
+  user_id: number,
+  skill_id: number,
+  text: string,
+  created_at: Date,
 }

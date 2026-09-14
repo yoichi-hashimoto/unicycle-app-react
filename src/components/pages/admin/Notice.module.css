@@ -26,7 +26,8 @@
 }
 
 .submitButton{
-    margin: auto;
+    margin: 1rem;
+    text-align: end;
 }
 
 h1{

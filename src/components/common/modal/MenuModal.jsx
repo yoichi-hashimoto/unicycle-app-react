@@ -33,6 +33,13 @@ function MenuModal({ isOpen, onClose }) {
                 </Link>
                 <Link
                   className={classes.adminLink}
+                  to="/notice"
+                  onClick={onClose}
+                >
+                  <span>お知らせ作成</span>
+                </Link>
+                <Link
+                  className={classes.adminLink}
                   to="/register"
                   onClick={onClose}
                 >

@@ -24,7 +24,7 @@
   border-radius: 10px;
   background-color: white;
   color: red;
-  margin: auto;
+  margin:0.5rem auto;
   text-align: center;
   align-items: center;
   cursor: pointer;
@@ -48,6 +48,10 @@
   color: red;
   background-color: transparent;
   font-size: 1.5rem;
+}
+
+.numberOfLiked{
+  margin:0;
 }
 
 

@@ -31,15 +31,19 @@ function Header() {
           {user?.is_admin && (
             <>
               <div className={classes.adminMenu}>
-              <Link className={classes.adminLink} to="/test">
-                <span>テスト</span>
-              </Link>
-              <Link className={classes.adminLink} to="/register">
-                <span>新規登録</span>
-              </Link>
-              <Link className={classes.adminLink} to="/delete">
-                <span>ユーザー削除</span>
-              </Link></div>
+                <Link className={classes.adminLink} to="/test">
+                  <span>テスト</span>
+                </Link>
+                <Link className={classes.adminLink} to="/notice">
+                  <span>お知らせ作成</span>
+                </Link>
+                <Link className={classes.adminLink} to="/register">
+                  <span>新規登録</span>
+                </Link>
+                <Link className={classes.adminLink} to="/delete">
+                  <span>ユーザー削除</span>
+                </Link>
+              </div>
             </>
           )}
 
@@ -68,7 +72,7 @@ function Header() {
                 <span>ログイン</span>
               </Link>
             </>
-        )}
+          )}
         </nav>
         <button onClick={() => setIsOpen(true)} className={classes.hamburger}>
           <span></span>

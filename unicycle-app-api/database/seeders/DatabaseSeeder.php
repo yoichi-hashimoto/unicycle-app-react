@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             LikeSeeder::class,
             NoticeSeeder::class,
             PointSeeder::class,
+            SkillTipsSeeder::class,
         ]);
     }
 }
