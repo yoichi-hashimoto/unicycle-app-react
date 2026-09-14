@@ -1,0 +1,35 @@
+.scrollToTopButton {
+  position: fixed;
+  right: 16px;
+  bottom: 80px;
+
+  width: 56px;
+  height: 56px;
+
+  border-radius: 50%;
+  border: none;
+
+  background-color: green;
+  color: white;
+
+  font-size: 28px;
+  font-weight: bold;
+
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .scrollToTopButton {
+    right: 16px;
+    bottom: 72px;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+}
