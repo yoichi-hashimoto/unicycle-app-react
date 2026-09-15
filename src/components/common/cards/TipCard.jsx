@@ -1,5 +1,3 @@
-import { useAuthStore } from "../../../stores/authStore";
-import { useState, useEffect } from "react";
 import classes from "./TipCard.module.css";
 
 function TipCard({ skillTips }) {
@@ -14,7 +12,7 @@ function TipCard({ skillTips }) {
       {skillTips.map((tip) => (
           <div className={classes.tipsContainer} key={tip.id}>
             <div>
-              <img src={tip.user.avatar.avatar_path} />
+              <img src={tip.user.avatar.avatar_path} alt={tip.user.name} />
               <p>{tip.user.name}</p>
             </div>
             <div className={classes.tipsText}>

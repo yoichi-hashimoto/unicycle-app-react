@@ -26,7 +26,7 @@ type UserPointType = {
 type ToastType = {
   message: string;
   type: "success" | "fail";
-}
+};
 
 function Profile() {
   const user = useAuthStore((state) => state.user);
@@ -37,29 +37,32 @@ function Profile() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showAnimalEvolution, setShowAnimalEvolution] = useState(false);
-  const [phase, setPhase] = useState < "old"|"fadeOut"| "new" | "jump" > ("old");
+  const [phase, setPhase] = useState<"old" | "fadeOut" | "new" | "jump">("old");
 
-    function showToast(message:string, type : "success"|"fail"="success") {
-      setToast({ message, type });
+  function showToast(message: string, type: "success" | "fail" = "success") {
+    setToast({ message, type });
 
-      setTimeout(() => {
-        setToast(null);
-      }, 2500);
-    }
-  
+    setTimeout(() => {
+      setToast(null);
+    }, 2500);
+  }
+
   useEffect(() => {
-    if (!user) return;
-
-    if (user.current_animal &&
+    if (
+      user.current_animal &&
       user.last_seen_animal &&
       user.current_animal.id !== user.last_seen_animal.id
     ) {
       setShowAnimalEvolution(true);
     }
-  }, [user])
-  
+  }, [user]);
+
   useEffect(() => {
     if (!showAnimalEvolution) return;
+    if (!user?.id || !user.current_animal?.id) return;
+
+    const userId = user.id;
+    const currentAnimalId = user.current_animal.id;
 
     const timer1 = setTimeout(() => {
       setPhase("fadeOut");
@@ -76,17 +79,14 @@ function Profile() {
     const timer4 = setTimeout(async () => {
       setShowAnimalEvolution(false);
 
-console.log(
-  "last_seen:",
-  user?.last_seen_animal.id,
-  "current:",
-  user.current_animal?.id,
-);
-
-      const response =await axios.patch(`/api/users/${user.id}/animal-seen`, {
-        last_seen_animal_id: user.current_animal.id,
-      });
-      console.log("PATCH response:", response.data);
+      try {
+        const response = await axios.patch(`/api/users/${userId}/animal-seen`, {
+          last_seen_animal_id: currentAnimalId,
+        });
+        console.log("PATCH response:", response.data);
+      } catch (error) {
+        console.error("animal-seen update failed", error);
+      }
     }, 5500);
 
     return () => {
@@ -95,8 +95,8 @@ console.log(
       clearTimeout(timer3);
       clearTimeout(timer4);
     };
-  }, [showAnimalEvolution]);
-  
+  }, [showAnimalEvolution, user?.id, user?.current_animal?.id]);
+
   useEffect(() => {
     async function loadPoints() {
       try {
@@ -133,7 +133,9 @@ console.log(
 
   const handlePurchase = async (selectedItem: ItemType) => {
     if (!user) return;
-    const isConfirmed = window.confirm(`本当に${selectedItem.name}を購入しますか？`);
+    const isConfirmed = window.confirm(
+      `本当に${selectedItem.name}を購入しますか？`,
+    );
     if (!isConfirmed) return;
 
     setIsLoading(true);
@@ -151,7 +153,7 @@ console.log(
       ]);
       setIsOpen(false);
     } catch (error) {
-      showToast('ポイントが足りません！',"fail");
+      showToast("ポイントが足りません！", "fail");
       console.error("アイテムの購入に失敗しました", error);
     } finally {
       setIsLoading(false);
@@ -176,6 +178,7 @@ console.log(
             {phase === "old" || phase === "fadeOut" ? (
               <img
                 src={user.last_seen_animal.avatar_path}
+                alt={user.last_seen_anima.name}
                 className={
                   phase === "fadeOut"
                     ? classes.animalFadeOut
@@ -185,6 +188,7 @@ console.log(
             ) : (
               <img
                 src={user.current_animal.avatar_path}
+                alt={user.current_animal.name}
                 className={
                   phase === "jump" ? classes.animalJump : classes.animalFadeIn
                 }
@@ -192,7 +196,9 @@ console.log(
             )}
 
             {phase === "jump" && (
-              <h2 style={{ color: 'white' }}>おめでとう！{user.current_animal.name}に進化しました！</h2>
+              <h2 style={{ color: "white" }}>
+                おめでとう！{user.current_animal.name}に進化しました！
+              </h2>
             )}
           </div>
         </div>

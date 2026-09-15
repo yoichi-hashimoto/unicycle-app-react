@@ -4,7 +4,7 @@ import classes from "./Test.module.css";
 import Button from "../../common/button/Button";
 import { fetchUsers } from "../../../api/users";
 import axios from "../../../api/axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Test() {
   const [users, setUsers] = useState([]);
@@ -18,8 +18,7 @@ function Test() {
 
   useEffect(() => {
     fetchUsers().then((data) => {
-      console.log(data);
-      const fetchedUsers = data.data;
+      // const fetchedUsers = data.data;
       setUsers(data);
 
       if (data.length > 0) {
@@ -79,8 +78,7 @@ function Test() {
       }
     }
 
-    return;
-    setSuccess(nextSuccess);
+    return setSuccess(nextSuccess);
   };
 
   const handleChangeMember = (e) => {

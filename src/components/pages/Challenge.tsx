@@ -89,7 +89,7 @@ function Challenge({ showButton = true }) {
                 <div className={classes.adminContainer}>
                 <div className={classes.adminWrapper}>                  
                   <p>{admin.name}</p>
-                  <img src={admin.avatar_path} className={classes.adminImage}/>
+                    <img src={admin.avatar_path} className={classes.adminImage} alt={ admin.name } />
                 </div>            
                 </div>
               ))}

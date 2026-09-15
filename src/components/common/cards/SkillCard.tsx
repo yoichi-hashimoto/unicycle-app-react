@@ -1,8 +1,7 @@
 import classes from "./SkillCard.module.scss";
-import { Link } from "react-router-dom";
 import Button from "../button/Button";
 import Modal from "../modal/Modal";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { SkillType } from "../type/skill";
 import { useAuthStore } from "../../../stores/authStore";
 import TipCard from "./TipCard";

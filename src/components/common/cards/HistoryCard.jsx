@@ -52,6 +52,7 @@ const HistoryCard = ({ history, showButton = true }) => {
             <img
               src={history.equipped_item_path}
               className={classes.equippedItem}
+              alt="item"
             />
           </div>
           <p className={classes.userName}>{history.user_name}</p>
@@ -70,7 +71,6 @@ const HistoryCard = ({ history, showButton = true }) => {
                       ? "./images/star_filled.png"
                       : "./images/star_blank.png"
                   }
-                  alt="star"
                 />
               ))}
             </div>
