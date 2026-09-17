@@ -48,11 +48,27 @@ function Login() {
     }
     try {
       setIsLoading(true);
-      await axios.get("/sanctum/csrf-cookie");
-      await axios.post("/login", {
-        login_id: credentials.login_id,
-        password: credentials.password,
-      });
+await axios.get("/sanctum/csrf-cookie");
+console.log(document.cookie);
+const xsrfToken = decodeURIComponent(
+  document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("XSRF-TOKEN="))
+    ?.split("=")[1] || "",
+);
+
+await axios.post(
+  "/login",
+  {
+    login_id: credentials.login_id,
+    password: credentials.password,
+  },
+  {
+    headers: {
+      "X-XSRF-TOKEN": xsrfToken,
+    },
+  },
+);
 
       const user = await fetchLoginUser();
       setUser(user);
