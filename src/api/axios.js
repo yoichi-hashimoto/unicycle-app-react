@@ -11,4 +11,4 @@ const api = axios.create({
 
   xsrfHeaderName: "X-XSRF-TOKEN",
 });
-export default axios;
+export default api;
