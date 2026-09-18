@@ -1,5 +1,5 @@
 export async function fetchSkills() {
-    const response = await fetch(`http://localhost:8000/api/skills/`)
+    const response = await fetch(`https://api.unicircle-jp.com/api/skills`);
     if (!response.ok) {
         throw new Error("Fail to fetch user");
     }

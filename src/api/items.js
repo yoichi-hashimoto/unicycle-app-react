@@ -1,9 +1,9 @@
 export async function fetchItems() {
-    const response = await fetch(`http://localhost:8000/api/items`, {
-        credentials: "include",
-        headers: {
-            Accept: "application/json"
-        }
+    const response = await fetch(`https://api.unicircle-jp.com/api/items`, {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
     });
 
     if (!response.ok) {

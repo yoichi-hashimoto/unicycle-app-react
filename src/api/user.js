@@ -1,5 +1,7 @@
 export async function fetchUser(id) {
-    const response = await fetch(`http://localhost:8000/api/users/${id}`);
+    const response = await fetch(
+      `https://api.unicircle-jp.com/api/user/${id}`,
+    );
 
     if (!response.ok) {
         throw new Error("Fail to fetch user");

@@ -1,9 +1,9 @@
 export async function fetchColors() {
-    const response = await fetch('http://localhost:8000/api/colors', {
-        credentials : "include",
-        headers:{
-            Accept:"application/json"
-        }
+    const response = await fetch("https://api.unicircle-jp.com/api/colors", {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
     });
 
     if (!response.ok) {
