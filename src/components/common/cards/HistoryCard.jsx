@@ -49,11 +49,13 @@ const HistoryCard = ({ history, showButton = true }) => {
               alt={history.animalAvatar}
               className={classes.animalAvatar}
             />
-            <img
-              src={history.equipped_item_path}
-              className={classes.equippedItem}
-              alt="item"
-            />
+            {history.equipped_item_path && (
+              <img
+                src={history.equipped_item_path}
+                className={classes.equippedItem}
+                alt="item"
+              />
+            )}
           </div>
           <p className={classes.userName}>{history.user_name}</p>
         </div>

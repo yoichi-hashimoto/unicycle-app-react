@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../api/axios";
 import { useState, useEffect } from "react";
 import classes from "./LikeButton.module.css";
 import Toast from "../modal/Toast";
