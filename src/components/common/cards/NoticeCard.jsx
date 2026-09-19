@@ -17,7 +17,7 @@ function NoticeCard({ notices }) {
             </tr>
           </thead>
           <tbody>
-            {notices.data.map((notice) => (
+            {notices.map((notice) => (
               <tr key={notice.id}>
                 <td>{formattedDate (new Date(notice.created_at))}</td>
                 <td>{notice.title}</td>
