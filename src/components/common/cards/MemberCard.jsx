@@ -8,12 +8,28 @@ function MemberCard({
   level,
   showSkill = true,
 }) {
-
   return (
     <>
       <div className={classes.memberWrapper}>
         <div className={classes.memberContainer}>
           <h3>{member.name}</h3>
+          <div className={classes.avatarStage}>
+          {showButton && (
+            <div className={classes.animalWrapper}>
+              <img
+                src={member.current_animal?.avatar_path}
+                alt={member.animalAvatar}
+                className={classes.animalAvatar}
+              />
+              {member.equipped_item_path && (
+                <img
+                  src={member.equipped_item_path}
+                  className={classes.selectedItem}
+                  alt="item"
+                />
+              )}
+            </div>
+          )}
           <div
             className={classes.avatarContainer}
             style={{ backgroundColor: member.color_path }}
@@ -23,28 +39,19 @@ function MemberCard({
               alt="Member"
               className={classes.memberAvatar}
             />
-            {showButton ? (
-              <div className={classes.animalWrapper}><img
-                src={member.current_animal?.avatar_path}
-                alt={member.animalAvatar}
-                className={classes.animalAvatar} />
-                {member.equipped_item_path && (
-                  <img src={member.equipped_item_path} className={classes.selectedItem} alt="item" />
-                )}
-              </div>
-            ) : null}
             <div className={classes.receivedLikes}>
               <p className={classes.heart}>❤</p>
               <p className={classes.count}>{member.received_likes}</p>
             </div>
-          </div>
+            </div>
+            </div>
           <div className={classes.ribbon}>
             <span>Lv. {level}</span>
           </div>
           {showSkill ? (
             <div className={classes.challengeWrapper}>
               <div className={classes.challengeContainer}>
-                <p style={{ fontSize: "8px" }}>チャレンジ中の技</p>{" "}
+                <p>チャレンジ中の技</p>{" "}
                 <div className={classes.starContainer}>
                   {[1, 2, 3].map((star) => (
                     <img
@@ -61,9 +68,11 @@ function MemberCard({
                 </div>
               </div>
               <span className={classes.line}></span>
-              {member.current_level <= 25 ?  
+              {member.current_level <= 25 ? (
                 <p className={classes.challengeText}>{member.skill_name}</p>
-              : <p className={classes.challengeText}>基礎コースクリア済み！</p>}
+              ) : (
+                <p className={classes.challengeText}>基礎コースクリア済み！</p>
+              )}
             </div>
           ) : null}
         </div>
