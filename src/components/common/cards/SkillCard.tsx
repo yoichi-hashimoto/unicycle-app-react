@@ -15,7 +15,7 @@ function SkillCard({ skill }: SkillProps) {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
   const currentLevel = user?.current_level ?? 0;
-  const isCleared = skill.required_level <= currentLevel;
+  const isCleared = skill.required_level < currentLevel;
   const [formData, setFormData] = useState({
     text: "",
   });

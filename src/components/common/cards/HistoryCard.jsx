@@ -3,7 +3,7 @@ import LikeButton from "../button/LikeButton";
 import { useAuthStore } from "../../../stores/authStore";
 
 const judgePass = (history) => {
-  if (history.success_score === "3") {
+  if (history.success_score === 3) {
     return "合格";
   } else {
     return "チャレンジ";
@@ -21,7 +21,7 @@ const formattedDateDay = new Intl.DateTimeFormat("ja-JP", {
 const HistoryCard = ({ history, showButton = true }) => {
   const authUser = useAuthStore((state) => state.user);
 
-  const isPassed = history.success_score === "3";
+  const isPassed = history.success_score === 3;
 
   return (
     <>
