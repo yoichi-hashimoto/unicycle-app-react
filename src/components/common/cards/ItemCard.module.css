@@ -1,4 +1,110 @@
 .itemContainer {
+  margin:1rem auto;
+  gap: 0.5rem;
+  border: 1px rgb(120, 190, 120) solid;
+  border-radius: 10px;
+  background-color: rgb(209, 227, 216);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  box-shadow: 2px 2px 2px gray;
+  padding: 1rem;
+  width: 10rem;
+  min-height: 5rem;
+  justify-content: space-between;
+}
+
+.itemGroup{
+  display: flex;
+  flex-wrap: wrap;
+  gap:0.5rem;
+  justify-content: start;
+  margin:0.5rem;
+}
+
+.itemAvatar {
+  padding: 0.125rem;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 1px 1px gray;
+  background-color: rgb(241, 246, 238);
+  width: 1.25rem;
+}
+
+.itemWrapper p {
+  font-size: 0.4rem;
+  margin: 0;
+  text-align: center;
+  background-color: rgb(75, 219, 75);
+  color:white;
+  border-radius: 20px;
+  position:absolute;
+  bottom:3%;
+  right:35%;
+  padding:0.1rem;
+  text-align: center;
+}
+
+.itemWrapper {
+  width:2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.locked{
+  background-color: rgb(99, 87, 87);
+  color: white;
+  border-radius: 25px;
+  width: 2rem;;
+  height: 2rem;
+  text-align: center;
+  align-items: center;
+  font-size: 1rem;
+  box-shadow: 1px 1px gray;
+}
+
+.itemTitle{
+  display: flex;
+  gap:0.25rem;
+  margin:auto;
+  text-align: center;
+  align-items: center;
+}
+
+.title{
+  font-size: 0.75rem;
+  background-color: white;
+  padding:0.25rem 0.5rem;
+  border-radius: 25px;
+}
+
+.getPoint{
+  background-color: beige;
+  color: black;
+  border:none;
+  border-radius: 25px;
+  padding:0.125rem 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.getPoint h2{
+  margin:0;
+  font-size: 0.75rem;
+}
+
+.getPoint p{
+  margin:0;
+  font-size: 0.25rem;;
+}
+
+
+@media (min-width:768px){
+
+.itemContainer {
   margin:2rem auto;
   gap: 0.5rem;
   border: 1px rgb(120, 190, 120) solid;
@@ -99,4 +205,5 @@
 .getPoint p{
   margin:0;
   font-size: 0.5rem;;
+}
 }

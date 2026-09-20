@@ -25,21 +25,31 @@ function Delete() {
     return window.confirm("本当に削除しますか？");
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const isConfirmed = showAleart();
     if (isConfirmed) {
-      setUserList(userList.filter((user) => user.id !== id));
-      console.log("削除しました");
+      try {
+        setLoading(true);
+        console.log(id);
+        await axios.get("./sanctum/csrf-cookie");
+        await axios.delete(`./api/users/${id}`);
+        setUserList((prevList) => prevList.filter((user) => user.id !== id));
+        showToast('削除しました', "success");
+      } catch (error) {
+        showToast('失敗しました', "error");
+      } finally {
+        setLoading(false);
+      } 
     } else {
       console.log("キャンセルされました");
     }
   };
 
-  const handleResetPassword = async (id:number) => {
+  const handleResetPassword = async (id) => {
       const isConfirmed = window.confirm('本当にリセットしますか？')
       if(!isConfirmed) return;
     try {
-
+      console.log(id);
       setLoading(true);
       
       await axios.get("./sanctum/csrf-cookie");

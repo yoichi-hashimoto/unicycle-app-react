@@ -5,17 +5,121 @@
   background-color: rgb(238, 246, 247);
   border: 1px solid aqua;
   border-radius: 8px;
-  padding: 0.5rem;
+  padding: 0.25rem;
   transition: transform 0.2s ease-in-out;
   box-shadow: 2px 2px 2px gray;
-  width: 10rem;
+  width: 6rem;
+  height: 9rem;
+}
+
+.mountain{
+  width: 6.75rem;
+  margin:auto;
+  position:relative;
+  z-index: 1;
+}
+
+.animal{
+  width: 1.75rem;
+  object-fit: contain;
+  // margin: 1rem;
+  position: absolute;
+  z-index: 3;
+  animation: jump 5s infinite ease-in-out;
+  display: inline-block;
+}
+
+.avatarContainer {
+  position: relative;
+  z-index: 0;
+}
+
+.animalImage {
+  z-index: 3;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+@keyframes jump {
+  0%, 40%{
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(5px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  55%,100% {
+    transform: translateY(0);
+  }
+}
+
+.shadow {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  background-color: rgb(7, 173, 7);
+  border-radius: 50%;
+  height: 20px;
+  z-index: 0;
+}
+
+.animalTitle {
+  background-color: white;
+  border: 1px solid aqua;
+  border-radius: 10px;
+  margin: 0 auto;
+  padding: 0.125rem 0.5rem;
+  width: 80%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.animalTitle h2 {
+  margin: 2px 0 0 0;
+  text-align: center;
+  font-size: 8px;
+}
+
+.animalTitle p {
+  font-size: 6px;
+  text-align: center;
+  margin:0.125rem;
+}
+
+.remainLevel {
+  background-color: rgb(221, 241, 239);
+  border: solid 0.5px aqua;
+  border-radius: 10px;
+  text-align: center;
+  position:absolute;
+  font-size: 6px;
+  z-index:5;
+  padding:0.25rem;
+  bottom:5%;
+  right:3%;
+}
+
+.remainLevel p{
+  font-size: 6px;
+  margin:0;
 }
 
 @media (min-width:768px){
   .animalCard{
-    padding:0.75rem;
+    width: 10rem;
+    height: 16rem;
+    padding:0.5rem;
   }
-}
+
 
 .animalCard p {
   margin: 0;
@@ -34,7 +138,6 @@
   object-fit: contain;
   margin: 1rem;
   position: absolute;
-  bottom: 5%;
   z-index: 3;
   animation: jump 5s infinite ease-in-out;
   display: inline-block;
@@ -50,7 +153,6 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin-top: 2.5rem;
 }
 
 @keyframes jump {
@@ -113,6 +215,11 @@
   font-size: 12px;
   z-index:5;
   padding:0.5rem;
-  bottom:-5%;
+  bottom:5%;
   right:8%;
 }
+
+.remainLevel p{
+  font-size: 10px;
+  margin:0;
+}}
