@@ -392,7 +392,7 @@
 }
 
 .testExplain{
-  width:70%;
+  width:80%;
   margin:auto;
   background-color:white;
   border-radius:10px;
@@ -402,6 +402,6 @@
 .testExplain li{
   text-align:start;
   margin-top:0.5rem;
-  font-size:1.25rem;
+  font-size:0.75rem;
 
 }

@@ -96,9 +96,7 @@ function SkillCard({ skill }: SkillProps) {
               </div>
               <p>👆成功のコツや失敗しやすい点などをコメントしよう！</p>
               <TipCard skillTips={tips} />
-              {/* <button>
-              <Link to={skill.movie_path}>動画を見る</Link>
-            </button> */}
+
               <div className={classes.tipsWrapper}>
                 {" "}
                 <div className={classes.userWrapper}>
@@ -106,13 +104,14 @@ function SkillCard({ skill }: SkillProps) {
                   <img src={user?.avatar_path} alt="user" />
                   <p>{user?.name}</p>
                 </div>{" "}
-                <textarea
-                  className={classes.tipsText}
-                  placeholder="コメントを書いて投稿ボタンを押してください"
-                  name="text"
-                  value={formData.text}
-                  onChange={handleChange}
-                ></textarea>
+                {user &&
+                  <textarea
+                    className={classes.tipsText}
+                    placeholder="コメントを書いて投稿ボタンを押してください"
+                    name="text"
+                    value={formData.text}
+                    onChange={handleChange}
+                  ></textarea>}
               </div>{" "}
               <div className={classes.submitButton}>
                 <Button variant="primary" onClick={handleSubmit}>

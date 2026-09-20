@@ -178,7 +178,7 @@ function Profile() {
             {phase === "old" || phase === "fadeOut" ? (
               <img
                 src={user.last_seen_animal.avatar_path}
-                alt={user.last_seen_anima.name}
+                alt={user.last_seen_animal.name}
                 className={
                   phase === "fadeOut"
                     ? classes.animalFadeOut
