@@ -18,7 +18,6 @@ function Delete() {
 
   useEffect(() => {
     fetchUsers().then((data) =>
-      console.log(data) ||
       setUserList(data));
   }, []);
   const showAleart = () => {
@@ -30,7 +29,6 @@ function Delete() {
     if (isConfirmed) {
       try {
         setLoading(true);
-        console.log(id);
         await axios.get("./sanctum/csrf-cookie");
         await axios.delete(`./api/users/${id}`);
         setUserList((prevList) => prevList.filter((user) => user.id !== id));
