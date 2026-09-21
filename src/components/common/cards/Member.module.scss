@@ -51,6 +51,11 @@
   position: relative;
   width: 3rem;
   height: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
 }
 
 .avatarContainer {
@@ -61,11 +66,14 @@
   z-index: 0;
   isolation: isolate;
   overflow: visible;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.25rem;
 }
 
 .memberAvatar {
-  width: 3rem;
-  height: 3rem;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   background-color: transparent;
   position: relative;
@@ -139,7 +147,7 @@
 .ribbon {
   position: relative;
   display: inline-block;
-  margin-bottom: 0.5rem;
+  transform: translateY(-30%);
 }
 
 .ribbon span {
@@ -264,6 +272,9 @@
   width: 5rem;
   height: 5rem;
   object-fit: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .memberAvatar {
@@ -277,15 +288,15 @@
 }
 
 .avatarContainer {
-  width: 5rem;
-  height: 5rem;
+  width: 4.5rem;
+  height: 4.5rem;
   position: relative;
   // top: -10px;
   // left: 0;
   border: solid 0.5px rgb(169, 236, 169);
   border-radius: 50%;
   background-color: white;
-  padding: 0.125rem;
+  padding: 0.75rem;
   object-fit: cover;
   margin:0.5rem 0 0 0;
 }
@@ -367,7 +378,6 @@
 .ribbon {
   position: relative;
   display: inline-block;
-  margin-bottom: 1rem;
   margin-top: 1rem;
 }
 

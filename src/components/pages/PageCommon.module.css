@@ -302,14 +302,19 @@
 
 .titleWrapper{
   display: flex;
+  flex-direction: column;
   gap:1rem;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
+}
+
+.titleWrapper h1{
+  margin:0;
 }
 
 .titleWrapper button{
   display: flex;
-  margin: 0;
+  margin: 1rem;
   padding:0.25rem 0.5rem;
   align-items: center;
   background-color: white;

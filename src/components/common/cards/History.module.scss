@@ -58,7 +58,7 @@
   border: solid 0.5px rgb(169, 236, 169);
   border-radius: 50%;
   background-color: rgb(255, 255, 255);
-  padding: 0.125rem;
+  padding: 0.35rem;
   object-fit: contain;
   z-index: 1;
 }
@@ -165,11 +165,13 @@
   .avatar {
     width: 4rem;
     height: 4rem;
+    padding: 0.75rem;
   }
 
   .animalContainer{
     right: 7.5%;
-    top:-10%
+    top:-10%;
+    right: 0%;
   }
 
   .animalAvatar {
