@@ -77,6 +77,24 @@
 .technicalImg img{
   width:100%;
   height: 100%;
+  position: relative;
+}
+
+.commentBubble{
+  width: 0.75rem;
+  height: 0.75rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  margin: 0.25rem;
+  bottom: 15%;
+}
+
+.commentBubble p{
+  margin:0;
+  font-size: 0.5rem;
 }
 
 .detailButton {
@@ -441,4 +459,21 @@
   .submitButton{
     text-align: end;
   }
+
+  .commentBubble{
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  margin: 0.25rem;
+  bottom: 15%;
+}
+
+.commentBubble p{
+  margin:0;
+  font-size: 0.75rem;
+}
 }

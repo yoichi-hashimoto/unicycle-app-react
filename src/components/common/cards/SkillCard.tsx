@@ -66,14 +66,23 @@ function SkillCard({ skill }: SkillProps) {
             <p className={classes.levelName}>{skill.name}</p>
           </div>
           <div className={classes.technicalImg}>
+            <div className={classes.commentBubble}>
+              <img
+                src="/images/icons/comment_bubble.svg"
+                alt="comment_bubble"
+              />
+              <p>{skill.skill_tips.length}</p>
+            </div>
             <img src={skill.avatar_path} alt="技の写真" />
           </div>
+
           <div className={classes.detailButton}>
-            {skill.required_level >=26 &&
-            <div className={classes.skillCategory}>
-              <h3>{skill.point}</h3>
-              <p>ポイント</p>
-            </div>}
+            {skill.required_level >= 26 && (
+              <div className={classes.skillCategory}>
+                <h3>{skill.point}</h3>
+                <p>ポイント</p>
+              </div>
+            )}
             <Button onClick={() => setIsOpen(true)}>詳しく</Button>
           </div>
         </div>
@@ -81,14 +90,14 @@ function SkillCard({ skill }: SkillProps) {
           <div>
             <div className={classes.categoryWrapper}>
               <h2>{skill.name}</h2>
-              {skill.required_level >= 26 &&
+              {skill.required_level >= 26 && (
                 <div className={classes.skillCategory}>
                   <h3>{skill.point}</h3>
                   <p>ポイント</p>
-                </div>}
+                </div>
+              )}
             </div>
             <img src={skill.avatar_path} className={classes.modalImg} alt="" />
-
             <p className={classes.description}>{skill.description}</p>
             <div className={classes.commentTitle}>
               <div className={classes.titleWrapper}>
@@ -96,7 +105,6 @@ function SkillCard({ skill }: SkillProps) {
               </div>
               <p>👆成功のコツや失敗しやすい点などをコメントしよう！</p>
               <TipCard skillTips={tips} />
-
               <div className={classes.tipsWrapper}>
                 {" "}
                 <div className={classes.userWrapper}>
@@ -104,14 +112,15 @@ function SkillCard({ skill }: SkillProps) {
                   <img src={user?.avatar_path} alt="user" />
                   <p>{user?.name}</p>
                 </div>{" "}
-                {user &&
+                {user && (
                   <textarea
                     className={classes.tipsText}
                     placeholder="コメントを書いて投稿ボタンを押してください"
                     name="text"
                     value={formData.text}
                     onChange={handleChange}
-                  ></textarea>}
+                  ></textarea>
+                )}
               </div>{" "}
               <div className={classes.submitButton}>
                 <Button variant="primary" onClick={handleSubmit}>
