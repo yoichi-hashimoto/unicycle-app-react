@@ -62,7 +62,7 @@ function Test() {
       }
       const submitData = {
         user_id: selectedMember.id,
-        success_score: 3,
+        success_score: nextSuccess,
         skill_id: targetSkill.id,
         earned_point: targetSkill.point,
       };
