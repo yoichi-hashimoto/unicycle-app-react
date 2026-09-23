@@ -31,7 +31,6 @@
   border-radius: 10px;
   padding:0.25rem 0.5rem;
   width: 5rem;
-  // height: 9rem;
   animation: fadeIn 1s ease forwards;
   box-shadow: 2px 2px 2px gray;
   display: flex;
@@ -85,7 +84,7 @@
   width: 1.25rem;
   height: 1.75rem;
   z-index: -1;
-  top:-10%;
+  top:-5%;
   right:-5%;
   transform-origin: bottom;
   animation: rotation 3s ease-in-out infinite;
