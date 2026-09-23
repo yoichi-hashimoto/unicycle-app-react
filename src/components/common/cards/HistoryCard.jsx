@@ -42,18 +42,21 @@ const HistoryCard = ({ history, showButton = true }) => {
             alt={history.user_name}
             className={classes.avatar}
             style={{ backgroundColor: history.color_path }}
+            loading="lazy"
           />
           <div className={classes.animalContainer}>
             <img
               src={history.current_animal}
               alt={history.animalAvatar}
               className={classes.animalAvatar}
+              loading="lazy"
             />
             {history.equipped_item_path && (
               <img
                 src={history.equipped_item_path}
                 className={classes.equippedItem}
                 alt="item"
+                loading="lazy"
               />
             )}
           </div>

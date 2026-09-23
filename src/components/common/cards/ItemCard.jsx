@@ -24,6 +24,7 @@ function ItemCard({ items, ownedItemIds,points }) {
                       className={classes.itemAvatar}
                       key={item.id}
                       alt="items"
+                      loading="lazy"
                     />
                     <p>{item.name}</p>
                   </>

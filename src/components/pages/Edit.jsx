@@ -193,6 +193,7 @@ function Edit() {
                     className={classes.avatarImg}
                     alt="avatar_image"
                     key={avatar.id}
+                    loading="lazy"
                   />
                 </button>
               ))}
@@ -246,6 +247,7 @@ function Edit() {
                       src={userItem.item.avatar_path}
                       alt=""
                       className={classes.itemsImage}
+                      loading="lazy"
                     />
                   </button>
                   <p>{userItem.item.name}</p>

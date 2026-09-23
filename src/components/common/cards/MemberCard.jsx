@@ -19,7 +19,8 @@ function MemberCard({
               <img
                 src={member.current_animal?.avatar_path}
                 alt={member.animalAvatar}
-                className={classes.animalAvatar}
+                  className={classes.animalAvatar}
+                  loading="lazy"
               />
               {member.equipped_item_path && (
                 <img
@@ -37,7 +38,8 @@ function MemberCard({
             <img
               src={member.avatar_path}
               alt="Member"
-              className={classes.memberAvatar}
+                className={classes.memberAvatar}
+                loading="lazy"
             />
             <div className={classes.receivedLikes}>
               <p className={classes.heart}>❤</p>

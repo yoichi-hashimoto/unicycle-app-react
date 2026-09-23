@@ -73,7 +73,7 @@ function SkillCard({ skill }: SkillProps) {
               />
               <p>{skill.skill_tips.length}</p>
             </div>
-            <img src={skill.avatar_path} alt="技の写真" />
+            <img src={skill.avatar_path} alt="技の写真" loading="lazy" />
           </div>
 
           <div className={classes.detailButton}>
