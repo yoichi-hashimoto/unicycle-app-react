@@ -61,12 +61,9 @@ const HistoryCard = ({ history, showButton = true }) => {
         </div>
         <div className={classes.challengeContainer}>
           <div className={classes.levelContainer}>
-            <h2>
-              レベル
               {history.skill_category === "基礎"
-                ? history.current_level
-                : history.skill_category}
-            </h2>
+                ? <h2>レベル{history.current_level}</h2>
+                : <h2>{history.skill_category}</h2>}
             <div className={classes.starContainer}>
               {[1, 2, 3].map((star) => (
                 <img
