@@ -3,11 +3,11 @@ import classes from "./Animal.module.scss";
 
 function AnimalCard({ animal, remainLevel, currentLevel }) {
   const positions = [
-    { bottom: 5, left: 40 }, // Lv1
-    { bottom: 35, left: 70 }, // Lv2
-    { bottom: 65, left: 35 }, // Lv3
-    { bottom: 95, left: 75 }, // Lv4
-    { bottom: 125, left: 45}, // Lv5
+    { bottom: 10, left: 25 }, // Lv1
+    { bottom: 25, left: 40 }, // Lv2
+    { bottom: 37, left: 25 }, // Lv3
+    { bottom: 50, left: 45 }, // Lv4
+    { bottom: 63, left: 30}, // Lv5
   ];
 
   const levelInMountain = ((currentLevel - 1) % positions.length) +1;
@@ -32,8 +32,8 @@ function AnimalCard({ animal, remainLevel, currentLevel }) {
               alt={animal.name}
               className={classes.animal}
               style={{
-                left: `${position.left}px`,
-              bottom:`${position.bottom}px`}}
+                left: `${position.left}%`,
+              bottom:`${position.bottom}%`}}
             />
             <div className={classes.remainLevel}>
               <p>あと<br></br>{remainLevel}レベル</p>
