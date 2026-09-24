@@ -54,7 +54,7 @@ function Profile() {
   }, [user]);
 
   useEffect(() => {
-    if (!user) { return; }
+    if (!user) return;
     if (!showAnimalEvolution) return;
     if (!user?.id || !user.current_animal?.id) return;
 
@@ -92,10 +92,10 @@ function Profile() {
       clearTimeout(timer3);
       clearTimeout(timer4);
     };
-  }, [showAnimalEvolution, user?.id, user?.current_animal?.id]);
+  }, [showAnimalEvolution, user]);
 
   useEffect(() => {
-    if (!user) { return; }
+    if (!user) return; 
     async function loadItems() {
       try {
         const Items = await fetchItems();
@@ -201,7 +201,7 @@ function Profile() {
         <ItemCard
           items={items}
           ownedItemIds={ownedItemIds}
-          points={user.earned_points ?? 0}
+          points={Number(user.earned_points ?? 0)}
         />
       </div>
       <div style={{ textAlign: "center", margin: "3rem" }}>
