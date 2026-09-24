@@ -11,7 +11,6 @@ import Modal from "../common/modal/Modal";
 import Loading from "../common/modal/Loading";
 import axios from "../../api/axios";
 import Button from "../common/button/Button";
-import { fetchPoints } from "../../api/points";
 import Toast from "../common/modal/Toast";
 
 type UserItemType = {
@@ -32,7 +31,6 @@ function Profile() {
   const user = useAuthStore((state) => state.user);
   const [items, setItems] = useState<ItemType[]>([]);
   const [userItems, setUserItems] = useState<UserItemType[]>([]);
-  const [userPoints, setUserPoints] = useState<UserPointType | null>(null);
   const [toast, setToast] = useState<ToastType | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -96,25 +94,6 @@ function Profile() {
       clearTimeout(timer4);
     };
   }, [showAnimalEvolution, user?.id, user?.current_animal?.id]);
-
-  // useEffect(() => {
-  //   async function loadPoints() {
-  //     try {
-  //       if (!user) return;
-  //       const points = await fetchPoints();
-  //       if (!points) {
-  //         return;
-  //       }
-  //       const usersPoint = points.find(
-  //         (point: { user_id: number }) => point.user_id === user.id,
-  //       );
-  //       setUserPoints(usersPoint);
-  //     } catch (error) {
-  //       console.error("error", error);
-  //     }
-  //   }
-  //   loadPoints();
-  // }, [user]);
 
   useEffect(() => {
     async function loadItems() {
