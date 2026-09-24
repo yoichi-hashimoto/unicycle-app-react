@@ -41,6 +41,9 @@ function Profile() {
   }
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     if (
       user.current_animal &&
       user.last_seen_animal &&
@@ -51,6 +54,7 @@ function Profile() {
   }, [user]);
 
   useEffect(() => {
+    if (!user) { return; }
     if (!showAnimalEvolution) return;
     if (!user?.id || !user.current_animal?.id) return;
 
@@ -91,6 +95,7 @@ function Profile() {
   }, [showAnimalEvolution, user?.id, user?.current_animal?.id]);
 
   useEffect(() => {
+    if (!user) { return; }
     async function loadItems() {
       try {
         const Items = await fetchItems();
