@@ -2,10 +2,10 @@ const sharp = require("sharp");
 
 sharp("./public/images/mountain.png")
   .resize({
-    width: 600,
+    width: 200,
     withoutEnlargement: true,
   })
-  .webp({
+  .png({
     quality: 60,
   })
   .toFile("./public/images/mountain_light.png")
