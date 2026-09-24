@@ -23,7 +23,7 @@ function AnimalCard({ animal, remainLevel, currentLevel }) {
         <div className={classes.avatarContainer}>
           <div className={classes.animalImage}>
             <img
-              src="./images/mountain.webp"
+              src="./images/mountain_light.png"
               alt=""
               className={classes.mountain}
             />
