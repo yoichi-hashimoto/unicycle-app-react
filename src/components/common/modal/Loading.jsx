@@ -5,7 +5,7 @@ function Loading() {
         <div className={classes.overlay}>
             <div className={classes.animalsLine}>
                 <p>読み込み中...</p>
-                <img className={classes.animalImage} src="./images/animals/animals_line2.webp" alt="" />
+                <img className={classes.animalImage} src="./images/animals/animals_line2_light.webp" alt="" />
             </div>
         </div>
     )
