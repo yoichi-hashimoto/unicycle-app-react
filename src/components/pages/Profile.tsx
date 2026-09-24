@@ -97,24 +97,24 @@ function Profile() {
     };
   }, [showAnimalEvolution, user?.id, user?.current_animal?.id]);
 
-  useEffect(() => {
-    async function loadPoints() {
-      try {
-        if (!user) return;
-        const points = await fetchPoints();
-        if (!points) {
-          return;
-        }
-        const usersPoint = points.find(
-          (point: { user_id: number }) => point.user_id === user.id,
-        );
-        setUserPoints(usersPoint);
-      } catch (error) {
-        console.error("error", error);
-      }
-    }
-    loadPoints();
-  }, [user]);
+  // useEffect(() => {
+  //   async function loadPoints() {
+  //     try {
+  //       if (!user) return;
+  //       const points = await fetchPoints();
+  //       if (!points) {
+  //         return;
+  //       }
+  //       const usersPoint = points.find(
+  //         (point: { user_id: number }) => point.user_id === user.id,
+  //       );
+  //       setUserPoints(usersPoint);
+  //     } catch (error) {
+  //       console.error("error", error);
+  //     }
+  //   }
+  //   loadPoints();
+  // }, [user]);
 
   useEffect(() => {
     async function loadItems() {
@@ -222,7 +222,7 @@ function Profile() {
         <ItemCard
           items={items}
           ownedItemIds={ownedItemIds}
-          points={userPoints?.total_points ?? 0}
+          points={user.earned_points ?? 0}
         />
       </div>
       <div style={{ textAlign: "center", margin: "3rem" }}>

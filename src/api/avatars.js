@@ -1,8 +1,7 @@
-export async function fetchAvatars() {
-    const response = await fetch("https://api.unicircle-jp.com/api/avatars");
+import axios from "./axios";
 
-    if (!response.ok) {
-        throw new Error("Failed to fetch avatars")
-    }
-    return response.json();
+export async function fetchAvatars() {
+    const response = await axios.get("/api/avatars");
+
+    return response.data;
 }

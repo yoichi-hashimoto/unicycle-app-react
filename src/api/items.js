@@ -1,15 +1,17 @@
-export async function fetchItems() {
-    const response = await fetch(`https://api.unicircle-jp.com/api/items`, {
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-      },
-    });
+import axios from "./axios";
 
-    if (!response.ok) {
-        throw new Error("Fail to fetch item");
-    }
+export async function fetchItems() {
+  const response = await axios.get(`/api/items`);
+    //   credentials: "include",
+    //   headers: {
+    //     Accept: "application/json",
+    //   },
+    // });
+
+    // if (!response.ok) {
+    //     throw new Error("Fail to fetch item");
+    // }
     
-    const data = await response.json()
-    return data;
+    // const data = await response.json()
+    return response.data;
 }
