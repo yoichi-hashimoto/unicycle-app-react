@@ -4,16 +4,14 @@ import Button from "../common/button/Button";
 import classes from "./PageCommon.module.css";
 import { fetchUsers } from "../../api/users";
 import Loading from "../common/modal/Loading";
-import type { UserType } from "../common/type/user"; 
+import type { UserType } from "../common/type/user";
 
 function Ranking() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
 
   const sortByCreated = () => {
-    const sortedMembers = [...users].sort(
-      (a, b) => b.id - a.id,
-    );
+    const sortedMembers = [...users].sort((a, b) => b.id - a.id);
     setUsers(sortedMembers);
   };
 
@@ -55,12 +53,14 @@ function Ranking() {
       {loading && <Loading />}
       <h1>ランキング</h1>
       <div className={classes.sortbuttonWrapper}>
-        <Button variant="outline" onClick={sortByCreated}>新しい順</Button>
         <Button onClick={sortByLevel} variant="outline">
           レベル順
         </Button>
         <Button onClick={sortByLike} variant="outline">
           ❤の数順
+        </Button>
+        <Button variant="outline" onClick={sortByCreated}>
+          新しい順
         </Button>
       </div>
       <div className={classes.cardContainer}>

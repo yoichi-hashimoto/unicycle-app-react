@@ -1,7 +1,10 @@
-import axios from "./axios";
-
 export async function fetchNotice() {
-    const response = await axios.get("/api/notices");
+    const response = await fetch(
+      "https://api.unicircle-jp.com/api/notices",
+    );
 
-    return response.data;
+    if (!response.ok) {
+      throw new Error("Fail to fetch notice");
+    }
+    return response.json();
 }
