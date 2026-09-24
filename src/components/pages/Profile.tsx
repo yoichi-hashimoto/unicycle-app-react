@@ -17,11 +17,6 @@ type UserItemType = {
   item_id: number;
 };
 
-type UserPointType = {
-  user_id: number;
-  total_points: number;
-};
-
 type ToastType = {
   message: string;
   type: "success" | "fail";
