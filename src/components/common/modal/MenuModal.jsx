@@ -55,26 +55,33 @@ function MenuModal({ isOpen, onClose }) {
               </div>
             </>
           )}
-          <Link className={classes.link} to="/" onClick={onClose}>
-            <span>ホーム</span>
-          </Link>
-          <Link className={classes.link} to="/ranking" onClick={onClose}>
-            <span>ランキング</span>
-          </Link>
-          <Link className={classes.link} to="/challenge" onClick={onClose}>
-            <span>みんなのチャレンジ</span>
-          </Link>
-          <Link className={classes.link} to="/technical" onClick={onClose}>
-            <span>わざ一覧</span>
-          </Link>
           {isLoggedIn && (
             <>
+              <Link className={classes.link} to="/" onClick={onClose}>
+                <span>ホーム</span>
+              </Link>
+              <Link className={classes.link} to="/ranking" onClick={onClose}>
+                <span>ランキング</span>
+              </Link>
+              <Link className={classes.link} to="/challenge" onClick={onClose}>
+                <span>みんなのチャレンジ</span>
+              </Link>
+              <Link className={classes.link} to="/technical" onClick={onClose}>
+                <span>わざ一覧</span>
+              </Link>
               <Link className={classes.link} to="/profile" onClick={onClose}>
                 <span>プロフィール</span>
               </Link>
               <button className={classes.link} onClick={handleLogout}>
                 <span>ログアウト</span>
               </button>
+            </>
+          )}
+          {!isLoggedIn && (
+            <>
+              <Link className={classes.link} to="/login" onClick={onClose}>
+                <span>ログイン</span>
+              </Link>
             </>
           )}
         </nav>

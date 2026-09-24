@@ -46,18 +46,17 @@ function Header() {
               </div>
             </>
           )}
-
-          <Link className={classes.link} to="/ranking">
-            <span>ランキング</span>
-          </Link>
-          <Link className={classes.link} to="/challenge">
-            <span>みんなのチャレンジ</span>{" "}
-          </Link>
-          <Link className={classes.link} to="/technical">
-            <span>わざ一覧</span>
-          </Link>
           {isLoggedIn && (
             <>
+              <Link className={classes.link} to="/ranking">
+                <span>ランキング</span>
+              </Link>
+              <Link className={classes.link} to="/challenge">
+                <span>みんなのチャレンジ</span>{" "}
+              </Link>
+              <Link className={classes.link} to="/technical">
+                <span>わざ一覧</span>
+              </Link>
               <Link className={classes.link} to="/profile">
                 <span>プロフィール</span>
               </Link>
