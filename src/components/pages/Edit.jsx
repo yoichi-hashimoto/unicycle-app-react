@@ -126,21 +126,94 @@ function Edit() {
     e.preventDefault();
     console.log("送信前formData", formData);
     
+      const {
+        name,
+        current_password,
+        password,
+        password_confirmation,
+        user_avatar_id,
+        color_id,
+      } = formData;
+
+      const isPasswordChange =
+        current_password !== "" ||
+        password !== "" ||
+        password_confirmation !== "";
+
+      if (isPasswordChange) {
+        if (!current_password) {
+          showToast("現在のパスワードを入力してください");
+          return;
+        }
+
+        if (!password) {
+          showToast("新しいパスワードを入力してください");
+          return;
+        }
+
+        if (password.length < 8) {
+          showToast("新しいパスワードは8文字以上で入力してください");
+          return;
+        }
+
+        if (password !== password_confirmation) {
+          showToast("新しいパスワードが一致しません");
+          return;
+        }
+      }
+
+      const payload = {};
+
+      if (name.trim() !== "") {
+        payload.name = name.trim();
+      }
+
+      if (user_avatar_id !== "") {
+        payload.user_avatar_id = Number(user_avatar_id);
+      }
+
+      if (color_id !== "") {
+        payload.color_id = Number(color_id);
+      }
+
+      if (isPasswordChange) {
+        payload.current_password = current_password;
+        payload.password = password;
+        payload.password_confirmation = password_confirmation;
+      }
     setIsLoading(true);
     try {
-      await axios.get("./sanctum/csrf-cookie");
-      const response = await axios.patch(`/api/users/${user.id}`, formData);
-      const result = response.data;
+      await axios.get("/sanctum/csrf-cookie");
+      const response = await axios.patch(`/api/users/${user.id}`, payload);
 
-      setUser(result.data);
+      setUser(response.data.data);
+
+      setFormData((prev) => ({
+        ...prev,
+        name: "",
+        current_password: "",
+        password: "",
+        password_confirmation: "",
+      }));
 
       showToast("更新しました", "success");
       setTimeout(() => {
         navigate("/profile");
       }, 1000);
     } catch (error) {
-      showToast('入力に間違いがあります','fail')
-      console.error("エラー:", error);
+          if (error.response?.status === 422) {
+            const errors = error.response.data.errors;
+            const firstMessage = Object.values(errors)?.[0]?.[0];
+
+            showToast(firstMessage ?? "入力内容を確認してください", "error");
+          } else if (error.response?.status === 401) {
+            showToast("ログインし直してください", "error");
+          } else if (error.response?.status === 403) {
+            showToast("この変更を行う権限がありません", "error");
+          } else {
+            showToast("更新に失敗しました", "error");
+          }
+          console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -267,25 +340,31 @@ function Edit() {
           />
           <label htmlFor="">今のパスワード</label>{" "}
           <input
+            id="current-password"
             type="password"
             name="current_password"
             value={formData.current_password}
             onChange={handleChange}
+            autoComplete="current-password"
           />
           <label htmlFor="">パスワード変更</label>{" "}
           <input
+            id="new-password"
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder={'8文字以上で設定してください'}
+            autoComplete="new-password"
           />
           <label htmlFor="">パスワード確認</label>{" "}
           <input
+            id="password_confirmation"
             type="password"
             name="password_confirmation"
             value={formData.password_confirmation}
             onChange={handleChange}
+            autoComplete="new-password"
           />
         </div>
         <div style={{ margin: "auto", textAlign: "center" }}>
