@@ -16,8 +16,8 @@ function Register() {
     name: "",
     password: "",
     password_confirmation: "",
-    user_avatar_id: "",
-    color_id: "",
+    user_avatar_id: 1,
+    color_id: 1,
     login_id:"",
   });
   const [userImg, setUserImg] = useState([defaultAvatar]);
