@@ -70,7 +70,7 @@ function Register() {
     window.confirm("本当に登録しますか？");
 
     try {
-      await axios.get("./sanctum/csrf-cookie");
+      await axios.get("/sanctum/csrf-cookie");
       await axios.post(`/api/users`, formData);
       navigate("/ranking");
     } catch (error) {
@@ -163,7 +163,7 @@ function Register() {
         背景を選択する
       </Button>
       <Modal
-        isColorOpen={isColorOpen}
+        isOpen={isColorOpen}
         onClose={() => {
           setIsColorOpen(false);
         }}
