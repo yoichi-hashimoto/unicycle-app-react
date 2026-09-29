@@ -12,6 +12,7 @@ import Loading from "../common/modal/Loading";
 import axios from "../../api/axios";
 import Button from "../common/button/Button";
 import Toast from "../common/modal/Toast";
+import ProfileActivity from "../profile/ProfileActivity";
 
 type UserItemType = {
   item_id: number;
@@ -192,11 +193,14 @@ function Profile() {
           level={user.current_level}
         />
         <AnimalCard
-          animal={user.current_animal}
+          animal={user.display_animal ?? user.current_animal}
           remainLevel={user.remain_level}
           currentLevel={user.current_level}
+          beginnerMode={user.beginner_mode}
+          beginnerStep={user.beginner_step}
         />
       </div>
+      <ProfileActivity />
       <div>
         <ItemCard
           items={items}

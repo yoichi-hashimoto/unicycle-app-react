@@ -58,7 +58,7 @@ function Technical() {
       try {
         setLoading(true);
         const users = await fetchUsers();
-        const admins = users.filter((user: any) => user.is_admin === true);
+        const admins = users.filter((user: any) => user.role === "admin");
         console.log(admins);
         setAdmins(admins);
       } catch (error) {

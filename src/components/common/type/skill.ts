@@ -8,6 +8,7 @@ export type SkillType = {
   required_level: number;
   point: number; 
   skill_tips: SkillTipType[]; 
+  unread_tip_count: number;
 }
 
 type SkillTipType = {

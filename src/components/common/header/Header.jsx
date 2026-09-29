@@ -28,7 +28,7 @@ function Header() {
       </div>
       <div className={classes.links}>
         <nav className={classes.nav}>
-          {user?.is_admin && (
+          {user?.role === "admin" && (
             <>
               <div className={classes.adminMenu}>
                 <Link className={classes.adminLink} to="/test">
@@ -57,9 +57,16 @@ function Header() {
               <Link className={classes.link} to="/technical">
                 <span>わざ一覧</span>
               </Link>
-              <Link className={classes.link} to="/profile">
-                <span>プロフィール</span>
-              </Link>
+              {user.role !== "gurdian" && (
+                <>
+                  <Link className={classes.link} to="/beginner">
+                    <span>初心者コース</span>
+                  </Link>
+                  <Link className={classes.link} to="/profile">
+                    <span>プロフィール</span>
+                  </Link>
+                </>
+              )}
               <button className={classes.link} onClick={handleLogout}>
                 <span>ログアウト</span>
               </button>
@@ -67,6 +74,9 @@ function Header() {
           )}
           {!isLoggedIn && (
             <>
+              <Link className={classes.link} to="/beginner">
+                <span>初心者コース</span>
+              </Link>
               <Link className={classes.link} to="/login">
                 <span>ログイン</span>
               </Link>

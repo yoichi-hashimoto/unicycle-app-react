@@ -71,6 +71,11 @@ const Home = () => {
           </div>
         </div>
         <div className={classes.button}>
+          <Button variant="outline">
+            <Link className={classes.beginnerLinkButton} to="/beginner">
+              ログインなしで初心者コース
+            </Link>
+          </Button>
           <Button variant="primary">
             <Link className={classes.linkButton} to="./login">
               ログインしてはじめる

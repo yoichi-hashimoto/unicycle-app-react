@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./Member.module.scss";
+import { getBackgroundStyle } from "../../../utils/background";
 
 function MemberCard({
   member,
@@ -17,7 +18,7 @@ function MemberCard({
           {showButton && (
             <div className={classes.animalWrapper}>
               <img
-                src={member.current_animal?.avatar_path}
+                src={(member.display_animal ?? member.current_animal)?.avatar_path}
                 alt={member.animalAvatar}
                   className={classes.animalAvatar}
                   loading="lazy"
@@ -33,7 +34,7 @@ function MemberCard({
           )}
           <div
             className={classes.avatarContainer}
-            style={{ backgroundColor: member.color_path }}
+            style={getBackgroundStyle(member.color_path)}
           >
             <img
               src={member.avatar_path}

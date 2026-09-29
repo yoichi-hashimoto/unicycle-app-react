@@ -18,12 +18,24 @@ import Notice from "./components/pages/admin/Notice";
 import { useAuthStore } from "./stores/authStore";
 import { fetchLoginUser } from "./api/auth";
 import AdminRoute from "./components/common/routes/AdminRoute";
+import MemberRoute from "./components/common/routes/MemberRoute";
+import Beginner from "./components/pages/Beginner";
+import { readBeginnerProgress } from "./features/beginner/beginnerProgress";
+import { syncBeginnerProgress } from "./api/beginner";
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
   useEffect(() => {
     fetchLoginUser()
-      .then((user) => {
+      .then(async (user) => {
+        const progress = readBeginnerProgress();
+        if (progress.enabled && user.role !== "gurdian") {
+          try {
+            user = await syncBeginnerProgress(progress);
+          } catch (error) {
+            console.error("beginner progress sync failed", error);
+          }
+        }
         setUser(user);
       })
       .catch(() => {
@@ -38,28 +50,13 @@ function App() {
         <Main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/beginner" element={<Beginner />} />
             <Route path="/ranking" element={<Ranking />} />
-            <Route path="/Challenge" element={<Challenge />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/challenge" element={<Challenge />} />
+            <Route path="/profile" element={<MemberRoute><Profile /></MemberRoute>} />
             <Route path="/login" element={<Login />} />
-            <Route path="/edit" element={<Edit />} />
+            <Route path="/edit" element={<MemberRoute><Edit /></MemberRoute>} />
             <Route path="/technical" element={<Technical />} />
-            <Route
-              path="/register"
-              element={
-                <AdminRoute>
-                  <Register />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <AdminRoute>
-                  <Register />
-                </AdminRoute>
-              }
-            />
             <Route
               path="/register"
               element={

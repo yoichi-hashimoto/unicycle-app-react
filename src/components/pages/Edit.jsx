@@ -12,6 +12,7 @@ import { useAuthStore } from "../../stores/authStore";
 import axios from "../../api/axios";
 import Toast from "../common/modal/Toast";
 import Loading from "../common/modal/Loading";
+import { getBackgroundStyle } from "../../utils/background";
 
 function Edit() {
   const user = useAuthStore((state) => state.user);
@@ -235,10 +236,12 @@ function Edit() {
           success={user?.success_score}
         />
         <AnimalCard
-          animal={user.current_animal}
+          animal={user.display_animal || user.current_animal}
           item={user.equipped_item_path}
           remainLevel={user.remain_level}
           currentLevel={user.current_level}
+          beginnerMode={user.beginner_mode}
+          beginnerStep={user.beginner_step}
         />
       </div>
       <div className={classes.inputContainer}>
@@ -288,7 +291,7 @@ function Edit() {
                     key={color.id}
                     name="color_id"
                     value={color.id}
-                    style={{ backgroundColor: color.color_path }}
+                    style={getBackgroundStyle(color.color_path)}
                     className={classes.bgColors}
                     onClick={() => colorChange(color)}
                   ></button>

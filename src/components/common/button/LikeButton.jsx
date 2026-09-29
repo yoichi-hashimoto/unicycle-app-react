@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import classes from "./LikeButton.module.css";
 import Toast from "../modal/Toast";
 
-function LikeButton({ likeHistory, showButton = true, fromUser }) {
+function LikeButton({ likeHistory, showButton = true }) {
   const [isLiked, setIsLiked] = useState(false);
   const [liked, setLiked] = useState(0);
   const [toast, setToast] = useState(false);
@@ -30,8 +30,6 @@ function LikeButton({ likeHistory, showButton = true, fromUser }) {
     if (isLiked) return;
 
     const data = {
-      user_id: likeHistory.user_id,
-      from_user_id: fromUser?.id ?? fromUser,
       challenge_id: likeHistory.id,
     };
     console.log(data);

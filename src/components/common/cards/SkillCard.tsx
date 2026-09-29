@@ -21,6 +21,19 @@ function SkillCard({ skill }: SkillProps) {
   });
 
   const [tips, setTips] = useState(skill.skill_tips ?? []);
+  const [unreadCount, setUnreadCount] = useState(skill.unread_tip_count ?? 0);
+
+  const handleOpen = async () => {
+    setIsOpen(true);
+    if (unreadCount === 0) return;
+
+    try {
+      await axios.patch(`/api/skill/${skill.id}/tips/read`);
+      setUnreadCount(0);
+    } catch (error) {
+      console.error("comment read update failed", error);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -67,11 +80,14 @@ function SkillCard({ skill }: SkillProps) {
           </div>
           <div className={classes.technicalImg}>
             <div className={classes.commentBubble}>
+              {unreadCount > 0 && (
+                <span className={classes.unreadDot} aria-label={`未読コメント ${unreadCount}件`} />
+              )}
               <img
                 src="/images/icons/comment_bubble.svg"
                 alt="comment_bubble"
               />
-              <p>{skill.skill_tips.length}</p>
+              <p>{tips.length}</p>
             </div>
             <img src={skill.avatar_path} alt="技の写真" loading="lazy" />
           </div>
@@ -83,7 +99,7 @@ function SkillCard({ skill }: SkillProps) {
                 <p>ポイント</p>
               </div>
             )}
-            <Button onClick={() => setIsOpen(true)}>詳しく</Button>
+            <Button onClick={handleOpen}>詳しく</Button>
           </div>
         </div>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
@@ -105,7 +121,7 @@ function SkillCard({ skill }: SkillProps) {
               </div>
               <p>👆成功のコツや失敗しやすい点などをコメントしよう！</p>
               <TipCard skillTips={tips} />
-              <div className={classes.tipsWrapper}>
+              {user?.role !== "gurdian" && <div className={classes.tipsWrapper}>
                 {" "}
                 <div className={classes.userWrapper}>
                   {" "}
@@ -121,12 +137,12 @@ function SkillCard({ skill }: SkillProps) {
                     onChange={handleChange}
                   ></textarea>
                 )}
-              </div>{" "}
-              <div className={classes.submitButton}>
+              </div>}{" "}
+              {user?.role !== "gurdian" && <div className={classes.submitButton}>
                 <Button variant="primary" onClick={handleSubmit}>
                   投稿
                 </Button>
-              </div>
+              </div>}
             </div>{" "}
           </div>
         </Modal>

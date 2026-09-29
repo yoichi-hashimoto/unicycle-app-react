@@ -79,3 +79,11 @@ input {
   text-decoration: none;
 }
 }
+
+.registerContainer select {
+  height: 42px;
+  border: 1px solid green;
+  border-radius: 25px;
+  padding: 0 1rem;
+  background: white;
+}

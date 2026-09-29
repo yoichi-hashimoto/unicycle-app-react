@@ -477,3 +477,16 @@
   font-size: 0.75rem;
 }
 }
+
+.unreadDot {
+  position: absolute;
+  top: -0.2rem;
+  right: -0.2rem;
+  z-index: 4;
+  width: 0.45rem;
+  height: 0.45rem;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #e11d48;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}

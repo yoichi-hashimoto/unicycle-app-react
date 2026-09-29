@@ -21,7 +21,7 @@ function MenuModal({ isOpen, onClose }) {
     <div onClick={onClose} className={classes.modalOverlay}>
       <div className={classes.menuModal} onClick={(e) => e.stopPropagation()}>
         <nav className={classes.menuNav}>
-          {user?.is_admin && (
+          {user?.role === "admin" && (
             <>
               <div className={classes.adminMenu}>
                 <Link
@@ -69,9 +69,16 @@ function MenuModal({ isOpen, onClose }) {
               <Link className={classes.link} to="/technical" onClick={onClose}>
                 <span>わざ一覧</span>
               </Link>
-              <Link className={classes.link} to="/profile" onClick={onClose}>
-                <span>プロフィール</span>
-              </Link>
+              {user.role !== "gurdian" && (
+                <>
+                  <Link className={classes.link} to="/beginner" onClick={onClose}>
+                    <span>初心者コース</span>
+                  </Link>
+                  <Link className={classes.link} to="/profile" onClick={onClose}>
+                    <span>プロフィール</span>
+                  </Link>
+                </>
+              )}
               <button className={classes.link} onClick={handleLogout}>
                 <span>ログアウト</span>
               </button>
@@ -79,6 +86,9 @@ function MenuModal({ isOpen, onClose }) {
           )}
           {!isLoggedIn && (
             <>
+              <Link className={classes.link} to="/beginner" onClick={onClose}>
+                <span>初心者コース</span>
+              </Link>
               <Link className={classes.link} to="/login" onClick={onClose}>
                 <span>ログイン</span>
               </Link>

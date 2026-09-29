@@ -1,6 +1,7 @@
 import classes from "./History.module.scss";
 import LikeButton from "../button/LikeButton";
 import { useAuthStore } from "../../../stores/authStore";
+import { getBackgroundStyle } from "../../../utils/background";
 
 const judgePass = (history) => {
   if (history.success_score === 3) {
@@ -41,7 +42,7 @@ const HistoryCard = ({ history, showButton = true }) => {
             src={history.user_avatar_path}
             alt={history.user_name}
             className={classes.avatar}
-            style={{ backgroundColor: history.color_path }}
+            style={getBackgroundStyle(history.color_path)}
             loading="lazy"
           />
           <div className={classes.animalContainer}>
@@ -86,7 +87,10 @@ const HistoryCard = ({ history, showButton = true }) => {
             {history.skill_name}に"{judgePass(history)}"しました！
           </p>
         </div>
-        <LikeButton likeHistory={history} fromUser={authUser?.id}></LikeButton>
+        <LikeButton
+          likeHistory={history}
+          showButton={authUser?.role !== "gurdian"}
+        />
       </div>
     </>
   );

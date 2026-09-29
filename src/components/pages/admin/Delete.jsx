@@ -17,7 +17,7 @@ function Delete() {
     },2500)}
 
   useEffect(() => {
-    fetchUsers().then((data) =>
+    fetchUsers(true).then((data) =>
       setUserList(data));
   }, []);
   const showAleart = () => {
@@ -74,6 +74,7 @@ function Delete() {
             <th>パスワード初期化</th>
             <th>ID</th>
             <th>名前</th>
+            <th>権限</th>
             <th>アバター</th>
             <th>レベル</th>
             <th>動物</th>
@@ -91,14 +92,17 @@ function Delete() {
               </td>
               <td>{user.id}</td>
               <td>{user.name}</td>
+              <td>{user.role}</td>
               <td>
-                <img src={user.avatar_path} alt={user.name} />
+                {user.avatar_path ? <img src={user.avatar_path} alt={user.name} /> : "—"}
               </td>
-              <td>{user.current_level}</td>
+              <td>{user.current_level ?? "—"}</td>
               <td>
-                <img src={user.current_animal.avatar_path} alt="animal_avatar" />
+                {user.current_animal?.avatar_path
+                  ? <img src={user.current_animal.avatar_path} alt="animal_avatar" />
+                  : "—"}
               </td>
-              <td>❤{user.received_likes}</td>
+              <td>{user.received_likes == null ? "—" : `❤${user.received_likes}`}</td>
             </tr>
           ))}
         </tbody>

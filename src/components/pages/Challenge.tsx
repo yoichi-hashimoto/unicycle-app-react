@@ -9,6 +9,7 @@ import type { ChallengeType } from "../common/type/challenge";
 import type {UserType} from "../common/type/user";
 import Modal from "../common/modal/Modal";
 import {fetchUsers} from "../../api/users"
+import { useAuthStore } from "../../stores/authStore";
 
 
 function Challenge({ showButton = true }) {
@@ -16,6 +17,7 @@ function Challenge({ showButton = true }) {
   const [loading, setLoading] = useState(false);
   const [isOpen,setIsOpen]=useState(false);
   const [admins,setAdmins]=useState<UserType[]>([]);
+  const authUser = useAuthStore((state) => state.user);
   const sortByLevel = () => {
     const sortedChallenge = [...challenges].sort(
       (a, b) => b.current_level - a.current_level,
@@ -55,7 +57,7 @@ function Challenge({ showButton = true }) {
       try{
         setLoading(true);
         const users = await fetchUsers();
-        const admins = users.filter((user:any)=>user.is_admin === true);
+        const admins = users.filter((user:any)=>user.role === "admin");
         console.log(admins);
         setAdmins(admins);
       }catch(error){
@@ -108,9 +110,11 @@ function Challenge({ showButton = true }) {
           ❤の数順
         </Button>
       </div>
-      <p style={{ textAlign: "center", color: "red" }}>
-        ❤を押すにはログインしてください
-      </p>
+      {authUser?.role === "gurdian" && (
+        <p style={{ textAlign: "center", color: "#666" }}>
+          閲覧専用アカウントでは❤を送れません
+        </p>
+      )}
       <div className={classes.challengeContainer}>
         {challenges.map((challenge) => (
           <HistoryCard key={challenge.id} history={challenge} />

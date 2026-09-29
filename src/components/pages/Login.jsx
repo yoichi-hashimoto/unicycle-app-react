@@ -7,6 +7,8 @@ import { useAuthStore } from "../../stores/authStore";
 import { fetchLoginUser } from "../../api/auth";
 import Toast from "../common/modal/Toast";
 import Loading from "../common/modal/Loading";
+import { readBeginnerProgress } from "../../features/beginner/beginnerProgress";
+import { syncBeginnerProgress } from "../../api/beginner";
 
 function Login() {
   const navigate = useNavigate();
@@ -70,12 +72,16 @@ await axios.post(
   },
 );
 
-      const user = await fetchLoginUser();
+      let user = await fetchLoginUser();
+      const beginnerProgress = readBeginnerProgress();
+      if (beginnerProgress.enabled && user.role !== "gurdian") {
+        user = await syncBeginnerProgress(beginnerProgress);
+      }
       setUser(user);
       showToast("ログインしました","success");
 
       setTimeout(() => {
-        navigate("/profile");
+        navigate(user.role === "gurdian" ? "/ranking" : "/profile");
       }, 1500);
     } catch (error) {
       console.error(error);

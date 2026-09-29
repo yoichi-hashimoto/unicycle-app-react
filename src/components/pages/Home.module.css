@@ -109,12 +109,22 @@
 .button {
   margin: 3rem auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .linkButton {
   font-size: 1.5rem;
   text-decoration: none;
   color: white;
+}
+
+.beginnerLinkButton {
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: #258f43;
 }
 
 @media (min-width: 768px) {

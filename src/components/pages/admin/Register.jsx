@@ -6,6 +6,7 @@ import { fetchColors } from "../../../api/color";
 import { fetchAvatars } from "../../../api/avatars";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../api/axios";
+import { getBackgroundStyle } from "../../../utils/background";
 
 const defaultAvatar = "/images/users/avatar_01_r1_c1.png";
 
@@ -19,9 +20,10 @@ function Register() {
     user_avatar_id: 1,
     color_id: 1,
     login_id:"",
+    role: "member",
   });
-  const [userImg, setUserImg] = useState([defaultAvatar]);
-  const [colorImg, setColorImg] = useState([]);
+  const [userImg, setUserImg] = useState(defaultAvatar);
+  const [colorImg, setColorImg] = useState("#FFFFFF");
   const [isOpen, setIsOpen] = useState(false);
   const [isColorOpen, setIsColorOpen] = useState(false);
   const navigate = useNavigate();
@@ -67,7 +69,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("送信前：", formData);
-    window.confirm("本当に登録しますか？");
+    if (!window.confirm("本当に登録しますか？")) return;
 
     try {
       await axios.get("/sanctum/csrf-cookie");
@@ -81,12 +83,22 @@ function Register() {
   return (
     <div className={classes.registerContainer}>
       <h2>新規登録</h2>
-      <img
-        src={userImg ? userImg : defaultAvatar}
-        alt=""
-        style={{ backgroundColor: colorImg }}
-        className={classes.avatarPreview}
-      />
+      {formData.role !== "gurdian" && (
+        <img
+          src={userImg || defaultAvatar}
+          alt=""
+          style={getBackgroundStyle(colorImg)}
+          className={classes.avatarPreview}
+        />
+      )}
+      <label htmlFor="role">
+        権限
+        <select id="role" name="role" value={formData.role} onChange={handleChange}>
+          <option value="member">メンバー</option>
+          <option value="admin">管理者</option>
+          <option value="gurdian">閲覧者（gurdian）</option>
+        </select>
+      </label>
       <label htmlFor="">
         なまえ
         <input
@@ -127,14 +139,14 @@ function Register() {
           onChange={handleChange}
         />
       </label>
-      <Button
+      {formData.role !== "gurdian" && <Button
         variant="primary"
         onClick={() => {
           setIsOpen(true);
         }}
       >
         イラストを選択
-      </Button>
+      </Button>}
       <Modal
         isOpen={isOpen}
         onClose={() => {
@@ -159,9 +171,9 @@ function Register() {
         </div>
       </Modal>
 
-      <Button variant="primary" onClick={() => setIsColorOpen(true)}>
+      {formData.role !== "gurdian" && <Button variant="primary" onClick={() => setIsColorOpen(true)}>
         背景を選択する
-      </Button>
+      </Button>}
       <Modal
         isOpen={isColorOpen}
         onClose={() => {
@@ -174,7 +186,7 @@ function Register() {
               <div>
                 <button
                   key={color.id}
-                  style={{ backgroundColor: color.color_path }}
+                  style={getBackgroundStyle(color.color_path)}
                   className={classes.bgColors}
                   onClick={() => colorChange(color)}
                 ></button>

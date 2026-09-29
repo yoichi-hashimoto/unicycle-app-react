@@ -3,7 +3,7 @@ export type UserType =  {
     name: string;
     color_id: number;
     user_avatar_id: number;
-    is_admin: boolean;
+    role: "member" | "admin" | "gurdian";
     avatar_path:string;
     current_level: number;
     equipped_item_id: number;
