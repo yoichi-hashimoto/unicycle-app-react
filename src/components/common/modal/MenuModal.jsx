@@ -69,7 +69,7 @@ function MenuModal({ isOpen, onClose }) {
                 <span>みんなのチャレンジ</span>
               </Link>
               <Link className={classes.link} to="/technical" onClick={onClose}>
-                <span>わざ一覧</span>
+                <span>わざの道のり</span>
               </Link>
               {user.role !== "gurdian" && (
                 <>

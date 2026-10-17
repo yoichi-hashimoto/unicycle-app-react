@@ -5,238 +5,92 @@ import Button from "../../common/button/Button";
 import { fetchUsers } from "../../../api/users";
 import axios from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
+import { roadmapGenres } from "../../../features/roadmap/catalog";
 
 function Test() {
   const [users, setUsers] = useState([]);
   const [selectedMember, setSelectedMember] = useState(null);
-  const categories = ["基礎", "ソロ中級", "ペア"];
   const [selectedCategory, setSelectedCategory] = useState("基礎");
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [success, setSuccess] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [level, setLevel] = useState(0);
-
   useEffect(() => {
-    fetchUsers().then((data) => {
-      // const fetchedUsers = data.data;
-      setUsers(data);
-
-      if (data.length > 0) {
-        setSelectedMember(data[0]);
-        setLevel(data[0].current_level);
-      }
-    });
+    let active = true;
+    fetchUsers().then(data => {
+      if (!active) return;
+      const members = data.filter(user => user.role !== "gurdian");
+      setUsers(members);
+      const first = members[0] ?? null;
+      setSelectedMember(first);
+      if (first?.current_level >= 26) setSelectedCategory(first.target_skill?.category ?? first.remain_skills?.next_skill?.[0]?.category ?? "基礎");
+    }).catch(() => { if (active) setError("メンバーを読み込めませんでした。"); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
   }, []);
-
-  const nextSkills = selectedMember?.remain_skills?.next_skill ?? [];
-
-  const filteredSkills = nextSkills.filter(
-    (skill) => skill.category === selectedCategory,
-  );
-
   useEffect(() => {
     if (!selectedMember) return;
-    if (selectedCategory === "基礎") {
-      setSelectedSkill(selectedMember.remain_skills?.basic_skill ?? null);
-      return;
+    if (selectedCategory === "基礎") setSelectedSkill(selectedMember.remain_skills?.basic_skill ?? null);
+    else {
+      const available = (selectedMember.remain_skills?.next_skill ?? []).filter(skill => skill.category === selectedCategory);
+      setSelectedSkill(available.find(skill => skill.id === selectedMember.target_skill_id) ?? available[0] ?? null);
     }
-
-    const filterd = (
-      selectedMember.remain_skills?.next_skill ?? []
-    ).filter((skill) => skill.category === selectedCategory);
-    setSelectedSkill(filterd[0] ?? null);
+    setSuccess(0); setError("");
   }, [selectedCategory, selectedMember]);
-
-  const addSuccess = async () => {
-    const nextSuccess = success + 1;
-    setSuccess(nextSuccess);
-
-    if (nextSuccess >= 3) {
-      const targetSkill =
-        selectedCategory === "基礎"
-          ? selectedMember.remain_skills?.basic_skill
-          : selectedSkill;
-      if (!targetSkill) {
-        console.error("対象スキルが見つかりません");
-        return;
-      }
-      const submitData = {
-        user_id: selectedMember.id,
-        success_score: nextSuccess,
-        skill_id: targetSkill.id,
-        earned_point: targetSkill.point,
-      };
-      console.log(submitData);
-
-      try {
-        await axios.get("./sanctum/csrf-cookie");
-        await axios.post("./api/challenges", submitData);
-
-        navigate("/challenge");
-      } catch (error) {
-        console.error("エラー", error);
-      }
-    }
-
-    return setSuccess(nextSuccess);
-  };
-
-  const handleChangeMember = (e) => {
-    const memberId = Number(e.target.value);
-    console.log(memberId);
-    const user = users.find((user) => user.id === memberId);
-
-    setSelectedMember(user);
-    console.log(user);
-    setSuccess(0);
-    setLevel(user.current_level);
-  };
-
-  const handleChangeCategory = (e) => {
-    setSelectedCategory(e.target.value);
-    setSuccess(0);
-  };
-
-  const handleChangeSkill = (e) => {
-    const skillId = Number(e.target.value);
-    const skill =
-      (selectedMember?.remain_skills?.next_skill ?? []).find((skill) => skill.id === skillId);
-    setSelectedSkill(skill ?? null);
-    setSuccess(0);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const submitData = {
-      user_id: selectedMember.id,
-      skill_id: selectedSkill?.id
-        ? selectedSkill.id
-        : selectedMember.current_level,
-      success_score: success,
-    };
-    console.log("送信前：", submitData);
-    if (!window.confirm("本当に送信しますか？")) {
-      return;
-    }
-
+  const nextSkills = selectedMember?.remain_skills?.next_skill ?? [];
+  const categories = ["基礎", ...roadmapGenres.map(genre => genre.name), ...Array.from(new Set(nextSkills.map(skill => skill.category))).filter(name => !roadmapGenres.some(genre => genre.name === name))];
+  const availableSkills = nextSkills.filter(skill => skill.category === selectedCategory);
+  const saveResult = async score => {
+    if (saving || !selectedMember || !selectedSkill) return;
+    setSaving(true); setError("");
     try {
-      await axios.get("./sanctum/csrf-cookie");
-      await axios.post("./api/challenges", submitData);
-
+      await axios.get("/sanctum/csrf-cookie");
+      await axios.post("/api/challenges", { user_id: selectedMember.id, skill_id: selectedSkill.id, success_score: score });
       navigate("/challenge");
     } catch (error) {
-      console.error("エラー", error);
-    }
+      setError(error.response?.data?.errors?.skill_id?.[0] ?? "検定結果を保存できませんでした。もう一度お試しください。");
+    } finally { setSaving(false); }
   };
-
-  if (!selectedMember) {
-    return <p>Loading...</p>;
-  }
-
-  return (
-    <div className={classes.testContainer}>
-      <h1>🔥レベルアップテスト🔥</h1>
+  const addSuccess = async () => {
+    if (saving || !selectedSkill) return;
+    const next = Math.min(3, success + 1);
+    setSuccess(next);
+    if (next === 3) await saveResult(next);
+  };
+  const changeMember = event => {
+    const member = users.find(user => user.id === Number(event.target.value));
+    setSelectedMember(member);
+    setSelectedCategory(member.current_level >= 26 ? member.target_skill?.category ?? member.remain_skills?.next_skill?.[0]?.category ?? "基礎" : "基礎");
+  };
+  if (loading) return <p role="status">メンバーを読み込み中…</p>;
+  return <div className={classes.testContainer}>
+    <h1>レベルアップ・技の検定</h1>
+    {error && <p role="alert">{error}</p>}
+    {!selectedMember ? <p>検定できるメンバーがいません。</p> : <>
       <div className={classes.challengeWrapper}>
         <div className={classes.selector}>
-          <div className={classes.challengeSelector}>
-            <h2>チャレンジャーを選択する</h2>
-            <select
-              name="memberSelector"
-              id="selector"
-              onChange={handleChangeMember}
-              value={selectedMember.id}
-            >
-              {users.map((user) => (
-                <option name="user_id" key={user.id} value={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
+          <div className={classes.challengeSelector}><label htmlFor="test-member">チャレンジャー</label>
+            <select id="test-member" value={selectedMember.id} disabled={saving} onChange={changeMember}>{users.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}</select>
           </div>
-          <div className={classes.challengeSelector}>
-            <h2>スキルタイプを選択する</h2>
-            <select
-              name="skillSlector"
-              id="selector"
-              onChange={handleChangeCategory}
-              value={selectedCategory}
-            >
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+          <div className={classes.challengeSelector}><label htmlFor="test-category">技のジャンル</label>
+            <select id="test-category" value={selectedCategory} disabled={saving} onChange={event => setSelectedCategory(event.target.value)}>{categories.map(category => <option key={category}>{category}</option>)}</select>
           </div>
         </div>
-        <div className={classes.memberWrapper}>
-          {" "}
-          <MemberCard
-            member={selectedMember}
-            level={level}
-            success={success}
-            showSkill={false}
-            name="current_level"
-            value={level}
-          />
-        </div>
+        <MemberCard member={selectedMember} level={selectedMember.current_level} success={success} showSkill={false} />
       </div>
-      <div className={classes.nextChallenge}>
-        <h2>チャレンジするわざ</h2>
-        <div className={classes.starContainer}>
-          <div className={classes.challengeSkill}>
-            {selectedCategory === "基礎" ? (
-              selectedMember.current_level <= 25 ? (
-                <p>{selectedSkill?.name?? "対象の技がありません"}</p>
-              ) : (
-                <p>基礎コースクリア済み！</p>
-              )
-            ) : (
-              <select
-                value={selectedSkill?.id ?? ""}
-                onChange={handleChangeSkill}
-              >
-                {filteredSkills.map((skill) => (
-                  <option value={skill.id} key={skill.id}>
-                    {skill.name}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-          <div>
-            {selectedMember.current_level >= 26 && selectedCategory === "基礎"
-              ? ""
-              : [1, 2, 3].map((star) => (
-                  <img
-                    className={`${classes.star} ${star <= success ? classes.starFilled : ""}`}
-                    key={star}
-                    src={
-                      star <= success
-                        ? "./images/star_filled.png"
-                        : "./images/star_blank.png"
-                    }
-                    alt="star"
-                    name="success_score"
-                    value={success}
-                  />
-                ))}
-          </div>
-        </div>{" "}
+      <div className={classes.nextChallenge}><h2>チャレンジする技</h2>
+        {selectedCategory === "基礎" ? <p>{selectedSkill?.name ?? "基礎コースクリア済み！"}</p> : <>
+          {availableSkills.length ? <select aria-label="チャレンジする技" value={selectedSkill?.id ?? ""} disabled={saving} onChange={event => { setSelectedSkill(availableSkills.find(skill => skill.id === Number(event.target.value)) ?? null); setSuccess(0); setError(""); }}>{availableSkills.map(skill => <option key={skill.id} value={skill.id}>{skill.name}（{skill.point ?? 0}pt）</option>)}</select> : <p>{selectedMember.current_level < 26 ? "基礎25技をクリアすると挑戦できます。" : "前提の技を達成するか、別のジャンルを選んでください。"}</p>}
+          {selectedSkill && <p>初回合格で {selectedSkill.point ?? 0} ポイント</p>}
+        </>}
+        {selectedSkill && <div className={classes.starContainer} aria-label={`成功 ${success}回`}>{[1, 2, 3].map(star => <img className={classes.star} key={star} src={star <= success ? "/images/star_filled.png" : "/images/star_blank.png"} alt="" />)}</div>}
       </div>
-      <div className={classes.testButtons}>
-        <Button variant="primary" onClick={addSuccess}>
-          成功👍
-        </Button>
+      <div className={classes.testButtons}><Button variant="primary" onClick={addSuccess} disabled={saving || !selectedSkill}>{saving ? "保存中…" : success === 3 ? "合格結果を再送" : "成功👍"}</Button>
+        {success < 3 && <Button variant="outline" disabled={saving || !selectedSkill} onClick={() => { if (window.confirm("この成功回数で検定結果を記録しますか？")) saveResult(success); }}>失敗・終了</Button>}
       </div>
-      <div className={classes.submitButton}>
-        <Button variant="outline" onClick={handleSubmit}>
-          失敗💦
-        </Button>
-      </div>
-    </div>
-  );
+    </>}
+  </div>;
 }
-
 export default Test;

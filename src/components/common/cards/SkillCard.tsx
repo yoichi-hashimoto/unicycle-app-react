@@ -7,16 +7,20 @@ import { useAuthStore } from "../../../stores/authStore";
 import TipCard from "./TipCard";
 import axios from "../../../api/axios";
 import { clubLabel } from "../../../utils/club";
+import { isBasicSkill } from "../../../features/roadmap/catalog";
 
 type SkillProps = {
   skill: SkillType;
+  variant?: "grid" | "roadmap";
+  onTargetSelected?: (user: any) => void | Promise<void>;
 };
 
-function SkillCard({ skill }: SkillProps) {
+function SkillCard({ skill, variant = "grid", onTargetSelected }: SkillProps) {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
   const currentLevel = user?.current_level ?? 0;
-  const isCleared = skill.required_level < currentLevel;
+  const isBasic = isBasicSkill(skill);
+  const isCleared = skill.is_cleared ?? (isBasic && skill.required_level < currentLevel);
   const [formData, setFormData] = useState({
     text: "",
   });
@@ -26,9 +30,28 @@ function SkillCard({ skill }: SkillProps) {
   const [commentError, setCommentError] = useState("");
   const [posting, setPosting] = useState(false);
   const [commentsLoading, setCommentsLoading] = useState(false);
+  const [savingTarget, setSavingTarget] = useState(false);
+  const [targetError, setTargetError] = useState("");
+
+  const selectTarget = async () => {
+    if (savingTarget || !skill.is_available || !user || user.role === "gurdian") return;
+    const userId = user.id;
+    setSavingTarget(true); setTargetError("");
+    try {
+      await axios.get("/sanctum/csrf-cookie");
+      const response = await axios.patch("/api/user/skill-target", { skill_id: skill.id });
+      if (useAuthStore.getState().user?.id !== userId) return;
+      useAuthStore.getState().setUser(response.data.data);
+      await onTargetSelected?.(response.data.data);
+      setIsOpen(false);
+    } catch (error: any) {
+      setTargetError(error.response?.data?.errors?.skill_id?.[0] ?? "目標を保存できませんでした。再度お試しください。");
+    } finally { setSavingTarget(false); }
+  };
 
   const handleOpen = async () => {
     setIsOpen(true);
+    setTargetError("");
     setCommentsLoading(true); setCommentError("");
     try {
       const response = await axios.get(`/api/skill/${skill.id}/tips`);
@@ -73,7 +96,16 @@ function SkillCard({ skill }: SkillProps) {
   return (
     <>
       <div>
-        <div
+        {variant === "roadmap" ? <article className={`${classes.roadmapCard} ${isCleared ? classes.roadmapCleared : ""} ${skill.is_current ? classes.roadmapCurrent : ""}`}>
+          <button type="button" className={classes.roadmapOpen} onClick={handleOpen}
+            aria-label={`${isBasic ? `レベル${skill.required_level} ` : ""}${skill.name}の詳細${isCleared ? "（クリア済み）" : ""}`}>
+            <span className={classes.roadmapEyebrow}>{isBasic ? `Lv${skill.required_level}` : skill.category}<span>{isBasic ? isCleared ? "✓" : "" : `+${skill.point ?? 0} pt`}</span></span>
+            <img src={skill.avatar_path} alt="" loading="lazy" />
+            <strong>{skill.name}</strong>
+            <span className={classes.roadmapState}>{isCleared ? "✓ クリア済み・振り返る" : skill.is_current ? "いま挑戦中" : skill.is_available ? "チャレンジできる" : "これからの技"}</span>
+            <span className={classes.roadmapComment}>コメント {tips.length}{unreadCount > 0 ? `（未読 ${unreadCount}）` : ""}</span>
+          </button>
+        </article> : <div
           className={`${isCleared ? classes.cardCleared : classes.cardContainer}`}
         >
           <div className={classes.levelDisplay}>
@@ -102,7 +134,7 @@ function SkillCard({ skill }: SkillProps) {
           </div>
 
           <div className={classes.detailButton}>
-            {skill.required_level >= 26 && (
+            {!isBasic && (
               <div className={classes.skillCategory}>
                 <h3>{skill.point}</h3>
                 <p>ポイント</p>
@@ -110,12 +142,12 @@ function SkillCard({ skill }: SkillProps) {
             )}
             <Button onClick={handleOpen}>詳しく</Button>
           </div>
-        </div>
+        </div>}
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <div>
             <div className={classes.categoryWrapper}>
               <h2>{skill.name}</h2>
-              {skill.required_level >= 26 && (
+              {!isBasic && (
                 <div className={classes.skillCategory}>
                   <h3>{skill.point}</h3>
                   <p>ポイント</p>
@@ -124,6 +156,15 @@ function SkillCard({ skill }: SkillProps) {
             </div>
             <img src={skill.avatar_path} className={classes.modalImg} alt="" />
             <p className={classes.description}>{skill.description}</p>
+            <div className={classes.targetPanel}>
+              <p>{isCleared ? "達成済みの技です。コツやコメントを振り返れます。" : skill.locked_reason ?? (isBasic ? "3回成功で次のレベルへ進みます。" : "初回合格時にポイントを獲得できます。")}</p>
+              {!isBasic && !!skill.prerequisite_names?.length && <p>前提の技：{skill.prerequisite_names.join("・")}</p>}
+              {!!skill.required_pair_skills && <p>ペア・演技系の技を{skill.required_pair_skills}つ以上達成</p>}
+              {!isBasic && !isCleared && user?.role !== "gurdian" && <Button variant="primary" disabled={savingTarget || !skill.is_available || skill.is_current} onClick={selectTarget}>
+                {savingTarget ? "保存中…" : skill.is_current ? "現在の目標です" : "この技を目標にする"}
+              </Button>}
+              {targetError && <p role="alert">{targetError}</p>}
+            </div>
             <div className={classes.commentTitle}>
               <div className={classes.titleWrapper}>
                 <h3>コメント</h3>

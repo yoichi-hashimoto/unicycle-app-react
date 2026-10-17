@@ -1,13 +1,14 @@
 import classes from "./Header.module.scss";
 import { useState } from "react";
 import MenuModal from "../modal/MenuModal";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../api/axios";
 import { useAuthStore } from "../../../stores/authStore";
 import { isBeginnerComplete } from "../../../features/beginner/beginnerProgress";
 
 function Header() {
+  const isRoadmap = useLocation().pathname === "/technical";
   const user = useAuthStore((state) => state.user);
   const isLoggedIn = !!user;
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,7 @@ function Header() {
   }
 
   return (
-    <header className={classes.header}>
+    <header className={`${classes.header} ${isRoadmap ? classes.roadmapHeader : ""}`}>
       <div className={classes.titleContainer}>
         <p>一輪車レベル管理アプリ</p>
         <Link to="/" className={classes.appTitle}>
@@ -57,7 +58,7 @@ function Header() {
                 <span>みんなのチャレンジ</span>{" "}
               </Link>
               <Link className={classes.link} to="/technical">
-                <span>わざ一覧</span>
+                <span>わざの道のり</span>
               </Link>
               {user.role !== "gurdian" && (
                 <>

@@ -54,12 +54,12 @@ function MemberCard({
             </div>
             </div>
           <div className={classes.ribbon}>
-            <span>Lv. {level}</span>
+            <span>{level >= 26 ? "Lv26〜" : `Lv. ${level}`}</span>
           </div>
           {showSkill ? (
             <div className={classes.challengeWrapper}>
               <div className={classes.challengeContainer}>
-                <p>チャレンジ中の技</p>{" "}
+                <p>{member.current_level >= 26 ? "次の目標" : "チャレンジ中の技"}</p>{" "}
                 <div className={classes.starContainer}>
                   {[1, 2, 3].map((star) => (
                     <img
@@ -79,7 +79,7 @@ function MemberCard({
               {member.current_level <= 25 ? (
                 <p className={classes.challengeText}>{member.skill_name}</p>
               ) : (
-                <p className={classes.challengeText}>基礎コースクリア済み！</p>
+                <p className={classes.challengeText}>{member.target_skill?.name ?? "自由コースで目標を選ぼう"}</p>
               )}
             </div>
           ) : null}

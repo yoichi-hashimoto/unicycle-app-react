@@ -149,3 +149,13 @@
   cursor: pointer;
 }
 }
+.roadmapHeader {
+  position: sticky; height: auto; min-height: 50px; box-sizing: border-box; padding: 8px 10px; flex-wrap: wrap; gap: 8px;
+  .titleContainer { flex-shrink: 0; }
+  .titleContainer p { line-height: 1.2; }
+  .appTitle { line-height: 1.3; }
+  .links { min-width: 0; max-width: 100%; flex: 1; justify-content: flex-end; padding: 0 10px; }
+  .nav { flex-wrap: wrap; gap: 12px; justify-content: flex-end; margin: 0; }
+  .adminMenu { display: flex; flex-wrap: wrap; gap: 8px; border-radius: 12px; margin: 0; padding: 6px 10px; font-size: 14px; }
+  .adminLink { margin: 0; white-space: nowrap; }
+}
