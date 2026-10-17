@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { syncBeginnerProgress } from "../../api/beginner";
 import {
@@ -8,60 +8,77 @@ import {
 } from "../../features/beginner/beginnerProgress";
 import { useAuthStore } from "../../stores/authStore";
 import Button from "../common/button/Button";
+import Loading from "../common/modal/Loading";
 import classes from "./Beginner.module.css";
 
 function Beginner() {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
-  const storedProgress = useMemo(() => readBeginnerProgress(), []);
-  const initialStep = user?.beginner_mode
-    ? Math.max(user.beginner_step ?? 1, storedProgress.step)
-    : storedProgress.step;
-  const [step, setStep] = useState(initialStep);
+  const isLoading = useAuthStore((state) => state.isLoading);
+  const [guestProgress, setGuestProgress] = useState(readBeginnerProgress);
+  const step = user ? (user.beginner_mode ? user.beginner_step ?? 1 : 1) : guestProgress.step;
   const [isHatching, setIsHatching] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
+  const hatchTimer = useRef(null);
   const current = beginnerSteps[step - 1];
   const userId = user?.id;
   const userRole = user?.role;
   const accountBeginnerMode = user?.beginner_mode;
-  const accountBeginnerStep = user?.beginner_step;
 
   useEffect(() => {
-    const localProgress = readBeginnerProgress();
-    const nextStep = accountBeginnerMode
-      ? Math.max(accountBeginnerStep ?? 1, localProgress.step)
-      : localProgress.step;
-    setStep(nextStep);
-    const progress = saveBeginnerProgress(nextStep, true);
-    if (!userId || userRole === "gurdian") return;
+    setIsHatching(false);
+    setIsSaving(false);
+    setError("");
+    return () => window.clearTimeout(hatchTimer.current);
+  }, [userId]);
 
-    syncBeginnerProgress(progress)
-      .then(setUser)
-      .catch(() => setError("アカウントへの進捗保存に失敗しました。端末には保存されています。"));
-  }, [accountBeginnerMode, accountBeginnerStep, setUser, userId, userRole]);
+  useEffect(() => {
+    if (isLoading || !userId || userRole === "gurdian" || accountBeginnerMode) return;
+    let active = true;
+    setIsSaving(true);
+    syncBeginnerProgress({ enabled: true, step: 1 })
+      .then((updatedUser) => {
+        if (!active || useAuthStore.getState().user?.id !== userId) return;
+        setIsSaving(false);
+        setUser(updatedUser);
+      })
+      .catch(() => {
+        if (!active) return;
+        setIsSaving(false);
+        setError("アカウントへの進捗保存に失敗しました。もう一度お試しください。");
+      });
+    return () => { active = false; };
+  }, [accountBeginnerMode, isLoading, setUser, userId, userRole]);
 
   const handleComplete = () => {
-    if (isHatching || step >= beginnerSteps.length) return;
+    if (isHatching || isSaving || step >= beginnerSteps.length) return;
 
     setIsHatching(true);
     setError("");
 
-    window.setTimeout(async () => {
+    hatchTimer.current = window.setTimeout(async () => {
       const nextStep = Math.min(step + 1, beginnerSteps.length);
-      const progress = saveBeginnerProgress(nextStep, true);
-      setStep(nextStep);
-      setIsHatching(false);
-
-      if (!user || user.role === "gurdian") return;
+      if (!user) {
+        setGuestProgress(saveBeginnerProgress(nextStep, true));
+        setIsHatching(false);
+        return;
+      }
 
       try {
-        const updatedUser = await syncBeginnerProgress(progress);
+        const updatedUser = await syncBeginnerProgress({ enabled: true, step: nextStep });
+        if (useAuthStore.getState().user?.id !== userId) return;
+        setIsHatching(false);
         setUser(updatedUser);
       } catch {
-        setError("アカウントへの進捗保存に失敗しました。端末には保存されています。");
+        if (useAuthStore.getState().user?.id !== userId) return;
+        setIsHatching(false);
+        setError("アカウントへの進捗保存に失敗しました。もう一度お試しください。");
       }
     }, 700);
   };
+
+  if (isLoading) return <Loading />;
 
   if (user?.role === "gurdian") {
     return (
@@ -106,7 +123,7 @@ function Beginner() {
         </div>
 
         {step < beginnerSteps.length ? (
-          <Button variant="primary" onClick={handleComplete} disabled={isHatching}>
+          <Button variant="primary" onClick={handleComplete} disabled={isHatching || isSaving}>
             {isHatching ? "たまごが動いています…" : "出来た"}
           </Button>
         ) : (

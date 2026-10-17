@@ -6,10 +6,14 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../common/modal/Loading";
 import Toast from "../../common/modal/Toast";
 import { ChangeEvent, FormEvent } from "react";
+import { noticeCategories } from "../../../features/notices/categories";
 
 type NoticeType = {
   title: string;
   text: string;
+  category: string;
+  starts_at: string;
+  location: string;
 };
 
 type ToastType = {
@@ -23,6 +27,7 @@ function Notice() {
   const [formData, setFormData] = useState<NoticeType>({
     title: "",
     text: "",
+    category: "その他", starts_at: "", location: "",
   });
   const [toast, setToast] = useState<ToastType>({
     message: "",
@@ -37,7 +42,7 @@ function Notice() {
   };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -52,7 +57,12 @@ function Notice() {
 
     try {
       await axios.get("/sanctum/csrf-cookie");
-      await axios.post("/api/notices", formData);
+      await axios.post("/api/notices", {
+        title: formData.title, text: formData.text, category: formData.category,
+        ...(formData.category === "練習会のお知らせ" ? {
+          starts_at: new Date(formData.starts_at).toISOString(), location: formData.location,
+        } : {}),
+      });
 
       showToast("登録しました", "success");
       setTimeout(() => {
@@ -72,8 +82,27 @@ function Notice() {
         {isLoading && <Loading />}
         <form onSubmit={handleSubmit}>
           <div className={classes.inputForm}>
-            <label htmlFor="">タイトル </label>
+            <label htmlFor="notice-category">通知カテゴリ</label>
+            <select id="notice-category" name="category" value={formData.category} onChange={handleChange}>
+              {noticeCategories.map(category => <option key={category}>{category}</option>)}
+            </select>
+          </div>
+          {formData.category === "練習会のお知らせ" && <>
+            <div className={classes.inputForm}>
+              <label htmlFor="practice-date">開催日時</label>
+              <input id="practice-date" type="datetime-local" name="starts_at" value={formData.starts_at} onChange={handleChange} required />
+            </div>
+            <div className={classes.inputForm}>
+              <label htmlFor="practice-location">場所</label>
+              <input id="practice-location" name="location" value={formData.location} maxLength={100} onChange={handleChange} required />
+            </div>
+          </>}
+          <div className={classes.inputForm}>
+            <label htmlFor="notice-title">タイトル </label>
             <input
+              id="notice-title"
+              maxLength={16}
+              required
               placeholder="ここへ入力"
               type="text"
               name="title"
@@ -82,8 +111,11 @@ function Notice() {
             />
           </div>
           <div className={classes.inputText}>
-            <label htmlFor="">テキスト </label>
+            <label htmlFor="notice-text">テキスト </label>
             <textarea
+              id="notice-text"
+              maxLength={200}
+              required
               name="text"
               value={formData.text}
               onChange={handleChange}

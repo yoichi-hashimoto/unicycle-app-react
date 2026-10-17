@@ -47,6 +47,7 @@ function Edit() {
     password_confirmation: "",
     user_avatar_id: "",
     color_id: "",
+    club_name: user?.club_name ?? "",
   });
 
   useEffect(() => {
@@ -125,7 +126,6 @@ function Edit() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("送信前formData", formData);
     
       const {
         name,
@@ -134,6 +134,7 @@ function Edit() {
         password_confirmation,
         user_avatar_id,
         color_id,
+        club_name,
       } = formData;
 
       const isPasswordChange =
@@ -164,6 +165,10 @@ function Edit() {
       }
 
       const payload = {};
+
+      if (club_name.trim() !== (user.club_name ?? "")) {
+        payload.club_name = club_name.trim() || null;
+      }
 
       if (name.trim() !== "") {
         payload.name = name.trim();
@@ -230,6 +235,7 @@ function Edit() {
             ...user,
             avatar_path: userImage || user.avatar_path,
             color_path: userColor || user.color_path,
+            club_name: formData.club_name,
           }}
           showButton={false}
           level={user.current_level}
@@ -333,6 +339,16 @@ function Edit() {
           </Modal>
         </div>
         <div className={classes.inputWrapper}>
+          <label htmlFor="club-name">所属クラブ</label>
+          <input
+            id="club-name"
+            type="text"
+            name="club_name"
+            value={formData.club_name}
+            maxLength={100}
+            placeholder="所属クラブ名（未所属の場合は空欄）"
+            onChange={handleChange}
+          />
           <label htmlFor="">なまえ</label>
           <input
             type="text"

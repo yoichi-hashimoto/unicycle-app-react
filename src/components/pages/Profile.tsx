@@ -13,6 +13,7 @@ import axios from "../../api/axios";
 import Button from "../common/button/Button";
 import Toast from "../common/modal/Toast";
 import ProfileActivity from "../profile/ProfileActivity";
+import { fetchLoginUser } from "../../api/auth";
 
 type UserItemType = {
   item_id: number;
@@ -25,6 +26,16 @@ type ToastType = {
 
 function Profile() {
   const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+  const userId = user?.id;
+  useEffect(() => {
+    if (!userId) return;
+    let active = true;
+    fetchLoginUser().then(latest => {
+      if (active && latest?.id === userId && useAuthStore.getState().user?.id === userId) setUser(latest);
+    }).catch(() => {});
+    return () => { active = false; };
+  }, [userId, setUser]);
   const [items, setItems] = useState<ItemType[]>([]);
   const [userItems, setUserItems] = useState<UserItemType[]>([]);
   const [toast, setToast] = useState<ToastType | null>(null);
@@ -43,6 +54,10 @@ function Profile() {
 
   useEffect(() => {
     if (!user) {
+      return;
+    }
+    if (user.beginner_mode && user.beginner_step < 6) {
+      setShowAnimalEvolution(false);
       return;
     }
     if (

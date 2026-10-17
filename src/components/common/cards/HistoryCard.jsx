@@ -2,6 +2,7 @@ import classes from "./History.module.scss";
 import LikeButton from "../button/LikeButton";
 import { useAuthStore } from "../../../stores/authStore";
 import { getBackgroundStyle } from "../../../utils/background";
+import { clubLabel } from "../../../utils/club";
 
 const judgePass = (history) => {
   if (history.success_score === 3) {
@@ -62,6 +63,7 @@ const HistoryCard = ({ history, showButton = true }) => {
             )}
           </div>
           <p className={classes.userName}>{history.user_name}</p>
+          <p className={classes.clubName}>{clubLabel(history.club_name)}</p>
         </div>
         <div className={classes.challengeContainer}>
           <div className={classes.levelContainer}>

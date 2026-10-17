@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../api/axios";
 import { useAuthStore } from "../../../stores/authStore";
+import { isBeginnerComplete } from "../../../features/beginner/beginnerProgress";
 
 function Header() {
   const user = useAuthStore((state) => state.user);
@@ -37,6 +38,7 @@ function Header() {
                 <Link className={classes.adminLink} to="/notice">
                   <span>お知らせ作成</span>
                 </Link>
+                <Link className={classes.adminLink} to="/practices"><span>練習会の出欠確認</span></Link>
                 <Link className={classes.adminLink} to="/register">
                   <span>新規登録</span>
                 </Link>
@@ -59,9 +61,9 @@ function Header() {
               </Link>
               {user.role !== "gurdian" && (
                 <>
-                  <Link className={classes.link} to="/beginner">
+                  {!isBeginnerComplete(user) && <Link className={classes.link} to="/beginner">
                     <span>初心者コース</span>
-                  </Link>
+                  </Link>}
                   <Link className={classes.link} to="/profile">
                     <span>プロフィール</span>
                   </Link>
@@ -83,7 +85,7 @@ function Header() {
             </>
           )}
         </nav>
-        <button onClick={() => setIsOpen(true)} className={classes.hamburger}>
+        <button aria-label="メニューを開く" onClick={() => setIsOpen(true)} className={classes.hamburger}>
           <span></span>
           <span></span>
           <span></span>

@@ -1,8 +1,12 @@
 import React from 'react'
 import classes from "./Animal.module.scss";
 import { Link } from "react-router-dom";
+import { beginnerSteps, getDisplayAnimal } from "../../../features/beginner/beginnerProgress";
 
 function AnimalCard({ animal, remainLevel, currentLevel, beginnerMode = false, beginnerStep = 1 }) {
+  const displayAnimal = getDisplayAnimal({
+    beginner_mode: beginnerMode, beginner_step: beginnerStep, current_animal: animal,
+  });
   const positions = [
     { bottom: 10, left: 25 }, // Lv1
     { bottom: 25, left: 40 }, // Lv2
@@ -14,19 +18,20 @@ function AnimalCard({ animal, remainLevel, currentLevel, beginnerMode = false, b
   const levelInMountain = ((currentLevel - 1) % positions.length) +1;
   const position = positions[levelInMountain - 1];
 
-    if (!animal) return null;
+    if (!displayAnimal) return null;
 
     if (beginnerMode && beginnerStep < 6) {
       return (
         <div className={classes.animalCard}>
           <div className={classes.animalTitle}>
-            <p>初心者<br />モード</p>
+            <p>現在の<br />動物ランク</p>
             <span className={classes.line}></span>
             <h2>たまご</h2>
           </div>
           <div className={classes.beginnerAnimal}>
-            <img src={animal.avatar_path} alt={`たまご ステップ${beginnerStep}`} />
-            <p>孵化まで {beginnerStep} / 5</p>
+            <img src={displayAnimal.avatar_path} alt={`たまご ステップ${displayAnimal.beginner_step}`} />
+            <p>{beginnerSteps[displayAnimal.beginner_step - 1].title}</p>
+            <p>初心者コース {displayAnimal.beginner_step} / 6</p>
             <Link to="/beginner">続きを進める</Link>
           </div>
         </div>
@@ -38,7 +43,7 @@ function AnimalCard({ animal, remainLevel, currentLevel, beginnerMode = false, b
         <div className={classes.animalTitle}>
           <p>現在の<br></br>動物ランク</p>
           <span className={classes.line}></span>
-          <h2>{animal.name}</h2>
+          <h2>{displayAnimal.name}</h2>
         </div>
         <div className={classes.avatarContainer}>
           <div className={classes.animalImage}>
@@ -48,8 +53,8 @@ function AnimalCard({ animal, remainLevel, currentLevel, beginnerMode = false, b
               className={classes.mountain}
             />
             <img
-              src={animal.avatar_path_walk}
-              alt={animal.name}
+              src={displayAnimal.avatar_path_walk}
+              alt={displayAnimal.name}
               className={classes.animal}
               style={{
                 left: `${position.left}%`,

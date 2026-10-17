@@ -7,10 +7,12 @@ import { fetchAvatars } from "../../../api/avatars";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../api/axios";
 import { getBackgroundStyle } from "../../../utils/background";
+import { useAuthStore } from "../../../stores/authStore";
 
 const defaultAvatar = "/images/users/avatar_01_r1_c1.png";
 
 function Register() {
+  const user = useAuthStore((state) => state.user);
   const [avatars, setAvatars] = useState([]);
   const [colors, setColors] = useState([]);
   const [formData, setFormData] = useState({
@@ -21,6 +23,7 @@ function Register() {
     color_id: 1,
     login_id:"",
     role: "member",
+    club_name: user?.club_name ?? "",
   });
   const [userImg, setUserImg] = useState(defaultAvatar);
   const [colorImg, setColorImg] = useState("#FFFFFF");
@@ -68,7 +71,6 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("送信前：", formData);
     if (!window.confirm("本当に登録しますか？")) return;
 
     try {
@@ -116,6 +118,18 @@ function Register() {
           name="login_id"
           placeholder="ログインIDを設定してください 例)OUC0000"
           value={formData.login_id}
+          onChange={handleChange}
+        />
+      </label>
+      <label htmlFor="register-club-name">
+        所属クラブ
+        <input
+          id="register-club-name"
+          type="text"
+          name="club_name"
+          value={formData.club_name}
+          maxLength={100}
+          placeholder="所属クラブ名（未所属の場合は空欄）"
           onChange={handleChange}
         />
       </label>

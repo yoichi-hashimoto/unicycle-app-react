@@ -1,6 +1,8 @@
 import React from "react";
 import classes from "./Member.module.scss";
 import { getBackgroundStyle } from "../../../utils/background";
+import { getDisplayAnimal } from "../../../features/beginner/beginnerProgress";
+import { clubLabel } from "../../../utils/club";
 
 function MemberCard({
   member,
@@ -15,10 +17,13 @@ function MemberCard({
         <div className={classes.memberContainer}>
           <h3>{member.name}</h3>
           <div className={classes.avatarStage}>
+          <span className={classes.clubBadge} title={clubLabel(member.club_name)} aria-label={`所属クラブ: ${clubLabel(member.club_name)}`}>
+            {clubLabel(member.club_name)}
+          </span>
           {showButton && (
             <div className={classes.animalWrapper}>
               <img
-                src={(member.display_animal ?? member.current_animal)?.avatar_path}
+                src={getDisplayAnimal(member)?.avatar_path}
                 alt={member.animalAvatar}
                   className={classes.animalAvatar}
                   loading="lazy"

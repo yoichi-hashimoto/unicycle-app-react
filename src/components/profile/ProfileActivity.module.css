@@ -54,7 +54,7 @@
 .challengeRow { grid-template-columns: auto minmax(0, 1fr) auto; }
 .challengeRow time,
 .activityRow time { color: #748078; font-size: 0.72rem; }
-.challengeRow div:nth-child(2) { display: flex; flex-direction: column; min-width: 0; }
+.challengeRow > .challengeDetails { display: flex; flex-direction: column; min-width: 0; }
 .challengeRow strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .challengeRow span { font-size: 0.75rem; color: #58705f; }
 

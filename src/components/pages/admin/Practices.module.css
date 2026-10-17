@@ -1,0 +1,8 @@
+.container { width: min(92%, 54rem); margin: 1.5rem auto; }
+.container p { line-height: 1.6; }
+.container select { padding: 0.55rem; border: 1px solid #90b49a; border-radius: 0.5rem; max-width: 100%; background: white; }
+.container > label { display: block; margin-bottom: 0.4rem; }
+.tableScroll { overflow-x: auto; }
+.container table { width: 100%; border-collapse: collapse; text-align: left; background: white; }
+.container td, .container th { padding: 0.7rem; border-bottom: 1px solid #d8e8dc; overflow-wrap: anywhere; }
+.container [role="alert"] { color: #b42318; }

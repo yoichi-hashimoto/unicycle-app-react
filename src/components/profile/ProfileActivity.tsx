@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchProfileActivity } from "../../api/profile";
 import Loading from "../common/modal/Loading";
 import classes from "./ProfileActivity.module.css";
+import GrowthSummary from "./GrowthSummary";
 
 type LikeUser = {
   id: number;
@@ -20,12 +21,14 @@ type ChallengeHistory = {
 
 type Activity = {
   id: string;
-  type: "challenge" | "like_received" | "skill_tip";
+  type: "like_received" | "skill_tip";
   message: string;
   created_at: string;
 };
 
 type ActivityResponse = {
+  statistics?: { cleared_skill_count: number; challenge_count: number; received_likes: number; heart_reward_points: number };
+  level_history?: { at: string; level: number }[];
   days_since_last_challenge: number | null;
   activities: Activity[];
   challenges: ChallengeHistory[];
@@ -70,6 +73,7 @@ function ProfileActivity() {
 
   return (
     <section className={classes.wrapper} aria-labelledby="profile-history-title">
+      <GrowthSummary statistics={data?.statistics} history={data?.level_history} />
       <div className={classes.elapsedCard}>
         <span>チャレンジのペース</span>
         <strong>
@@ -91,7 +95,7 @@ function ProfileActivity() {
               {data?.challenges.length ? data.challenges.map((challenge) => (
                 <article className={classes.challengeRow} key={challenge.id}>
                   <time>{dateFormatter.format(new Date(challenge.created_at))}</time>
-                  <div>
+                  <div className={classes.challengeDetails}>
                     <strong>{challenge.skill_name}</strong>
                     <span>{challenge.success_score >= 3 ? "合格" : `${challenge.success_score}回成功`}</span>
                   </div>
@@ -107,7 +111,7 @@ function ProfileActivity() {
               {data?.activities.length ? data.activities.map((activity) => (
                 <article className={classes.activityRow} key={activity.id}>
                   <span className={classes.activityIcon} aria-hidden="true">
-                    {activity.type === "like_received" ? "❤" : activity.type === "skill_tip" ? "💬" : "⭐"}
+                    {activity.type === "like_received" ? "❤" : "💬"}
                   </span>
                   <div>
                     <p>{activity.message}</p>

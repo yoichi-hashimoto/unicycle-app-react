@@ -1,6 +1,7 @@
 export type UserType =  {
     id: number;
     name: string;
+    club_name?: string | null;
     color_id: number;
     user_avatar_id: number;
     role: "member" | "admin" | "gurdian";

@@ -10,6 +10,7 @@ import type {UserType} from "../common/type/user";
 import Modal from "../common/modal/Modal";
 import {fetchUsers} from "../../api/users"
 import { useAuthStore } from "../../stores/authStore";
+import { compareClubNames } from "../../utils/club";
 
 
 function Challenge({ showButton = true }) {
@@ -18,6 +19,11 @@ function Challenge({ showButton = true }) {
   const [isOpen,setIsOpen]=useState(false);
   const [admins,setAdmins]=useState<UserType[]>([]);
   const authUser = useAuthStore((state) => state.user);
+  const sortByClub = () => setChallenges([...challenges].sort((a, b) =>
+    compareClubNames(a.club_name, b.club_name)
+      || new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      || b.id - a.id,
+  ));
   const sortByLevel = () => {
     const sortedChallenge = [...challenges].sort(
       (a, b) => b.current_level - a.current_level,
@@ -100,6 +106,7 @@ function Challenge({ showButton = true }) {
         </Modal>
       {loading && <Loading />}
       <div className={classes.sortbuttonWrapper}>
+        <Button onClick={sortByClub} variant="outline">クラブ順</Button>
         <Button variant="outline" onClick={sortByDate}>
           新しい順
         </Button>

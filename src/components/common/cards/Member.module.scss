@@ -47,6 +47,7 @@
 }
 
 .avatarStage{
+  margin-top: 0.65rem;
   position: relative;
   width: 3rem;
   height: 3rem;
@@ -55,6 +56,25 @@
   justify-content: center;
   align-items: center;
   padding: 0.25rem;
+}
+
+.clubBadge {
+  position: absolute;
+  top: -0.55rem;
+  left: -0.6rem;
+  z-index: 4;
+  max-width: calc(100% + 1.2rem);
+  padding: 0.15rem 0.3rem;
+  border: 1px solid #b8d9c0;
+  border-radius: 0.4rem;
+  background: #fff;
+  color: #286638;
+  font-size: 0.48rem;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .avatarContainer {
@@ -243,6 +263,8 @@
 
 
 @media(min-width:768px){
+
+.clubBadge { font-size: 0.65rem; }
 
 .memberContainer {
   text-align: center;

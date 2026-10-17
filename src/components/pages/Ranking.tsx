@@ -5,10 +5,15 @@ import classes from "./PageCommon.module.css";
 import { fetchUsers } from "../../api/users";
 import Loading from "../common/modal/Loading";
 import type { UserType } from "../common/type/user";
+import { compareClubNames } from "../../utils/club";
 
 function Ranking() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const sortByClub = () => setUsers([...users].sort((a, b) =>
+    compareClubNames(a.club_name, b.club_name) || b.current_level - a.current_level || a.id - b.id,
+  ));
 
   const sortByCreated = () => {
     const sortedMembers = [...users].sort((a, b) => b.id - a.id);
@@ -53,6 +58,7 @@ function Ranking() {
       {loading && <Loading />}
       <h1>ランキング</h1>
       <div className={classes.sortbuttonWrapper}>
+        <Button onClick={sortByClub} variant="outline">クラブ順</Button>
         <Button onClick={sortByLevel} variant="outline">
           レベル順
         </Button>

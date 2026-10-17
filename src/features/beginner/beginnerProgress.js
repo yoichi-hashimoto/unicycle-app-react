@@ -1,4 +1,7 @@
-export const BEGINNER_STORAGE_KEY = "unicircle.beginnerProgress";
+// The old shared key also contains progress written by signed-in accounts.
+// It cannot safely be treated as a guest's progress or imported into an account.
+export const BEGINNER_STORAGE_KEY = "unicircle.beginnerProgress.guest.v2";
+export const isBeginnerComplete = (user) => Number(user?.beginner_step ?? 1) >= 6;
 
 export const beginnerSteps = [
   {
@@ -39,6 +42,22 @@ export const beginnerSteps = [
   },
 ];
 
+export function getDisplayAnimal(user) {
+  if (!user) return null;
+  if (user.beginner_mode && Number(user.beginner_step ?? 1) < 6) {
+    const step = Math.max(1, Number(user.beginner_step) || 1);
+    const stage = beginnerSteps[step - 1] ?? beginnerSteps[0];
+    return {
+      id: null,
+      name: "たまご",
+      avatar_path: stage.image,
+      avatar_path_walk: stage.image,
+      beginner_step: stage.step,
+    };
+  }
+  return user.display_animal ?? user.current_animal;
+}
+
 export function readBeginnerProgress() {
   try {
     const stored = JSON.parse(localStorage.getItem(BEGINNER_STORAGE_KEY));
@@ -60,4 +79,8 @@ export function saveBeginnerProgress(step, enabled = true) {
   };
   localStorage.setItem(BEGINNER_STORAGE_KEY, JSON.stringify(progress));
   return progress;
+}
+
+export function clearGuestBeginnerProgress() {
+  localStorage.removeItem(BEGINNER_STORAGE_KEY);
 }

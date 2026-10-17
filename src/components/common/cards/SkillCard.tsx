@@ -6,6 +6,7 @@ import type { SkillType } from "../type/skill";
 import { useAuthStore } from "../../../stores/authStore";
 import TipCard from "./TipCard";
 import axios from "../../../api/axios";
+import { clubLabel } from "../../../utils/club";
 
 type SkillProps = {
   skill: SkillType;
@@ -22,17 +23,22 @@ function SkillCard({ skill }: SkillProps) {
 
   const [tips, setTips] = useState(skill.skill_tips ?? []);
   const [unreadCount, setUnreadCount] = useState(skill.unread_tip_count ?? 0);
+  const [commentError, setCommentError] = useState("");
+  const [posting, setPosting] = useState(false);
+  const [commentsLoading, setCommentsLoading] = useState(false);
 
   const handleOpen = async () => {
     setIsOpen(true);
-    if (unreadCount === 0) return;
-
+    setCommentsLoading(true); setCommentError("");
     try {
+      const response = await axios.get(`/api/skill/${skill.id}/tips`);
+      setTips(response.data);
       await axios.patch(`/api/skill/${skill.id}/tips/read`);
       setUnreadCount(0);
     } catch (error) {
+      setCommentError("コメントを読み込めませんでした。開き直してお試しください。");
       console.error("comment read update failed", error);
-    }
+    } finally { setCommentsLoading(false); }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -42,23 +48,26 @@ function SkillCard({ skill }: SkillProps) {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!formData.text.trim()) {
+    if (!formData.text.trim() || posting || commentsLoading) {
       return;
     }
     const confirmed = window.confirm("投稿しますか？");
     if (!confirmed) {
       return;
     }
+    setPosting(true); setCommentError("");
     try {
-      const response = await axios.post(`./api/skill/${skill.id}/tips`, {
+      await axios.get("/sanctum/csrf-cookie");
+      const response = await axios.post(`/api/skill/${skill.id}/tips`, {
         text: formData.text,
       });
       setTips((prev) => [...prev, response.data]);
 
       setFormData({ text: "" });
     } catch (error) {
+      setCommentError("コメントを保存できませんでした。");
       console.error(error);
-    }
+    } finally { setPosting(false); }
   };
 
   return (
@@ -120,26 +129,29 @@ function SkillCard({ skill }: SkillProps) {
                 <h3>コメント</h3>
               </div>
               <p>👆成功のコツや失敗しやすい点などをコメントしよう！</p>
-              <TipCard skillTips={tips} />
+              {commentsLoading ? <p role="status">コメントを読み込み中…</p> : <TipCard skillTips={tips} skillId={skill.id} onTipsChange={setTips} />}
+              {commentError && <p role="alert">{commentError}</p>}
               {user?.role !== "gurdian" && <div className={classes.tipsWrapper}>
                 {" "}
                 <div className={classes.userWrapper}>
                   {" "}
                   <img src={user?.avatar_path} alt="user" />
-                  <p>{user?.name}</p>
+                  <p>{user?.name}<br /><small>{clubLabel(user?.club_name)}</small></p>
                 </div>{" "}
                 {user && (
                   <textarea
                     className={classes.tipsText}
                     placeholder="コメントを書いて投稿ボタンを押してください"
                     name="text"
+                    maxLength={255}
+                    disabled={posting || commentsLoading}
                     value={formData.text}
                     onChange={handleChange}
                   ></textarea>
                 )}
               </div>}{" "}
               {user?.role !== "gurdian" && <div className={classes.submitButton}>
-                <Button variant="primary" onClick={handleSubmit}>
+                <Button variant="primary" onClick={handleSubmit} disabled={posting || commentsLoading}>
                   投稿
                 </Button>
               </div>}

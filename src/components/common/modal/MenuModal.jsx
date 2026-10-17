@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../api/axios";
 import { useAuthStore } from "../../../stores/authStore";
+import { isBeginnerComplete } from "../../../features/beginner/beginnerProgress";
 
 function MenuModal({ isOpen, onClose }) {
   const user = useAuthStore((state) => state.user);
@@ -24,6 +25,7 @@ function MenuModal({ isOpen, onClose }) {
           {user?.role === "admin" && (
             <>
               <div className={classes.adminMenu}>
+                <Link className={classes.adminLink} to="/practices" onClick={onClose}><span>練習会の出欠確認</span></Link>
                 <Link
                   className={classes.adminLink}
                   to="/test"
@@ -71,9 +73,9 @@ function MenuModal({ isOpen, onClose }) {
               </Link>
               {user.role !== "gurdian" && (
                 <>
-                  <Link className={classes.link} to="/beginner" onClick={onClose}>
+                  {!isBeginnerComplete(user) && <Link className={classes.link} to="/beginner" onClick={onClose}>
                     <span>初心者コース</span>
-                  </Link>
+                  </Link>}
                   <Link className={classes.link} to="/profile" onClick={onClose}>
                     <span>プロフィール</span>
                   </Link>

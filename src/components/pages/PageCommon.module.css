@@ -26,6 +26,7 @@
 
 .sortbuttonWrapper{
   display: flex;
+  flex-wrap: wrap;
   margin: auto;
   gap:0.5rem;
   justify-content: center;

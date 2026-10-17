@@ -17,4 +17,7 @@ type SkillTipType = {
   skill_id: number,
   text: string,
   created_at: Date,
+  parent_id?: number | null,
+  received_likes?: number,
+  is_liked_by_me?: boolean,
 }

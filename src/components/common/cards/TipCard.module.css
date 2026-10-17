@@ -24,4 +24,22 @@
     margin:1rem;
     text-align: start;
 }
+.author { flex: 0 0 4rem; text-align: center; }
+.tipsText { min-width: 0; flex: 1; }
+.commentText { overflow-wrap: anywhere; white-space: pre-wrap; }
+.replies { margin-left: min(4vw, 1rem); padding-left: 0.4rem; border-left: 2px solid #b8d9c0; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-top: 0.5rem; }
+.tipsContainer button { border: 1px solid #90b49a; border-radius: 0.5rem; padding: 0.3rem 0.5rem; background: #f3fbf5; color: #286638; cursor: pointer; }
+.tipsContainer button:disabled { opacity: 0.5; cursor: default; }
+.tipsContainer form { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+.tipsContainer form label, .tipsContainer textarea { width: 100%; }
+.tipsContainer textarea { min-height: 4rem; box-sizing: border-box; }
+
+.tipsContainer .clubName {
+    max-width: 8rem;
+    overflow-wrap: anywhere;
+    color: #286638;
+    font-size: 0.65rem;
+    margin-bottom: 0.25rem;
+}
 

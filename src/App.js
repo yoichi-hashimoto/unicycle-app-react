@@ -20,27 +20,20 @@ import { fetchLoginUser } from "./api/auth";
 import AdminRoute from "./components/common/routes/AdminRoute";
 import MemberRoute from "./components/common/routes/MemberRoute";
 import Beginner from "./components/pages/Beginner";
-import { readBeginnerProgress } from "./features/beginner/beginnerProgress";
-import { syncBeginnerProgress } from "./api/beginner";
+import Practices from "./components/pages/admin/Practices";
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
   useEffect(() => {
+    let active = true;
     fetchLoginUser()
-      .then(async (user) => {
-        const progress = readBeginnerProgress();
-        if (progress.enabled && user.role !== "gurdian") {
-          try {
-            user = await syncBeginnerProgress(progress);
-          } catch (error) {
-            console.error("beginner progress sync failed", error);
-          }
-        }
-        setUser(user);
+      .then((user) => {
+        if (active && useAuthStore.getState().isLoading) setUser(user);
       })
       .catch(() => {
-        setUser(null);
+        if (active && useAuthStore.getState().isLoading) setUser(null);
       });
+    return () => { active = false; };
   }, [setUser]);
 
   return (
@@ -49,6 +42,7 @@ function App() {
         <Header />
         <Main>
           <Routes>
+            <Route path="/practices" element={<AdminRoute><Practices /></AdminRoute>} />
             <Route path="/" element={<Home />} />
             <Route path="/beginner" element={<Beginner />} />
             <Route path="/ranking" element={<Ranking />} />

@@ -7,12 +7,13 @@ import { useAuthStore } from "../../stores/authStore";
 import { fetchLoginUser } from "../../api/auth";
 import Toast from "../common/modal/Toast";
 import Loading from "../common/modal/Loading";
-import { readBeginnerProgress } from "../../features/beginner/beginnerProgress";
+import { clearGuestBeginnerProgress, readBeginnerProgress } from "../../features/beginner/beginnerProgress";
 import { syncBeginnerProgress } from "../../api/beginner";
 
 function Login() {
   const navigate = useNavigate();
   const setUser = useAuthStore((state) => state.setUser);
+  const isRestoringSession = useAuthStore((state) => state.isLoading);
   const [toast, setToast] = useState({ message: "" });
   const [credentials, setCredentials] = useState({
     login_id: "",
@@ -51,7 +52,6 @@ function Login() {
     try {
       setIsLoading(true);
 await axios.get("/sanctum/csrf-cookie");
-console.log(document.cookie);
 const xsrfToken = decodeURIComponent(
   document.cookie
     .split("; ")
@@ -74,9 +74,10 @@ await axios.post(
 
       let user = await fetchLoginUser();
       const beginnerProgress = readBeginnerProgress();
-      if (beginnerProgress.enabled && user.role !== "gurdian") {
+      if (beginnerProgress.enabled && !user.beginner_mode && user.role !== "gurdian") {
         user = await syncBeginnerProgress(beginnerProgress);
       }
+      if (user.role !== "gurdian") clearGuestBeginnerProgress();
       setUser(user);
       showToast("ログインしました","success");
 
@@ -123,7 +124,7 @@ await axios.post(
           />
         </div>
         <div className={classes.loginButton}>
-          <Button variant="primary" type="button" onClick={handleLogin}>
+          <Button variant="primary" type="button" onClick={handleLogin} disabled={isLoading || isRestoringSession}>
             ログインする
           </Button>
           {toast.message && (

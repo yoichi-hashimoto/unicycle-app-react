@@ -2,8 +2,11 @@ import axios from "../../../api/axios";
 import { useState, useEffect } from "react";
 import classes from "./LikeButton.module.css";
 import Toast from "../modal/Toast";
+import { useAuthStore } from "../../../stores/authStore";
 
 function LikeButton({ likeHistory, showButton = true }) {
+  const user = useAuthStore(state => state.user);
+  const [saving, setSaving] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [liked, setLiked] = useState(0);
   const [toast, setToast] = useState(false);
@@ -27,13 +30,14 @@ function LikeButton({ likeHistory, showButton = true }) {
   const handleLike = async (e) => {
     e.preventDefault();
 
-    if (isLiked) return;
+    if (isLiked || saving) return;
 
     const data = {
       challenge_id: likeHistory.id,
     };
     console.log(data);
 
+    setSaving(true);
     try {
       await axios.get("/sanctum/csrf-cookie");
       await axios.post(`/api/likes`, data);
@@ -42,7 +46,7 @@ function LikeButton({ likeHistory, showButton = true }) {
     } catch (error) {
       console.error("エラーです", error.response?.data ?? error);
       showToast("ログインしてください", "fail");
-    }
+    } finally { setSaving(false); }
   };
 
   return (
@@ -65,8 +69,8 @@ function LikeButton({ likeHistory, showButton = true }) {
           )}
           <p className={classes.numberOfLiked}>{liked}</p>
         </div>
-        {showButton && (
-          <button onClick={handleLike} className={classes.likeButton}>
+        {showButton && user?.id !== likeHistory?.user_id && (
+          <button onClick={handleLike} className={classes.likeButton} disabled={saving || isLiked}>
             {isLiked ? "❤済み" : "❤を押す"}
           </button>
         )}
